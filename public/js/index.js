@@ -101,3 +101,11 @@ $exampleList.on("click", ".delete", handleDeleteBtnClick);
 $(".timeslot").on("click", function() {
   console.log("Test");
 });
+
+$(".mechanicBtn").on("click", function() {
+  window.location.href = "login";
+});
+
+$("#createNewAccount").on("click", function() {
+  window.location.href = "schedule";
+});
