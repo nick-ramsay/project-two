@@ -3,7 +3,7 @@
 </nav>
 <div class="container">
     <div class="row">
-        <form class="mx-auto">
+        <form class="clearfix mx-auto" action="POST">
             <div class="form-group">
                 <label for="mechanicShopName">Shop Name</label>
                 <input type="text" class="form-control" id="mechanicShopName"
@@ -12,7 +12,7 @@
             <div class="form-group">
                 <label for="mechanicCount">Number of Mechanics</label>
                 <input type="number" class="form-control" id="mechanicCount"
-                    placeholder="How many mechanics work in your shop?">
+                    placeholder="How many mechanics work in your shop?" value=1 min=1>
             </div>
             <div class="form-group">
                 <label for="mechanicEmail">Email</label>
@@ -65,7 +65,7 @@
                     <input type="text" class="form-control" id="mechanicPostcode">
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary" id="createNewAccountBtn">Create Account</button>
+            <button class="btn btn-primary" id="createNewAccountBtn">Create Account</button>
         </form>
     </div>
 </div>

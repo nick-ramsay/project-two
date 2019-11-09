@@ -54,3 +54,7 @@ h1 {
   height: 10%;
 }
 
+#scheduleSection, #scheduleDetails {
+  background-color: #FFFFFF;
+}
+

@@ -25,6 +25,7 @@ module.exports = function(app) {
     );
   });
   app.post("/api/mechaniccentres", function(req, res) {
+    console.log(req.body);
     var currDateTime = new moment();
     db.query(
       "INSERT INTO MechanicCentres (centre_name, phone, email, user_username, user_password, address_street, address_city, address_postcode, address_state, address_country, latitude, longitude, employee_count, created_date, created_time, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
