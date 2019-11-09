@@ -1,6 +1,7 @@
 module.exports = function(app) {
   // Load index page
   app.get("/", function(req, res) {
+    console.log("asdf");
     res.render("index");
   });
 
