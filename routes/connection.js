@@ -1,8 +1,4 @@
 var keys = require("./keys.js");
-console.log(keys);
-
-console.log(keys.dbPassword);
-console.log(keys.dbName);
 
 var mysql = require("mysql");
 var pool = mysql.createPool({
