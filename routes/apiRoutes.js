@@ -66,7 +66,7 @@ module.exports = function(app) {
     });
   });
   app.post("/api/mechaniccenterservices", function(req, res) {
-    var currDateTime = new moment();
+    // var currDateTime = new moment();
     db.query("INSERT INTO MechanicCentres () VALUES (?, ?)", [], function(
       error,
       results
@@ -95,7 +95,7 @@ module.exports = function(app) {
     );
   });
   app.post("/api/mechaniccenterservices", function(req, res) {
-    var currDateTime = new moment();
+    // var currDateTime = new moment();
     db.query("INSERT INTO MechanicCentres () VALUES (?, ?)", [], function(
       error,
       results
@@ -130,7 +130,7 @@ module.exports = function(app) {
     );
   });
   app.post("/api/mechaniccenterservices", function(req, res) {
-    var currDateTime = new moment();
+    // var currDateTime = new moment();
     db.query("INSERT INTO MechanicCentres () VALUES (?, ?)", [], function(
       error,
       results

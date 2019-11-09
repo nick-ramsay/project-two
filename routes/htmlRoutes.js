@@ -14,12 +14,12 @@ module.exports = function(app) {
     res.render("brokendetails");
   });
 
-    //customer inpts contact details
+  //customer inpts contact details
   app.get("/contactdetails", function(req, res) {
     res.render("customerdetails");
   });
 
-    //server gives recommended mechanics
+  //server gives recommended mechanics
   app.get("/recmechanic", function(req, res) {
     res.render("mechanicdetails");
   });
