@@ -9,7 +9,7 @@ module.exports = function(app) {
   });
 
   app.get("/create-account", function(req, res) {
-    res.render("createmechanicaccount");
+    res.render("mechanicaccountcreate");
   });
 
   app.get("/account", function(req, res) {

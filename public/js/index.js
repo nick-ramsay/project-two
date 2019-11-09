@@ -1,3 +1,21 @@
+var $createNewAccount = $("#createNewAccountBtn");
+
+$(".timeslot").on("click", function() {
+  console.log("Test");
+  var date = $("#selectedMechanicDate").val()
+  var time = $(this).attr("data-time");
+  console.log(date);
+  console.log(time);
+});
+
+$(".mechanicBtn").on("click", function() {
+  window.location.href = "login";
+});
+
+$("#createNewAccount").on("click", function() {
+  window.location.href = "schedule";
+});
+
 // Get references to page elements
 var $exampleText = $("#example-text");
 var $exampleDescription = $("#example-description");
@@ -29,7 +47,6 @@ var API = {
     });
   }
 };
-
 // refreshExamples gets new examples from the db and repopulates the list
 var refreshExamples = function() {
   API.getExamples().then(function(data) {
@@ -94,18 +111,47 @@ var handleDeleteBtnClick = function() {
   });
 };
 
+var handlecreateAccountSubmit = function(event) {
+  event.preventDefault();
+
+  var newAccount = {
+    name: $("#mechanicShopName").val().trim(),
+    mechanicCount: $("#mechanicCount").val(),
+    email: $("#mechanicEmail").val().trim(),
+    phone: $("#mechanicPhone").val().trim(),
+    password: $("#newMechanicPW").val().trim(),
+    confirmPassword: $("#newMechanicPWConfirm").val().trim(),
+    address1: $("#mechanicAddress").val().trim(),
+    address2: $("#mechanicAddress2").val().trim() ,
+    city: $("#mechanicCity").val().trim(),
+    state: $("#mechanicState").val().trim(),
+    postcode: $("#mechanicPostcode").val().trim()
+  };
+
+  console.log(newAccount);
+
+  if (newAccount.password != newAccount.confirmPassword) {
+    alert("Password and confirm password are not the same.");
+    $("#newMechanicPW").val("");
+    $("#newMechanicPWConfirm").val("");
+    return;
+  } if(!(newAccount.name || newAccount.mechanicCount || newAccount.email || newAccount.phone || newAccount.password || newAccount.confirmPassword || newAccount.address1 || newAccount.address2 || newAccount.city || newAccount.postcode || newAccount.state)) {
+    alert("You haven't completed all the fields");
+    return;
+  }
+  /*
+  API.saveExample(example).then(function() {
+    refreshExamples();
+  });
+
+  $exampleText.val("");
+  $exampleDescription.val("");
+  */
+};
+
 // Add event listeners to the submit and delete buttons
+
+$createNewAccount.on("click", handlecreateAccountSubmit);
+
 $submitBtn.on("click", handleFormSubmit);
 $exampleList.on("click", ".delete", handleDeleteBtnClick);
-
-$(".timeslot").on("click", function() {
-  console.log("Test");
-});
-
-$(".mechanicBtn").on("click", function() {
-  window.location.href = "login";
-});
-
-$("#createNewAccount").on("click", function() {
-  window.location.href = "schedule";
-});
