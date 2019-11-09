@@ -8,4 +8,19 @@ module.exports = function(app) {
   app.get("*", function(req, res) {
     res.render("404");
   });
+
+  //customer inputs requests
+  app.get("/requests", function(req, res) {
+    res.render("brokendetails");
+  });
+
+  //customer inpts contact details
+  app.get("/contactdetails", function(req, res) {
+    res.render("customerdetails");
+  });
+
+  //server gives recommended mechanics
+  app.get("/recmechanic", function(req, res) {
+    res.render("mechanicdetails");
+  });
 };
