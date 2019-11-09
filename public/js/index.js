@@ -21,7 +21,7 @@ var $exampleList = $("#example-list");
 
 // The API object contains methods for each kind of request we'll make
 var API = {
-  createAccount: function (newAccount) {
+  createAccount: function(newAccount) {
     return $.ajax({
       headers: {
         "Content-Type": "application/json"
@@ -29,6 +29,16 @@ var API = {
       type: "POST",
       url: "/api/mechaniccentres",
       data: JSON.stringify(newAccount)
+    });
+  },
+  updateAccount: function(updateAccount) {
+    return $.ajax({
+      headers: {
+        "Content-Type": "application/json"
+      },
+      type: "PUT",
+      url: "/api/mechaniccentres/" + updateAccount.id,
+      data: JSON.stringify(updateAccount)
     });
   }
   /*
@@ -84,7 +94,7 @@ var refreshExamples = function () {
   });
 };
 
-var handleCreateAccountSubmit = function (event) {
+var handleCreateAccountSubmit = function(event) {
   event.preventDefault();
 
   var newAccount = {
@@ -125,6 +135,7 @@ var handleUpdateAccountSubmit = function(event) {
   event.preventDefault();
 
   var updateAccount = {
+    id: $("#updateAccountForm").attr("data-accountID"),
     name: $("#updateMechanicShopName").val().trim(),
     mechanicCount: $("#updateMechanicCount").val(),
     email: $("#updateMechanicEmail").val().trim(),
@@ -150,7 +161,7 @@ var handleUpdateAccountSubmit = function(event) {
 };
 
 $updateAccount.on("click", handleUpdateAccountSubmit);
-$createNewAccount.on("click", handlecreateAccountSubmit);
+$createNewAccount.on("click", handleCreateAccountSubmit);
 
 $(".customerButton").on("click", function (event) {
   alert("hello");

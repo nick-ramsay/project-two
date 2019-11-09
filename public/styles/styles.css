@@ -20,6 +20,10 @@ h1 {
   margin: 0 auto;
 }
 
+label {
+  color:#007bff;
+}
+
 .frontCard { 
   height: 40%;
   margin-top: 12%;

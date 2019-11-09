@@ -56,6 +56,37 @@ module.exports = function(app) {
 
   //////////////////////////////////////////////////////////////////////////////
 
+  app.put("/api/mechaniccentres/:id", function(req, res) {
+    console.log(req.body);
+    var currDateTime = new moment();
+    db.query(
+      "UPDATE MechanicCentres SET centre_name = ?, phone = ?, email = ?, address_street = ?, address_city = ?, address_postcode = ?, address_state = ?, address_country = ?, latitude = ?, longitude = ?, employee_count = ?, updatedAt = ? WHERE id = ?",
+      [
+        "ppp's auto repairs",
+        "0410500100",
+        "brian@gmail.com",
+        "1 E Street",
+        "Eee City",
+        "2000",
+        "NSW",
+        "Australia",
+        10.1,
+        10.1,
+        3,
+        currDateTime.format("YYYY-MM-DD HH:mm:ss"),
+        req.body.id
+      ],
+      function(error, result) {
+        if (error) {
+          return res.status(500).end();
+        };
+        res.json(result);
+      }
+    );
+  });
+
+  //////////////////////////////////////////////////////////////////////////////
+
   app.get("/api/mechaniccenterservices", function(req, res) {
     db.query("SELECT * FROM MechanicCentreServices", function(error, results) {
       res.json(results);
