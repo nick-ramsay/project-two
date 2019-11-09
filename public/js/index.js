@@ -155,3 +155,11 @@ $createNewAccount.on("click", handlecreateAccountSubmit);
 
 $submitBtn.on("click", handleFormSubmit);
 $exampleList.on("click", ".delete", handleDeleteBtnClick);
+
+  $(".customerButton").on("click", function(event) {
+    alert("hello");
+  });
+
+  $(".mechanicButton").on("click", function(event) {
+    alert("hi");
+  });
