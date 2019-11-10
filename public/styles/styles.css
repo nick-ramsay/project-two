@@ -20,6 +20,10 @@ h1 {
   margin: 0 auto;
 }
 
+label {
+  color:#007bff;
+}
+
 .frontCard { 
   height: 40%;
   margin-top: 12%;
@@ -32,6 +36,10 @@ h1 {
 
 .list-group-item {
   line-height: 2.5;
+}
+
+.timeslot{
+  cursor: pointer;
 }
 
 .btn {
@@ -48,5 +56,9 @@ h1 {
   background: #171616;
   color: #FFFFFF;
   height: 10%;
+}
+
+#scheduleSection, #scheduleDetails {
+  background-color: #FFFFFF;
 }
 

@@ -3,7 +3,7 @@ var express = require("express");
 var exphbs = require("express-handlebars");
 
 var app = express();
-var PORT = process.env.PORT || 3000;
+var PORT = process.env.PORT || 4000;
 
 // Middleware
 app.use(express.urlencoded({ extended: false }));
