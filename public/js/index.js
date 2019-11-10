@@ -7,6 +7,7 @@ $(".timeslot").on("click", function () {
   var time = $(this).attr("data-time");
   console.log(date);
   console.log(time);
+  API.getMechanicSchedule();
 });
 
 $(".mechanicBtn").on("click", function () {
@@ -40,8 +41,15 @@ var API = {
       url: "/api/mechaniccentres/" + updateAccount.id,
       data: JSON.stringify(updateAccount)
     });
+  },
+  getMechanicSchedule: function(getMechanicSchedule) {
+    return $.ajax({
+      url: "api/mechanicschedule",
+      type: "GET"
+    });
   }
-  /*
+};
+/*
   saveExample: function(example) {
     return $.ajax({
       headers: {
@@ -64,7 +72,6 @@ var API = {
       type: "DELETE"
     });
   }*/
-};
 // refreshExamples gets new examples from the db and repopulates the list
 var refreshExamples = function () {
   API.getExamples().then(function (data) {

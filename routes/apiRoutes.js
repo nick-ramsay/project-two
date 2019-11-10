@@ -1,7 +1,7 @@
 var db = require("./connection.js");
 var moment = require("moment");
 
-module.exports = function(app) {
+module.exports = function (app) {
   //########################################################################
   //////////////////////////////////////////////////////////////////////////
   //#########                SERVICES
@@ -9,13 +9,13 @@ module.exports = function(app) {
   //########################################################################
 
   // query to get ALL SERVICES
-  app.get("/api/services", function(req, res) {
-    db.query("SELECT * FROM Services", function(error, results) {
+  app.get("/api/services", function (req, res) {
+    db.query("SELECT * FROM Services", function (error, results) {
       res.json(results);
     });
   });
   // query to get ALL SERVICES
-  app.post("/api/services", function(req, res) {
+  app.post("/api/services", function (req, res) {
     console.log(req.body);
     var currDateTime = new moment();
     db.query(
@@ -25,7 +25,7 @@ module.exports = function(app) {
         createdAt: currDateTime.format("YYYY-MM-DD HH:mm:ss"),
         updatedAt: currDateTime.format("YYYY-MM-DD HH:mm:ss")
       },
-      function(error, results) {
+      function (error, results) {
         res.json(results);
       }
     );
@@ -38,14 +38,14 @@ module.exports = function(app) {
   //########################################################################
 
   // query to get ALL MECHANIC CENTRES
-  app.get("/api/mechaniccentres", function(req, res) {
-    db.query("SELECT * FROM MechanicCentres", function(error, results) {
+  app.get("/api/mechaniccentres", function (req, res) {
+    db.query("SELECT * FROM MechanicCentres", function (error, results) {
       res.json(results);
     });
   });
 
   // query to get ALL MECHANIC CENTRES
-  app.post("/api/login", function(req, res) {
+  app.post("/api/login", function (req, res) {
     console.log(req.body.username);
     console.log(req.body.password);
     db.query(
@@ -58,27 +58,44 @@ module.exports = function(app) {
           user_password: req.body.password
         }
       ],
-      function(error, results) {
+      function (error, results) {
         res.json(results);
       }
     );
   });
 
   // query to get SINGLE MECAHNIC CENTRE by ID
-  app.get("/api/mechaniccentres/:id", function(req, res) {
+  app.get("/api/mechaniccentres/:id", function (req, res) {
     db.query(
       "SELECT * FROM MechanicCentres WHERE ?",
       {
         id: req.params.id
       },
-      function(error, results) {
+      function (error, results) {
         res.json(results);
       }
     );
   });
 
+  app.get("/api/mechanicschedule", function (req, res) {
+    db.query(
+      'SELECT (CASE WHEN DAYOFWEEK("2019-11-04") = 1 THEN TIME_FORMAT(TIMEDIFF(mechaniccentreordinaryhours.sun_end, mechaniccentreordinaryhours.sun_start), "%H")*2 + TIME_FORMAT(TIMEDIFF(mechaniccentreordinaryhours.sun_end, mechaniccentreordinaryhours.sun_start), "%i")/30 WHEN DAYOFWEEK("2019-11-04") = 2 THEN  TIME_FORMAT(TIMEDIFF(mechaniccentreordinaryhours.mon_end, mechaniccentreordinaryhours.mon_start), "%H")*2 + TIME_FORMAT(TIMEDIFF(mechaniccentreordinaryhours.mon_end, mechaniccentreordinaryhours.mon_start), "%i")/30 WHEN DAYOFWEEK("2019-11-04") = 3 THEN TIME_FORMAT(TIMEDIFF(mechaniccentreordinaryhours.tue_end, mechaniccentreordinaryhours.tue_start), "%H")*2 + TIME_FORMAT(TIMEDIFF(mechaniccentreordinaryhours.tue_end, mechaniccentreordinaryhours.tue_start), "%i")/30 WHEN DAYOFWEEK("2019-11-04") = 4 THEN TIME_FORMAT(TIMEDIFF(mechaniccentreordinaryhours.wed_end, mechaniccentreordinaryhours.wed_start), "%H")*2 + TIME_FORMAT(TIMEDIFF(mechaniccentreordinaryhours.wed_end, mechaniccentreordinaryhours.wed_start), "%i")/30 WHEN DAYOFWEEK("2019-11-04") = 5 THEN TIME_FORMAT(TIMEDIFF(mechaniccentreordinaryhours.thu_end, mechaniccentreordinaryhours.thu_start), "%H")*2 + TIME_FORMAT(TIMEDIFF(mechaniccentreordinaryhours.thu_end, mechaniccentreordinaryhours.thu_start), "%i")/30 WHEN DAYOFWEEK("2019-11-04") = 6 THEN TIME_FORMAT(TIMEDIFF(mechaniccentreordinaryhours.fri_end, mechaniccentreordinaryhours.fri_start), "%H")*2 + TIME_FORMAT(TIMEDIFF(mechaniccentreordinaryhours.fri_end, mechaniccentreordinaryhours.fri_start), "%i")/30 WHEN DAYOFWEEK("2019-11-04") = 7 THEN TIME_FORMAT(TIMEDIFF(mechaniccentreordinaryhours.sat_end, mechaniccentreordinaryhours.sat_start), "%H")*2 + TIME_FORMAT(TIMEDIFF(mechaniccentreordinaryhours.sat_end, mechaniccentreordinaryhours.sat_start), "%i")/30 ELSE "0" END) timeslots, automendo.appointments.* FROM automendo.mechaniccentreordinaryhours LEFT JOIN automendo.appointments on automendo.mechaniccentreordinaryhours.mechanic_centre_id = automendo.appointments.mechanic_centre_id WHERE automendo.mechaniccentreordinaryhours.mechanic_centre_id = 1 and automendo.appointments.appointment_date = "2019-11-04";',
+      {
+        date:"2019-11-04"
+      },
+      function(error, results) {
+        if (error) {
+          throw error;
+        } else {
+          console.log(results);
+          res.json(results);
+        }
+      }
+    );
+  });
+
   // query to CREATE A NEW MECHANIC CENTRE
-  app.post("/api/mechaniccentres", function(req, res) {
+  app.post("/api/mechaniccentres", function (req, res) {
     console.log(req.body);
     var currDateTime = new moment();
     db.query(
@@ -102,14 +119,14 @@ module.exports = function(app) {
         createdAt: currDateTime.format("YYYY-MM-DD HH:mm:ss"),
         updatedAt: currDateTime.format("YYYY-MM-DD HH:mm:ss")
       },
-      function(error, results) {
+      function (error, results) {
         res.json(results);
       }
     );
   });
 
   // query to UPDATE A NEW MECHANIC CENTRE
-  app.put("/api/mechaniccentres", function(req, res) {
+  app.put("/api/mechaniccentres", function (req, res) {
     console.log(req.body);
     var currDateTime = new moment();
     db.query(
@@ -135,7 +152,7 @@ module.exports = function(app) {
           id: 1
         }
       ],
-      function(error, results) {
+      function (error, results) {
         res.json(results);
       }
     );
@@ -148,27 +165,27 @@ module.exports = function(app) {
   //########################################################################
 
   // query to get ALL SERVICES of ALL MECHANIC CENTRES
-  app.get("/api/mechaniccentreservices", function(req, res) {
-    db.query("SELECT * FROM MechanicCentreServices", function(error, results) {
+  app.get("/api/mechaniccentreservices", function (req, res) {
+    db.query("SELECT * FROM MechanicCentreServices", function (error, results) {
       res.json(results);
     });
   });
 
   // query to get MECHANICS THAT PROVIDE A SPECIFIC SERVICE
-  app.get("/api/mechaniccentreservices/:servicename", function(req, res) {
+  app.get("/api/mechaniccentreservices/:servicename", function (req, res) {
     db.query(
       "SELECT * FROM MechanicCentreServices LEFT OUTER JOIN Services ON MechanicCentreServices.service_id = Services.id WHERE ?",
       {
         service_name: req.params.servicename
       },
-      function(error, results) {
+      function (error, results) {
         res.json(results);
       }
     );
   });
 
   // query to get ADD A SERVICE TO A MECHANIC CENTRE
-  app.post("/api/mechaniccentreservices", function(req, res) {
+  app.post("/api/mechaniccentreservices", function (req, res) {
     console.log(req.body);
     var currDateTime = new moment();
     db.query(
@@ -180,14 +197,14 @@ module.exports = function(app) {
         createdAt: currDateTime.format("YYYY-MM-DD HH:mm:ss"),
         updatedAt: currDateTime.format("YYYY-MM-DD HH:mm:ss")
       },
-      function(error, results) {
+      function (error, results) {
         res.json(results);
       }
     );
   });
 
   // query to DELETE A SERVICE FROM A MECHANIC CENTRE
-  app.put("/api/mechaniccentreservicesupdate", function(req, res) {
+  app.put("/api/mechaniccentreservicesupdate", function (req, res) {
     console.log(req.body);
     var currDateTime = new moment();
     db.query(
@@ -202,7 +219,7 @@ module.exports = function(app) {
           service_id: 2
         }
       ],
-      function(error, results) {
+      function (error, results) {
         res.json(results);
       }
     );
@@ -215,8 +232,8 @@ module.exports = function(app) {
   //########################################################################
 
   // query to get ALL ORDINARY HOURS of ALL MECHANIC CENTRES
-  app.get("/api/mechaniccenterordinaryhours", function(req, res) {
-    db.query("SELECT * FROM MechanicCentreOrdinaryHours", function(
+  app.get("/api/mechaniccenterordinaryhours", function (req, res) {
+    db.query("SELECT * FROM MechanicCentreOrdinaryHours", function (
       error,
       results
     ) {
@@ -225,7 +242,7 @@ module.exports = function(app) {
   });
 
   // query to get ALL ORDINARY HOURS of A SINGLE MECHANIC CENTRE
-  app.get("/api/mechaniccenterordinaryhours/:mechaniccentreid", function(
+  app.get("/api/mechaniccenterordinaryhours/:mechaniccentreid", function (
     req,
     res
   ) {
@@ -234,14 +251,14 @@ module.exports = function(app) {
       {
         mechanic_centre_id: req.params.mechaniccentreid
       },
-      function(error, results) {
+      function (error, results) {
         res.json(results);
       }
     );
   });
 
   // query to CREATE ORDINARY HOURS for a SINGLE MECAHNIC CENTRE
-  app.post("/api/mechaniccenterordinaryhours", function(req, res) {
+  app.post("/api/mechaniccenterordinaryhours", function (req, res) {
     console.log(req.body);
     var currDateTime = new moment();
     db.query(
@@ -265,14 +282,14 @@ module.exports = function(app) {
         createdAt: currDateTime.format("YYYY-MM-DD HH:mm:ss"),
         updatedAt: currDateTime.format("YYYY-MM-DD HH:mm:ss")
       },
-      function(error, results) {
+      function (error, results) {
         res.json(results);
       }
     );
   });
 
   // query to UPDATE ORDINARY HOURS for a SINGLE MECAHNIC CENTRE
-  app.put("/api/mechaniccenterordinaryhours", function(req, res) {
+  app.put("/api/mechaniccenterordinaryhours", function (req, res) {
     console.log(req.body);
     var currDateTime = new moment();
     db.query(
@@ -299,7 +316,7 @@ module.exports = function(app) {
           mechanic_centre_id: 5
         }
       ],
-      function(error, results) {
+      function (error, results) {
         res.json(results);
       }
     );
@@ -312,34 +329,34 @@ module.exports = function(app) {
   //########################################################################
 
   // query to get ALL APPOINTMENTS
-  app.get("/api/appointments", function(req, res) {
-    db.query("SELECT * FROM Appointments", function(error, results) {
+  app.get("/api/appointments", function (req, res) {
+    db.query("SELECT * FROM Appointments", function (error, results) {
       res.json(results);
     });
   });
-  app.get("/api/appointments/customer/:appointmentid", function(req, res) {
+  app.get("/api/appointments/customer/:appointmentid", function (req, res) {
     db.query(
       "SELECT * FROM Appointments WHERE ?",
       {
         id: req.params.appointmentid
       },
-      function(error, results) {
+      function (error, results) {
         res.json(results);
       }
     );
   });
-  app.get("/api/appointments/mechanic/:mechaniccentreid", function(req, res) {
+  app.get("/api/appointments/mechanic/:mechaniccentreid", function (req, res) {
     db.query(
       "SELECT * FROM Appointments WHERE ?",
       {
         mechanic_centre_id: req.params.mechaniccentreid
       },
-      function(error, results) {
+      function (error, results) {
         res.json(results);
       }
     );
   });
-  app.post("/api/appointments", function(req, res) {
+  app.post("/api/appointments", function (req, res) {
     console.log(req.body);
     var currDateTime = new moment();
     db.query(
@@ -358,7 +375,7 @@ module.exports = function(app) {
         createdAt: currDateTime.format("YYYY-MM-DD HH:mm:ss"),
         updatedAt: currDateTime.format("YYYY-MM-DD HH:mm:ss")
       },
-      function(error, results) {
+      function (error, results) {
         res.json(results);
       }
     );
@@ -373,7 +390,7 @@ module.exports = function(app) {
   //########################################################################
 
   // query to get MECHANICS THAT PROVIDE A SPECIFIC SERVICE
-  app.get("/api/mechaniccentresfilter", function(req, res) {
+  app.get("/api/mechaniccentresfilter", function (req, res) {
     console.log(req.query.servicename);
     console.log(req.query.km);
     console.log(req.query.lat);
@@ -386,8 +403,8 @@ module.exports = function(app) {
       {
         "Services.service_name": servicename
       },
-      function(error, results) {
-        var mechanicCentresArr = results.filter(function(curr) {
+      function (error, results) {
+        var mechanicCentresArr = results.filter(function (curr) {
           // do some calulation for lat and lon
           if (curr) {
             return true;
@@ -399,14 +416,14 @@ module.exports = function(app) {
     );
   });
   // query to get SPECIFIC MECHANIC AND THEIR ORDINARY HOURS
-  app.get("/api/mechaniccentresandordinaryhours/:id", function(req, res) {
+  app.get("/api/mechaniccentresandordinaryhours/:id", function (req, res) {
     db.query(
       "SELECT * FROM MechanicCentres LEFT OUTER JOIN MechanicCentreOrdinaryHours ON MechanicCentres.id = MechanicCentreOrdinaryHours.mechanic_centre_id WHERE ?",
       {
         "MechanicCentres.id": req.params.id
       },
-      function(error, results) {
-        var mechanicCentresArr = results.map(function(curr) {
+      function (error, results) {
+        var mechanicCentresArr = results.map(function (curr) {
           // do some calulation for lat and lon
           return curr;
         });
