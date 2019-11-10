@@ -23,10 +23,13 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {{#each mechanicschedule}}
                         <tr>
-                            <th scope="row">9:00 AM</th>
-                            <td class="table-success timeslot collapsed" data-time="0900">Available</td>
+                            <th scope="row">Test</th>
+                            <td class="table-success timeslot collapsed" data-starttime="{{this.startTime}}" data-endtime="{{this.endTime}}">Available</td>
                         </tr>
+                        {{/each}}
+                    <!--
                         <tr>
                             <th scope="row">9:30 AM</th>
                             <td class="table-success timeslot">Available</td>
@@ -91,6 +94,7 @@
                             <th scope="row">5:00 PM</th>
                             <td class="table-success timeslot">Available</td>
                         </tr>
+                    -->
                     </tbody>
                 </table>
             </div>

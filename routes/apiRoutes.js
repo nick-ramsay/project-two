@@ -87,8 +87,17 @@ module.exports = function (app) {
         if (error) {
           throw error;
         } else {
-          console.log(results);
-          res.json(results);
+          console.log(results[0].timeslots);
+          var schedule = [];
+          for (i = 0; i < results[0].timeslots; i++) {
+            var slot = {
+              startTime: "09:00",
+              endTime: "09:30"
+            };
+            schedule.push(slot);
+          }
+          console.log(schedule);
+          res.json(schedule);
         }
       }
     );
