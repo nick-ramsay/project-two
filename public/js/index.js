@@ -23,22 +23,16 @@ var $exampleList = $("#example-list");
 var API = {
   createAccount: function(newAccount) {
     return $.ajax({
-      headers: {
-        "Content-Type": "application/json"
-      },
       type: "POST",
       url: "/api/mechaniccentres",
-      data: JSON.stringify(newAccount)
+      data: newAccount
     });
   },
   updateAccount: function(updateAccount) {
     return $.ajax({
-      headers: {
-        "Content-Type": "application/json"
-      },
       type: "PUT",
-      url: "/api/mechaniccentres/" + updateAccount.id,
-      data: JSON.stringify(updateAccount)
+      url: "/api/updatemechaniccentre/",
+      data: updateAccount
     });
   }
   /*
@@ -155,12 +149,12 @@ var handleCreateAccountSubmit = function(event) {
     $("#newMechanicPWConfirm").val("");
     return;
   }
-
+  console.log(newAccount);
   API.createAccount(newAccount).then(function() {
     console.log("createAccount response received");
   });
 
-  window.location.href = "schedule";
+  // window.location.href = "schedule";
 };
 
 var handleUpdateAccountSubmit = function(event) {

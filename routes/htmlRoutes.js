@@ -20,11 +20,6 @@ module.exports = function(app) {
     res.render("mechanicschedule");
   });
 
-  // Render 404 page for any unmatched routes
-  app.get("*", function(req, res) {
-    res.render("404");
-  });
-
   //customer inputs requests
   app.get("/requests", function(req, res) {
     res.render("brokendetails");
@@ -38,6 +33,11 @@ module.exports = function(app) {
   //server gives recommended mechanics
   app.get("/recmechanic", function(req, res) {
     res.render("mechanicdetails");
+  });
+
+  // Render 404 page for any unmatched routes
+  app.get("*", function(req, res) {
+    res.render("404");
   });
 };
 

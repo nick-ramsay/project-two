@@ -179,10 +179,7 @@ add leading zeros to appointment id
 		strId = "0" + strId;
 	}
 	console.log(strId);
-remove leading zerps to appointment id (to be handled server side)
+remove leading zeros to appointment id (to be handled server side)
 	var id = parseInt(strId, 10)
 
 
-
-why is the number inserted no the same as the one displayed
-result returned is wrong - something wrong with the time

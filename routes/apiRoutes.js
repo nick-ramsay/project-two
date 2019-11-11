@@ -74,105 +74,133 @@ module.exports = function(app) {
   });
   // query to CREATE A NEW MECHANIC CENTRE
   app.post("/api/mechaniccentres", function(req, res) {
-    console.log(req.body);
+    // console.log(req.body);
     var currDateTime = new moment();
-    db.query(
-      "INSERT INTO MechanicCentres SET ?",
-      {
-        centre_name: "aaa's auto repairs",
-        phone: "0410500100",
-        email: "brian@gmail.com",
-        address_street: "1 E Street",
-        address_city: "Eee City",
-        address_postcode: "2000",
-        address_state: "NSW",
-        address_country: "Australia",
-        latitude: 10.1,
-        longitude: 10.1,
-        employee_count: 3,
-        created_date: currDateTime.format("YYYY-MM-DD"),
-        created_time: currDateTime.format("HH:mm:ss"),
-        createdAt: currDateTime.format("YYYY-MM-DD HH:mm:ss"),
-        updatedAt: currDateTime.format("YYYY-MM-DD HH:mm:ss")
-      },
-      function(error, results) {
-        if (error) {
-          console.log(error);
-        }
-        console.log("mechanic centre created", results);
-        db.query(
-          "INSERT INTO MechanicCentreCredentials SET ?",
-          {
-            mechanic_centre_id: results.insertId,
-            user_username: "asdf",
-            user_password: "ddd",
-            createdAt: currDateTime.format("YYYY-MM-DD HH:mm:ss"),
-            updatedAt: currDateTime.format("YYYY-MM-DD HH:mm:ss")
-          },
-          function(error, results) {
-            if (error) {
-              console.log(error);
-            }
-            console.log("credentials created", results);
-          }
-        );
-        db.query(
-          "INSERT INTO MechanicCentreOrdinaryHours SET ?",
-          {
-            mechanic_centre_id: results.insertId,
-            mon_start: "09:20:00",
-            mon_end: "18:30:00",
-            tue_start: "09:20:00",
-            tue_end: "18:30:00",
-            wed_start: "09:20:00",
-            wed_end: "18:30:00",
-            thu_start: "09:20:00",
-            thu_end: "18:30:00",
-            fri_start: "09:20:00",
-            fri_end: "18:30:00",
-            sat_start: "00:00:00",
-            sat_end: "00:00:00",
-            sun_start: "00:00:00",
-            sun_end: "00:00:00",
-            createdAt: currDateTime.format("YYYY-MM-DD HH:mm:ss"),
-            updatedAt: currDateTime.format("YYYY-MM-DD HH:mm:ss")
-          },
-          function(error, results) {
-            if (error) {
-              console.log(error);
-            }
-            console.log("ordinary hours created", results);
-          }
-        );
+    var mechanicCentreData = {
+      created_date: currDateTime.format("YYYY-MM-DD"),
+      created_time: currDateTime.format("HH:mm:ss"),
+      createdAt: currDateTime.format("YYYY-MM-DD HH:mm:ss"),
+      updatedAt: currDateTime.format("YYYY-MM-DD HH:mm:ss")
+    };
+    if (
+      req.body.name &&
+      req.body.phone &&
+      req.body.email &&
+      req.body.address1 &&
+      req.body.city &&
+      req.body.postcode &&
+      req.body.state &&
+      req.body.mechanicCount
+    ) {
+      mechanicCentreData.centre_name = req.body.name;
+      mechanicCentreData.phone = req.body.phone;
+      mechanicCentreData.email = req.body.email;
+      mechanicCentreData.address_street = req.body.address1;
+      mechanicCentreData.address_city = req.body.city;
+      mechanicCentreData.address_postcode = req.body.postcode;
+      mechanicCentreData.address_state = req.body.state;
+      mechanicCentreData.address_country = "Australia";
+      mechanicCentreData.employee_count = req.body.mechanicCount;
+      mechanicCentreData.latitude = -27.3818;
+      mechanicCentreData.longitude = 152.713;
+      console.log(mechanicCentreData);
+    } else {
+      console.log("something missing", typeof req.body.state === "undefined");
+      res.send("fail").end();
+      return;
+    }
+    var mechanicCentreCredentialsData = {
+      createdAt: currDateTime.format("YYYY-MM-DD HH:mm:ss"),
+      updatedAt: currDateTime.format("YYYY-MM-DD HH:mm:ss")
+    };
+    if (req.body.email && req.body.password) {
+      mechanicCentreCredentialsData.user_username = req.body.email;
+      mechanicCentreCredentialsData.user_password = req.body.password;
+      console.log(mechanicCentreCredentialsData);
+    } else {
+      res.send("fail").end();
+      return;
+    }
+    var mechanicCentreOrdinaryHoursData = {
+      createdAt: currDateTime.format("YYYY-MM-DD HH:mm:ss"),
+      updatedAt: currDateTime.format("YYYY-MM-DD HH:mm:ss")
+    };
+    // var mechanicCentreServicesArr = {};
 
-        var queryStr =
-          "INSERT INTO MechanicCentreServices (mechanic_centre_id, service_id, createdAt, updatedAt) VALUES ";
-        var servicesArr = [1, 2, 3, 4, 5];
-        servicesArr.forEach(function(curr, i, arr) {
-          var str =
-            "(" +
-            results.insertId +
-            ", " +
-            curr +
-            ", '" +
-            currDateTime.format("YYYY-MM-DD HH:mm:ss") +
-            "', '" +
-            currDateTime.format("YYYY-MM-DD HH:mm:ss") +
-            "')";
-          queryStr += str;
-          if (i !== arr.length - 1) {
-            queryStr += ",";
-          }
-        });
-        db.query(queryStr, function(error, results) {
+    db.query("INSERT INTO MechanicCentres SET ?", mechanicCentreData, function(
+      error,
+      results
+    ) {
+      if (error) {
+        console.log(error);
+      }
+      console.log("mechanic centre created", results);
+      mechanicCentreCredentialsData.mechanic_centre_id = results.insertId;
+      db.query(
+        "INSERT INTO MechanicCentreCredentials SET ?",
+        mechanicCentreCredentialsData,
+        function(error, results) {
           if (error) {
             console.log(error);
           }
-          console.log("services created", results);
-        });
-        res.json(results);
-      }
-    );
+          console.log("credentials created", results);
+        }
+      );
+      mechanicCentreOrdinaryHoursData.mechanic_centre_id = results.insertId;
+      db.query(
+        "INSERT INTO MechanicCentreOrdinaryHours SET ?",
+        {
+          mechanic_centre_id: results.insertId,
+          mon_start: "09:20:00",
+          mon_end: "18:30:00",
+          tue_start: "09:20:00",
+          tue_end: "18:30:00",
+          wed_start: "09:20:00",
+          wed_end: "18:30:00",
+          thu_start: "09:20:00",
+          thu_end: "18:30:00",
+          fri_start: "09:20:00",
+          fri_end: "18:30:00",
+          sat_start: "00:00:00",
+          sat_end: "00:00:00",
+          sun_start: "00:00:00",
+          sun_end: "00:00:00"
+        },
+        function(error, results) {
+          if (error) {
+            console.log(error);
+          }
+          console.log("ordinary hours created", results);
+        }
+      );
+
+      var queryStr =
+        "INSERT INTO MechanicCentreServices (mechanic_centre_id, service_id, createdAt, updatedAt) VALUES ";
+      var servicesArr = [1, 2, 3, 4, 5];
+      servicesArr.forEach(function(curr, i, arr) {
+        var str =
+          "(" +
+          results.insertId +
+          ", " +
+          curr +
+          ", '" +
+          currDateTime.format("YYYY-MM-DD HH:mm:ss") +
+          "', '" +
+          currDateTime.format("YYYY-MM-DD HH:mm:ss") +
+          "')";
+        queryStr += str;
+        if (i !== arr.length - 1) {
+          queryStr += ",";
+        }
+      });
+      db.query(queryStr, function(error, results) {
+        if (error) {
+          console.log(error);
+        }
+        console.log("services created", results);
+      });
+      res.json(results);
+    });
   });
   // ########################################################################
   // CREDENTIALS of MECHANIC CENTRES
@@ -688,3 +716,36 @@ module.exports = function(app) {
     });
   });
 };
+
+//////
+// for inserting into the mechanics centre table
+// {
+//   centre_name: "aaa's auto repairs",
+//   phone: "0410500100",
+//   email: "brian@gmail.com",
+//   address_street: "1 E Street",
+//   address_city: "Eee City",
+//   address_postcode: "2000",
+//   address_state: "NSW",
+//   address_country: "Australia",
+//   latitude: -27.3818631,
+//   longitude: 152.7130055,
+//   employee_count: 3,
+//   created_date: currDateTime.format("YYYY-MM-DD"),
+//   created_time: currDateTime.format("HH:mm:ss"),
+//   createdAt: currDateTime.format("YYYY-MM-DD HH:mm:ss"),
+//   updatedAt: currDateTime.format("YYYY-MM-DD HH:mm:ss")
+// },
+
+// {
+//   mechanic_centre_id: results.insertId,
+//   user_username:
+//     String(Math.floor(Math.random() * 10)) +
+//     String(Math.floor(Math.random() * 10)) +
+//     String(Math.floor(Math.random() * 10)) +
+//     String(Math.floor(Math.random() * 10)),
+//   user_password: "ddd",
+//   createdAt: currDateTime.format("YYYY-MM-DD HH:mm:ss"),
+//   updatedAt: currDateTime.format("YYYY-MM-DD HH:mm:ss")
+// },
+/////
