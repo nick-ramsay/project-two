@@ -1,3 +1,5 @@
+var db = require("../models");
+
 var $createNewAccount = $("#createNewAccountBtn");
 var $updateAccount = $("#updateAccountBtn");
 
@@ -40,7 +42,18 @@ var API = {
       url: "/api/mechaniccentres/" + updateAccount.id,
       data: JSON.stringify(updateAccount)
     });
+  },
+  createAppointment: function(createAppointment) {
+    return $.ajax({
+      headers: {
+        "Content-Type": "application/json"
+      },
+      type: "PUT",
+      url: "/api/mechaniccentres/" + createAppointment.id,
+      data: JSON.stringify(createAppointment)
+    });
   }
+  
   /*
   saveExample: function(example) {
     return $.ajax({
@@ -65,6 +78,7 @@ var API = {
     });
   }*/
 };
+
 // refreshExamples gets new examples from the db and repopulates the list
 var refreshExamples = function () {
   API.getExamples().then(function (data) {
@@ -163,10 +177,38 @@ var handleUpdateAccountSubmit = function(event) {
 $updateAccount.on("click", handleUpdateAccountSubmit);
 $createNewAccount.on("click", handleCreateAccountSubmit);
 
-  $(".customerBtn").on("click", function(event) {
-    alert("hello");
+$(document).ready(function () {
+  //buttons
+  $(".customerBtn").on("click", function () {
+    window.location.href = "form";
   });
 
-$(".mechanicBtn").on("click", function (event) {
-  alert("hi");
+  var formButt =
+    $(".formButton").on("click", function (event) {
+      event.preventDefault();
+    });
+
+  //data insert to database
+  var requestInsert = function (event) {
+    var newAppointment = {
+      car_plate: $("#licenseNumber").val().trim(),
+      car_plate: $("#licenseNumber").val().trim(),
+      car_brand: $("#carMake").val().trim(),
+      car_model: $("#carModel").val().trim()/*,
+    //may need changing
+    customer_name: $("#custName").val().trim(),
+    customer_email: $("#customerEmail").val().trim(),
+    customer_Phone: $("#customerPhone").val().trim()*/
+    };
+    $.ajax("api/form", {
+      type: "PUT",
+      url: "api/forms",
+      data: newAppointment
+    }).then(
+      function () {
+        formButt;
+      }
+    )
+  };
+
 });

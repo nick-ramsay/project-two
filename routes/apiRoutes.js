@@ -170,4 +170,32 @@ module.exports = function(app) {
       res.json(results);
     });
   });
+
+  app.get("/api/formrequests", function(req, res) {
+    db.query("SELECT * FROM Appointments", function(error, results) {
+      res.json(results);
+    });
+  });
+  
+  app.post("/api/formrequests", function (req, res) {
+    db.query("INSERT INTO Appointments SET car_brand = ?, car_model = ?, car_plate = ?, car_services = ?, additional_notes = ?",
+      [
+        req.body.carmake,
+        req.body.carmodel,
+        req.body.carplate,
+        req.body.service.req,
+        req.body.additional_notes
+      ],
+      function (err, result) {
+        if (err) {throw err};
+        res.json(result);
+      }
+    );
+  });
+
+
+
+
 };
+
+
