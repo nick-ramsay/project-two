@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS Services (
 INSERT INTO Services (service_name, createdAt, updatedAt)
 VALUES
     ("wheel alignment", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
-    ("type replacement", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
+    ("tyre replacement", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
     ("battery replacement", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
     ("servicing", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
     ("window tinting", "2019-11-03 12:00:03", "2019-11-03 12:00:00");
@@ -228,6 +228,7 @@ CREATE TABLE IF NOT EXISTS Appointments (
 	service_id INTEGER,
 	appointment_date DATE,
 	appointment_time TIME,
+	appointment_datetime TIMESTAMP,
     phone VARCHAR(50),
 	email VARCHAR(50),
 	car_plate VARCHAR(50),
@@ -240,14 +241,30 @@ CREATE TABLE IF NOT EXISTS Appointments (
 	FOREIGN KEY (mechanic_centre_id) REFERENCES MechanicCentres(id) ON DELETE CASCADE,
 	FOREIGN KEY (service_id) REFERENCES Services(id) ON DELETE CASCADE
 );
-INSERT INTO Appointments (mechanic_centre_id, service_id, appointment_date, appointment_time, phone, email, car_plate, car_brand, car_model, additional_notes, createdAt, updatedAt)
+INSERT INTO Appointments (mechanic_centre_id, service_id, appointment_date, appointment_time, appointment_datetime, phone, email, car_plate, car_brand, car_model, additional_notes, createdAt, updatedAt)
 VALUES 
-(1, 1, "2019-11-03", "12:00:00", "0420100100", "aaa@gmail.com", "AAA111", "mazda", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
-(2, 1, "2019-11-03", "12:00:00", "0420200100", "bbb@gmail.com", "BBB111", "tesla", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
-(3, 1, "2019-11-03", "12:00:00", "0420300100", "ccc@gmail.com", "CCC111", "toyota", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
-(4, 1, "2019-11-03", "12:00:00", "0420400100", "ddd@gmail.com", "DDD111", "nissan", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
-(5, 1, "2019-11-03", "12:00:00", "0420500100", "eee@gmail.com", "EEE111", "holden", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
-(1, 1, "2019-11-03", "12:00:00", "0420600100", "fff@gmail.com", "FFF111", "mercedes", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
-(2, 1, "2019-11-03", "12:00:00", "0420700100", "ggg@gmail.com", "GGG111", "bmw", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
-(3, 1, "2019-11-03", "12:00:00", "0420800100", "hhh@gmail.com", "HHH111", "audi", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
-(4, 1, "2019-11-03", "12:00:00", "0420900100", "iii@gmail.com", "III111", "mazda", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00");
+(1, 1, "2019-11-03", "12:00:00", "2019-11-03 12:00:00", "0420100100", "aaa@gmail.com", "AAA111", "mazda", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
+(2, 1, "2019-11-03", "12:00:00", "2019-11-03 12:00:00", "0420200100", "bbb@gmail.com", "BBB111", "tesla", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
+(3, 1, "2019-11-03", "12:00:00", "2019-11-03 12:00:00", "0420300100", "ccc@gmail.com", "CCC111", "toyota", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
+(4, 1, "2019-11-03", "12:00:00", "2019-11-03 12:00:00", "0420400100", "ddd@gmail.com", "DDD111", "nissan", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
+(5, 1, "2019-11-03", "12:00:00", "2019-11-03 12:00:00", "0420500100", "eee@gmail.com", "EEE111", "holden", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
+(1, 1, "2019-11-03", "12:00:00", "2019-11-03 12:00:00", "0420600100", "fff@gmail.com", "FFF111", "mercedes", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
+(2, 1, "2019-11-03", "12:00:00", "2019-11-03 12:00:00", "0420700100", "ggg@gmail.com", "GGG111", "bmw", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
+(3, 1, "2019-11-03", "12:00:00", "2019-11-03 12:00:00", "0420800100", "hhh@gmail.com", "HHH111", "audi", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
+(4, 1, "2019-11-03", "12:00:00", "2019-11-03 12:00:00", "0420900100", "iii@gmail.com", "III111", "mazda", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
+(4, 1, "2019-11-03", "12:00:00", "2019-11-03 12:00:00", "0420900100", "iii@gmail.com", "III111", "mazda", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
+(4, 1, "2019-11-03", "13:00:00", "2019-11-03 13:00:00", "0420900100", "iii@gmail.com", "III111", "mazda", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
+(4, 1, "2019-11-04", "09:00:00", "2019-11-04 09:00:00", "0420900100", "iii@gmail.com", "III111", "mazda", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
+(4, 1, "2019-11-04", "09:00:00", "2019-11-04 09:00:00", "0420900100", "iii@gmail.com", "III111", "mazda", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
+(4, 1, "2019-11-04", "09:00:00", "2019-11-04 09:00:00", "0420900100", "iii@gmail.com", "III111", "mazda", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
+(4, 1, "2019-11-05", "12:30:00", "2019-11-05 12:30:00", "0420900100", "iii@gmail.com", "III111", "mazda", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
+(4, 1, "2019-11-05", "12:30:00", "2019-11-05 12:30:00", "0420900100", "iii@gmail.com", "III111", "mazda", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
+(4, 1, "2019-11-05", "12:00:00", "2019-11-05 12:00:00", "0420900100", "iii@gmail.com", "III111", "mazda", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
+(5, 1, "2019-11-28", "09:30:00", "2019-11-28 09:30:00", "0420900100", "iii@gmail.com", "III111", "mazda", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
+(5, 1, "2019-11-28", "12:30:00", "2019-11-28 12:30:00", "0420900100", "iii@gmail.com", "III111", "mazda", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
+(5, 1, "2019-11-28", "13:30:00", "2019-11-28 13:30:00", "0420900100", "iii@gmail.com", "III111", "mazda", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
+(5, 1, "2019-11-29", "09:30:00", "2019-11-29 09:30:00", "0420900100", "iii@gmail.com", "III111", "mazda", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
+(5, 1, "2019-11-29", "12:30:00", "2019-11-29 12:30:00", "0420900100", "iii@gmail.com", "III111", "mazda", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
+(5, 1, "2019-11-30", "12:30:00", "2019-11-30 12:30:00", "0420900100", "iii@gmail.com", "III111", "mazda", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
+(5, 1, "2019-11-30", "12:30:00", "2019-11-30 12:30:00", "0420900100", "iii@gmail.com", "III111", "mazda", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
+(5, 2, "2019-11-30", "12:00:00", "2019-11-30 12:00:00", "0420900100", "iii@gmail.com", "III111", "mazda", "model 1", "please fix quickly", "2019-11-03 12:00:00", "2019-11-03 12:00:00");

@@ -1,5 +1,6 @@
 var db = require("./connection.js");
 var moment = require("moment");
+var geolib = require("geolib");
 
 module.exports = function(app) {
   // ########################################################################
@@ -14,15 +15,16 @@ module.exports = function(app) {
   // ########################################################################
   // SERVICES of MECHANIC CENTRES
   // ########################################################################
+  // >>> UNUSED <<<
   // query to get ALL MECAHNIC CENTRE SERVICES
-  app.get("/api/mechaniccentreservices", function(req, res) {
-    db.query(
-      "SELECT * FROM MechanicCentreServices JOIN Services ON MechanicCentreServices.service_id = Services.id",
-      function(error, results) {
-        res.json(results);
-      }
-    );
-  });
+  // app.get("/api/mechaniccentreservices", function(req, res) {
+  //   db.query(
+  //     "SELECT * FROM MechanicCentreServices JOIN Services ON MechanicCentreServices.service_id = Services.id",
+  //     function(error, results) {
+  //       res.json(results);
+  //     }
+  //   );
+  // });
   // query to get A SINGLE MECAHNIC CENTRE'S SERVICES
   app.get("/api/mechaniccentreservices/:mechaniccentreid", function(req, res) {
     db.query(
@@ -38,21 +40,23 @@ module.exports = function(app) {
   // ########################################################################
   // MECHANIC CENTRES
   // ########################################################################
+  // >>> PRIVATE <<<
   // query to get ALL MECHANIC CENTRES
   // app.get("/api/mechaniccentres", function(req, res) {
   //   db.query("SELECT * FROM MechanicCentres", function(error, results) {
   //     res.json(results);
   //   });
   // });
+  // >>> PRIVATE <<<
   // query to get ALL MECHANIC CENTRES and THEIR ORDINARY HOURS
-  app.get("/api/mechaniccentresandordinaryhours", function(req, res) {
-    db.query(
-      "SELECT * FROM MechanicCentres JOIN MechanicCentreOrdinaryHours ON MechanicCentres.id = MechanicCentreOrdinaryHours.mechanic_centre_id",
-      function(error, results) {
-        res.json(results);
-      }
-    );
-  });
+  // app.get("/api/mechaniccentresandordinaryhours", function(req, res) {
+  //   db.query(
+  //     "SELECT * FROM MechanicCentres JOIN MechanicCentreOrdinaryHours ON MechanicCentres.id = MechanicCentreOrdinaryHours.mechanic_centre_id",
+  //     function(error, results) {
+  //       res.json(results);
+  //     }
+  //   );
+  // });
   // query to get SINGLE MECHANIC CENTRE and THEIR ORDINARY HOURS
   app.get("/api/mechaniccentresandordinaryhours/:mechaniccentreid", function(
     req,
@@ -68,9 +72,8 @@ module.exports = function(app) {
       }
     );
   });
-  // query to CREATE A MECHANIC CENTRE
+  // query to CREATE A NEW MECHANIC CENTRE
   app.post("/api/mechaniccentres", function(req, res) {
-    // app.get("/api/mechaniccentresCREATE", function(req, res) {
     console.log(req.body);
     var currDateTime = new moment();
     db.query(
@@ -174,8 +177,8 @@ module.exports = function(app) {
   // ########################################################################
   // CREDENTIALS of MECHANIC CENTRES
   // ########################################################################
+  // >>> PRIVATE - VERY SENSITIVE INFORMATION <<<
   // query to get ALL MECHANIC CENTRE CREDENTIALS
-  //THIS ROUTE SHOULD BE PROTECTED
   // app.get("/api/mechaniccentrecredentials", function(req, res) {
   //   db.query("SELECT * FROM MechanicCentreCredentials", function(
   //     error,
@@ -199,6 +202,7 @@ module.exports = function(app) {
   // ########################################################################
   // ORDINARY HOURS of MECHANIC CENTRES
   // ########################################################################
+  // >>> PRIVATE <<<
   // query to get ALL MECHANIC CENTRE ORDINARY HOURS
   // app.get("/api/mechaniccentreordinaryhours", function(req, res) {
   //   db.query("SELECT * FROM MechanicCentreOrdinaryHours", function(
@@ -226,42 +230,88 @@ module.exports = function(app) {
   // ########################################################################
   // APPOINTMENTS of MECHANIC CENTRES
   // ########################################################################
-  // query to get ALL MECHANIC CENTRE APPOINTMENTS
-  app.get("/api/appointments", function(req, res) {
-    db.query("SELECT * FROM Appointments", function(error, results) {
-      res.json(results);
-    });
-  });
-  // query to get APPOINTMENTS by MECHANIC CENTRE ID
-  app.get("/api/appointments/:mechaniccentreid", function(req, res) {
+  // >>> PRIVATE <<<
+  // // query to get ALL MECHANIC CENTRE APPOINTMENTS
+  // app.get("/api/appointments", function(req, res) {
+  //   db.query("SELECT * FROM Appointments", function(error, results) {
+  //     res.json(results);
+  //   });
+  // });
+  // query to get SINGLE APPOINTMENT DETAILS
+  app.get("/api/appointments/customer/:appointmentid", function(req, res) {
+    var appointmentid = "00000001";
+    appointmentid = parseInt(appointmentid, 10);
     db.query(
       "SELECT * FROM Appointments WHERE ?",
-      {
-        mechanic_centre_id: req.params.mechaniccentreid
-      },
+      // { id: req.params.appointmentid },
+      { id: appointmentid },
       function(error, results) {
         res.json(results);
       }
     );
   });
   // query to get APPOINTMENT COUNT by MECHANIC CENTRE ID
-  app.get("/api/appointmentcount/:mechaniccentreid", function(req, res) {
+  // // SELECT appointment_date, appointment_time, appointment_datetime, count(appointment_datetime) FROM Appointments WHERE mechanic_centre_id = 4 GROUP BY appointment_date, appointment_time, appointment_datetime ORDER BY appointment_datetime;
+  // // SELECT appointment_datetime, count(appointment_datetime) FROM Appointments WHERE mechanic_centre_id = 4 GROUP BY appointment_datetime ORDER BY appointment_datetime;
+  app.get("/api/appointmentscounttoday/:mechaniccentreid", function(req, res) {
     db.query(
-      "SELECT * FROM Appointments JOIN MechanicCentres ON Appointments.mechanic_centre_id = MechanicCentres.id WHERE ?",
+      "SELECT appointment_datetime, count(appointment_datetime) AS count FROM Appointments WHERE ? GROUP BY appointment_datetime ORDER BY appointment_datetime",
+      // "SELECT appointment_date, appointment_time, appointment_datetime, count(appointment_datetime) AS count FROM Appointments WHERE ? GROUP BY appointment_date, appointment_time, appointment_datetime ORDER BY appointment_datetime",
       {
         mechanic_centre_id: req.params.mechaniccentreid
+      },
+      function(error, results) {
+        console.log(JSON.stringify(results, null, 2));
+        res.json(results);
+      }
+    );
+  });
+  app.get("/api/appointmentscount/:mechaniccentreid", function(req, res) {
+    var curr = new moment();
+    var currDateTime = new moment(curr.format("YYYY-MM-DD")).add(2, "days");
+    console.log(currDateTime.format("YYYY-MM-DD 00:00:01"));
+    db.query(
+      // "SELECT appointment_date, appointment_time, appointment_datetime, count(appointment_datetime) AS count FROM Appointments WHERE ? GROUP BY appointment_date, appointment_time, appointment_datetime ORDER BY appointment_datetime",
+      "SELECT appointment_date, appointment_time, appointment_datetime, count(appointment_datetime) AS count FROM Appointments WHERE ? AND appointment_datetime >= ? GROUP BY appointment_date, appointment_time, appointment_datetime ORDER BY appointment_datetime",
+      [
+        {
+          mechanic_centre_id: req.params.mechaniccentreid
+        },
+        currDateTime.format("YYYY-MM-DDT00:00:01.000Z")
+        // currDateTime.format("YYYY-MM-DD 00:00:00") // this is today midnight
+      ],
+      function(error, results) {
+        console.log(JSON.stringify(results, null, 2));
+        res.json(results);
+      }
+    );
+  });
+  // query to CREATE A NEW APPOINTMENTS
+  app.post("/api/appointments", function(req, res) {
+    console.log(req.body);
+    var currDateTime = new moment();
+    db.query(
+      "INSERT INTO Appointments SET ?",
+      {
+        mechanic_centre_id: 5,
+        service_id: 5,
+        appointment_date: "2019-12-01",
+        appointment_time: "11:30:00",
+        appointment_time: "2019-12-01 11:30:00",
+        phone: "0410500100",
+        email: "adam@gmail.com",
+        car_plate: "ABC123",
+        car_brand: "mazda",
+        car_model: "model 11",
+        additional_notes: "make it fancy",
+        createdAt: currDateTime.format("YYYY-MM-DD HH:mm:ss"),
+        updatedAt: currDateTime.format("YYYY-MM-DD HH:mm:ss")
       },
       function(error, results) {
         res.json(results);
       }
     );
   });
-
-  ////////////////////////////////////////
-  ////////////////////////////////////////
-  ////////////////////////////////////////
-  ////////////////////////////////////////
-  ////////////////////////////////////////
   ////////////////////////////////////////
   ////////////////////////////////////////
   ////////////////////////////////////////
@@ -271,11 +321,10 @@ module.exports = function(app) {
   ////////////////////////////////////////
 
   // ########################################################################
-  // AUTHENTICATED ACTIONS
+  // AUTHENTICATED ACTIONS - LOGIN
   // ########################################################################
   // query to get AUTHENTICATED ACCESS TO MECHANIC CENTRE DASHBOARD
   app.post("/api/login", function(req, res) {
-    // app.post("/api/login", function(req, res) {
     console.log(req.body.username);
     console.log(req.body.password);
 
@@ -294,6 +343,40 @@ module.exports = function(app) {
       }
     );
   });
+  // ########################################################################
+  // AUTHENTICATED ACTIONS - VIEWING INFORMATION
+  // ########################################################################
+  // query to get AUTHENTICATED ACCESS TO MECHANIC CENTRE DASHBOARD
+  app.post("/api/viewmechaniccentreappointments", function(req, res) {
+    console.log(req.body.username);
+    console.log(req.body.password);
+
+    db.query(
+      "SELECT * FROM MechanicCentres LEFT OUTER JOIN MechanicCentreCredentials ON MechanicCentres.id = MechanicCentreCredentials.mechanic_centre_id WHERE ? AND ?",
+      [
+        {
+          user_username: "kevin@gmail.com"
+        },
+        {
+          user_password: "asdf1234"
+        }
+      ],
+      function(error, results) {
+        db.query(
+          "SELECT * FROM Appointments WHERE ? ORDER BY appointment_datetime",
+          {
+            mechanic_centre_id: results[0].mechanic_centre_id
+          },
+          function(error, results) {
+            res.json(results);
+          }
+        );
+      }
+    );
+  });
+  // ########################################################################
+  // AUTHENTICATED ACTIONS - UPDATING INFORMATION
+  // ########################################################################
   app.put("/api/changepassword", function(req, res) {
     // app.post("/api/login", function(req, res) {
     console.log(req.body.username);
@@ -544,450 +627,64 @@ module.exports = function(app) {
   // ########################################################################
   // query to get MECHANICS THAT PROVIDE A SPECIFIC SERVICES AND WITHIN SPECIFIC RANGE
   app.get("/api/mechaniccentresfilter", function(req, res) {
-    console.log(req.query.servicename);
-    console.log(req.query.km);
-    console.log(req.query.lat);
-    console.log(req.query.lon);
-    var servicename = "wheel alignment";
-    var km = 5;
-    console.log(km);
+    var townhallstationposition = {
+      latitude: -33.873539,
+      longitude: 151.2047353
+    };
+
+    // console.log(req.query.servicename);
+    // console.log(req.query.metres);
+    // console.log(req.query.lat);
+    // console.log(req.query.lon);
+
+    var servicename = req.query.servicename || "wheel alignment";
+    var metres = req.query.metres || 5000;
+
+    var userPosition = {
+      latitude: req.query.lat || townhallstationposition.latitude,
+      longitude: req.query.lon || townhallstationposition.longitude
+    };
+
     db.query(
-      "SELECT * FROM MechanicCentreServices LEFT OUTER JOIN Services ON MechanicCentreServices.service_id = Services.id WHERE ?",
+      "SELECT * FROM Services" +
+        " LEFT OUTER JOIN MechanicCentreServices ON Services.id = MechanicCentreServices.service_id" +
+        " LEFT OUTER JOIN MechanicCentres ON MechanicCentreServices.mechanic_centre_id = MechanicCentres.id" +
+        " LEFT OUTER JOIN MechanicCentreOrdinaryHours ON MechanicCentres.id = MechanicCentreOrdinaryHours.mechanic_centre_id" +
+        " WHERE ?",
       {
         "Services.service_name": servicename
       },
       function(error, results) {
         var mechanicCentresArr = results.filter(function(curr) {
-          // do some calulation for lat and lon
-          if (curr) {
+          var distance = geolib.getDistance(userPosition, {
+            latitude: curr.latitude,
+            longitude: curr.longitude
+          });
+          curr.distance_metres = distance;
+          if (distance <= metres) {
             return true;
           }
-          return true;
+          return false;
         });
         res.json(mechanicCentresArr);
       }
     );
   });
   app.get("/api/calcdist", function(req, res) {
-    var lat1 = 1;
-    var lon1 = 1;
-    var lat2 = 1;
-    var lon2 = 1;
+    var townhallstationposition = {
+      latitude: -33.873539,
+      longitude: 151.2047353
+    };
 
+    var lat2 = -33.8660077;
+    var lon2 = 151.2033634;
+
+    var distance = geolib.getDistance(townhallstationposition, {
+      latitude: lat2,
+      longitude: lon2
+    });
     res.json({
-      distance: 3
+      distance: distance
     });
   });
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-  ///////////////////////////
-
-  //   // query to get ALL SERVICES
-  //   app.post("/api/services", function(req, res) {
-  //     console.log(req.body);
-  //     var currDateTime = new moment();
-  //     db.query(
-  //       "INSERT INTO Services SET ?",
-  //       {
-  //         service_name: "asdf",
-  //         createdAt: currDateTime.format("YYYY-MM-DD HH:mm:ss"),
-  //         updatedAt: currDateTime.format("YYYY-MM-DD HH:mm:ss")
-  //       },
-  //       function(error, results) {
-  //         res.json(results);
-  //       }
-  //     );
-  //   });
-  //########################################################################
-  //////////////////////////////////////////////////////////////////////////
-  //#########                MECHANIC CENTRES
-  //////////////////////////////////////////////////////////////////////////
-  //########################################################################
-
-  //   // query to get SINGLE MECAHNIC CENTRE by ID
-  //   app.get("/api/mechaniccentres/:id", function(req, res) {
-  //     db.query(
-  //       "SELECT * FROM MechanicCentres WHERE ?",
-  //       {
-  //         id: req.params.id
-  //       },
-  //       function(error, results) {
-  //         res.json(results);
-  //       }
-  //     );
-  //   });
-
-  //   // query to UPDATE A NEW MECHANIC CENTRE
-  //   app.put("/api/mechaniccentres", function(req, res) {
-  //     console.log(req.body);
-  //     var currDateTime = new moment();
-  //     db.query(
-  //       "UPDATE MechanicCentres SET ? WHERE ?",
-  //       [
-  //         {
-  //           centre_name: "ASDF's auto repairs",
-  //           phone: "0410500100",
-  //           email: "brian@gmail.com",
-  //           address_street: "1 E Street",
-  //           address_city: "Eee City",
-  //           address_postcode: "2000",
-  //           address_state: "NSW",
-  //           address_country: "Australia",
-  //           latitude: 10.1,
-  //           longitude: 10.1,
-  //           employee_count: 3,
-  //           updatedAt: currDateTime.format("YYYY-MM-DD HH:mm:ss")
-  //         },
-  //         {
-  //           id: 1
-  //         }
-  //       ],
-  //       function(error, results) {
-  //         res.json(results);
-  //       }
-  //     );
-  //   });
-
-  //########################################################################
-  //////////////////////////////////////////////////////////////////////////
-  //#########                MECHANIC CENTRES SERVICES
-  //////////////////////////////////////////////////////////////////////////
-  //########################################################################
-  //   // query to get MECHANICS THAT PROVIDE A SPECIFIC SERVICE
-  //   app.get("/api/mechaniccentreservices/:servicename", function(req, res) {
-  //     db.query(
-  //       "SELECT * FROM MechanicCentreServices LEFT OUTER JOIN Services ON MechanicCentreServices.service_id = Services.id WHERE ?",
-  //       {
-  //         service_name: req.params.servicename
-  //       },
-  //       function(error, results) {
-  //         res.json(results);
-  //       }
-  //     );
-  //   });
-  //   // query to get ADD A SERVICE TO A MECHANIC CENTRE
-  //   app.post("/api/mechaniccentreservices", function(req, res) {
-  //     console.log(req.body);
-  //     var currDateTime = new moment();
-  //     db.query(
-  //       "INSERT INTO MechanicCentreServices SET ?",
-  //       {
-  //         mechanic_centre_id: 5,
-  //         service_id: 2,
-  //         createdAt: currDateTime.format("YYYY-MM-DD HH:mm:ss"),
-  //         updatedAt: currDateTime.format("YYYY-MM-DD HH:mm:ss")
-  //       },
-  //       function(error, results) {
-  //         res.json(results);
-  //       }
-  //     );
-  //   });
-  //   // query to DELETE A SERVICE FROM A MECHANIC CENTRE
-  //   app.put("/api/mechaniccentreservicesdelete", function(req, res) {
-  //     console.log(req.body);
-  //     var currDateTime = new moment();
-  //     db.query(
-  //       "DELETE FROM MechanicCentreServices WHERE ?",
-  //       [
-  //         {
-  //           mechanic_centre_id: req.body.mechanic_centre_id
-  //         }
-  //       ],
-  //       function(error, results) {
-  //         res.json(results);
-  //       }
-  //     );
-  //   }); ///////////////////////////////////////////
-  //########################################################################
-  //////////////////////////////////////////////////////////////////////////
-  //#########                MECHANIC CENTRES ORDINARY HOURS
-  //////////////////////////////////////////////////////////////////////////
-  //########################################################################
-  //   // query to get ALL ORDINARY HOURS of A SINGLE MECHANIC CENTRE
-  //   app.get("/api/mechaniccenterordinaryhours/:mechaniccentreid", function(
-  //     req,
-  //     res
-  //   ) {
-  //     db.query(
-  //       "SELECT * FROM MechanicCentreOrdinaryHours WHERE ?",
-  //       {
-  //         mechanic_centre_id: req.params.mechaniccentreid
-  //       },
-  //       function(error, results) {
-  //         res.json(results);
-  //       }
-  //     );
-  //   });
-  //   // query to CREATE ORDINARY HOURS for a SINGLE MECAHNIC CENTRE
-  //   app.post("/api/mechaniccenterordinaryhours", function(req, res) {
-  //     console.log(req.body);
-  //     var currDateTime = new moment();
-  //     db.query(
-  //       "INSERT INTO MechanicCentreOrdinaryHours SET ?",
-  //       {
-  //         mechanic_centre_id: 6,
-  //         mon_start: "09:20:00",
-  //         mon_end: "18:30:00",
-  //         tue_start: "09:20:00",
-  //         tue_end: "18:30:00",
-  //         wed_start: "09:20:00",
-  //         wed_end: "18:30:00",
-  //         thu_start: "09:20:00",
-  //         thu_end: "18:30:00",
-  //         fri_start: "09:20:00",
-  //         fri_end: "18:30:00",
-  //         sat_start: "00:00:00",
-  //         sat_end: "00:00:00",
-  //         sun_start: "00:00:00",
-  //         sun_end: "00:00:00",
-  //         createdAt: currDateTime.format("YYYY-MM-DD HH:mm:ss"),
-  //         updatedAt: currDateTime.format("YYYY-MM-DD HH:mm:ss")
-  //       },
-  //       function(error, results) {
-  //         res.json(results);
-  //       }
-  //     );
-  //   });
-  //   // query to UPDATE ORDINARY HOURS for a SINGLE MECAHNIC CENTRE
-  //   app.put("/api/mechaniccenterordinaryhours", function(req, res) {
-  //     console.log(req.body);
-  //     var currDateTime = new moment();
-  //     db.query(
-  //       "UPDATE MechanicCentreOrdinaryHours SET ? WHERE ?",
-  //       [
-  //         {
-  //           mon_start: "09:20:00",
-  //           mon_end: "18:30:00",
-  //           tue_start: "09:20:00",
-  //           tue_end: "18:30:00",
-  //           wed_start: "09:20:00",
-  //           wed_end: "18:30:00",
-  //           thu_start: "09:20:00",
-  //           thu_end: "18:30:00",
-  //           fri_start: "09:20:00",
-  //           fri_end: "18:30:00",
-  //           sat_start: "00:00:00",
-  //           sat_end: "00:00:00",
-  //           sun_start: "00:00:00",
-  //           sun_end: "00:00:00",
-  //           updatedAt: currDateTime.format("YYYY-MM-DD HH:mm:ss")
-  //         },
-  //         {
-  //           mechanic_centre_id: 5
-  //         }
-  //       ],
-  //       function(error, results) {
-  //         res.json(results);
-  //       }
-  //     );
-  //   });
-  //########################################################################
-  //////////////////////////////////////////////////////////////////////////
-  //#########                APPOINTMENTS
-  //////////////////////////////////////////////////////////////////////////
-  //########################################################################
-  //   app.get("/api/appointments/customer/:appointmentid", function(req, res) {
-  //     db.query(
-  //       "SELECT * FROM Appointments WHERE ?",
-  //       {
-  //         id: req.params.appointmentid
-  //       },
-  //       function(error, results) {
-  //         res.json(results);
-  //       }
-  //     );
-  //   });
-  //   app.get("/api/appointments/mechanic/:mechaniccentreid", function(req, res) {
-  //     db.query(
-  //       "SELECT * FROM Appointments WHERE ?",
-  //       {
-  //         mechanic_centre_id: req.params.mechaniccentreid
-  //       },
-  //       function(error, results) {
-  //         res.json(results);
-  //       }
-  //     );
-  //   });
-  //   app.post("/api/appointments", function(req, res) {
-  //     console.log(req.body);
-  //     var currDateTime = new moment();
-  //     db.query(
-  //       "INSERT INTO Appointments SET ?",
-  //       {
-  //         mechanic_centre_id: 1,
-  //         required_service_id: 2,
-  //         appointment_date: "2019-11-13",
-  //         appointment_time: "11:30:00",
-  //         phone: "0410500100",
-  //         email: "brian@gmail.com",
-  //         car_plate: "ABC123",
-  //         car_brand: "mazda",
-  //         car_model: "model 11",
-  //         additional_notes: "make it fancy",
-  //         createdAt: currDateTime.format("YYYY-MM-DD HH:mm:ss"),
-  //         updatedAt: currDateTime.format("YYYY-MM-DD HH:mm:ss")
-  //       },
-  //       function(error, results) {
-  //         res.json(results);
-  //       }
-  //     );
-  //   });
-  //   // currently not able to update appointments
-  //   //########################################################################
-  //   //////////////////////////////////////////////////////////////////////////
-  //   //#########                CUSTOM QUERIES
-  //   //////////////////////////////////////////////////////////////////////////
-  //   //########################################################################
-  //   // query to get MECHANICS THAT PROVIDE A SPECIFIC SERVICE
-  //   app.get("/api/mechaniccentresfilter", function(req, res) {
-  //     console.log(req.query.servicename);
-  //     console.log(req.query.km);
-  //     console.log(req.query.lat);
-  //     console.log(req.query.lon);
-  //     var servicename = "wheel alignment";
-  //     var km = 5;
-  //     console.log(km);
-  //     db.query(
-  //       "SELECT * FROM MechanicCentreServices LEFT OUTER JOIN Services ON MechanicCentreServices.service_id = Services.id WHERE ?",
-  //       {
-  //         "Services.service_name": servicename
-  //       },
-  //       function(error, results) {
-  //         var mechanicCentresArr = results.filter(function(curr) {
-  //           // do some calulation for lat and lon
-  //           if (curr) {
-  //             return true;
-  //           }
-  //           return true;
-  //         });
-  //         res.json(mechanicCentresArr);
-  //       }
-  //     );
-  //   });
-  //   // query to get SPECIFIC MECHANIC AND THEIR ORDINARY HOURS
-  //   app.get("/api/mechaniccentresandordinaryhours/:id", function(req, res) {
-  //     db.query(
-  //       "SELECT * FROM MechanicCentres LEFT OUTER JOIN MechanicCentreOrdinaryHours ON MechanicCentres.id = MechanicCentreOrdinaryHours.mechanic_centre_id WHERE ?",
-  //       {
-  //         "MechanicCentres.id": req.params.id
-  //       },
-  //       function(error, results) {
-  //         var mechanicCentresArr = results.map(function(curr) {
-  //           // do some calulation for lat and lon
-  //           return curr;
-  //         });
-  //         res.json(mechanicCentresArr);
-  //       }
-  //     );
-  //   });
 };

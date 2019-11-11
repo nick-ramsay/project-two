@@ -1,0 +1,188 @@
+CREATE MECHANIC ACCOUNT (NICK)
+INSTRUCTIONS: send everything through one ajax POST, consecutive inserts to different tables will be handled by the server.
+
+#### POST app.post("/api/mechaniccentres") ####
+-enter basic details -> insert into mechanic centres table
+	NEEDS:
+	centre_name: "aaa's auto repairs",
+        phone: "0410500100",
+        email: "brian@gmail.com",
+        address_street: "1 E Street",
+        address_city: "Eee City",
+        address_postcode: "2000",
+        address_state: "NSW",
+        address_country: "Australia",
+        latitude: 10.1,
+        longitude: 10.1,
+        employee_count: 3
+
+	NEEDS:
+	user_username: "brian@gmail.com",
+		check that username does not already exist
+		#### POST app.post("/api/checkifusernameexists") ####
+		returns empty array if username does not already exist
+	user_password: "asdf1234"
+#### GET app.get("/api/services") ####
+-get list of service -> select * from services table
+
+-choose services -> insert into mechanic centre services table
+	NEEDS:
+	service_id: 1
+	service_id: 2
+-enter working hours -> mechanic centre ordinary hours table
+	NEEDS:
+	mon_start: "09:20:00",
+       	mon_end: "18:30:00",
+       	tue_start: "09:20:00",
+       	tue_end: "18:30:00",
+       	wed_start: "09:20:00",
+       	wed_end: "18:30:00",
+       	thu_start: "09:20:00",
+       	thu_end: "18:30:00",
+       	fri_start: "09:20:00",
+       	fri_end: "18:30:00",
+       	sat_start: "00:00:00",
+       	sat_end: "00:00:00",
+       	sun_start: "00:00:00",
+       	sun_end: "00:00:00"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MANAGE OWN MECHANIC ACCOUNT (NICK/ANNIE)
+-login
+	#### POST app.post("/api/login") ####
+	NEEDS:
+	user_username: "asdf@gmail.com",
+	user_password: "asdf1234", 
+		-if successful, save user_username and user_password to local storage
+	then redirect to dashboard
+		res.redirect("profile/:mechamiccentreid"); <- HTMLROUTES.JS
+-display all details (get information based on mechanic id)
+	#### GET app.get("/api/mechaniccentresandordinaryhours/:mechaniccentreid") ####
+	-get general details AND ordinary working hours of particular mechanic
+		#### app.get("/api/mechaniccentreordinaryhours/:mechaniccentreid") #### 
+		-get ordinary working hours
+	
+	#### GET app.get("/api/mechaniccentreservices/:mechaniccentreid") ####
+	-get services of particular mechanic
+	
+	#### GET app.post("/api/viewmechaniccentreappointments") ####
+	-get appointments of particular mechanic
+		NEEDS:
+		user_username: "kevin@gmail.com",
+		user_password: "asdf1234"
+	
+-update is PROTECTED and REQUIRES USERNAME and PASSWORD
+	#### PUT app.put("/api/updatemechaniccentre") ####
+	-update details of a particular mechanic (name, location, number...etc)
+		NEEDS:
+		user_username: "asdf@gmail.com",
+		user_password: "asdf1234"
+		...details...
+
+	#### PUT app.put("/api/updatemechaniccentreordinaryhours") ####
+	-update ordinary hours of a particular mechanic (mon_start, mon_end, tue_start...etc)
+		NEEDS:
+		user_username: "asdf@gmail.com",
+		user_password: "asdf1234"
+		...hours...
+
+	#### PUT app.put("/api/deletemechaniccentreservices") ####
+	-remove services of a particular mechanic
+		NEEDS:
+		user_username: "asdf@gmail.com",
+		user_password: "asdf1234"
+		services to delete ARRAY [service_id, service_id, service_id]	
+
+	#### POST app.post("/api/createmechaniccentreservices" ####
+	-add services for a particular mechanic
+		NEEDS:
+		user_username: "asdf@gmail.com",
+		user_password: "asdf1234"
+		services to add ARRAY [service_id, service_id, service_id]	
+	
+	#### PUT app.put("/api/changepassword") ####
+	-change password for a particular mechanic
+		NEEDS:
+		user_username: "asdf@gmail.com",
+		user_password: "asdf1234"
+		new_password: "the new password"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAKE APPOINTMENT (ANNIE)
+#### GET app.get("/api/services") ####
+-get list of service -> select * from services table
+
+-choose a service
+	capture service_id in a variable
+-choose location
+	google maps search API to get location (lat, lon)
+
+#### GET app.get("/api/mechaniccentresfilter?servicename=window%20tinting&metres=50000&lat=10.5&lon=10.5") ####
+-server returns all mechanics filtered by service and location
+	RETURNS services names, mechanic name, address, email, EMPLOYEE COUNT, ordinary hours
+-choose a mechanic
+	#### GET app.get("/api/appointmentscount/:mechaniccentreid") ####
+	- counting the number of appointments for each timeslot
+
+#### POST app.post("/api/appointments") ####
+-create appointment
+	NEEDS:
+        mechanic_centre_id: 5,
+        service_id: 5,
+        appointment_date: "2019-12-01",
+        appointment_time: "11:30:00",
+        appointment_time: "2019-12-01 11:30:00",
+        phone: "0410500100",
+        email: "adam@gmail.com",
+        car_plate: "ABC123",
+        car_brand: "mazda",
+        car_model: "model 11",
+        additional_notes: "make it fancy"
+
+
+VIEW APPOINTMENT (ANNIE)
+#### app.get("/api/appointments/customer/:appointmentid") ####
+	e.g. app.get("/api/appointments/customer/00000001")
+
+
+add leading zeros to appointment id
+	1 --> 00000001
+	var strId = String(id);
+	while (strId.length < 8) {
+		strId = "0" + strId;
+	}
+	console.log(strId);
+remove leading zerps to appointment id (to be handled server side)
+	var id = parseInt(strId, 10)
+
+
+
+why is the number inserted no the same as the one displayed
+result returned is wrong - something wrong with the time
