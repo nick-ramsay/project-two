@@ -1,0 +1,64 @@
+<nav class="navbar navbar-light bg-light sticky-top">
+    <span class="navbar-brand mb-0 h1">automender</span>
+    <a href="schedule" align="right"><img src="/images/schedule.png"></a>
+</nav>
+<div class="container">
+    <div class="row">
+        <form class="mx-auto" id="updateAccountForm" data-accountID=12>
+            <div class="form-group">
+                <label for="updateMechanicShopName">Shop Name</label>
+                <input type="text" class="form-control" id="updateMechanicShopName"
+                    placeholder="What's the name of your shop?">
+            </div>
+            <div class="form-group">
+                <label for="updateMechanicCount">Number of Mechanics</label>
+                <input type="number" class="form-control" id="updateMechanicCount"
+                    placeholder="How many mechanics work in your shop?">
+            </div>
+            <div class="form-group">
+                <label for="updateMechanicEmail">Email</label>
+                <input type="email" class="form-control" id="updateMechanicEmail" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <label for="updateMechanicPhone">Phone</label>
+                <input type="phone" class="form-control" id="updateMechanicPhone" placeholder="Phone Number">
+            </div>
+            <div class="form-group">
+                <label for="updateMechanicAddress">Address</label>
+                <input type="text" class="form-control" id="updateMechanicAddress" placeholder="1234 Main St">
+            </div>
+            <div class="form-group">
+                <label for="updateMechanicAddress2">Address 2</label>
+                <input type="text" class="form-control" id="updateMechanicAddress2" placeholder="Apartment, studio, or floor">
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="updateMechanicCity">City</label>
+                    <input type="text" class="form-control" id="updateMechanicCity">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="updateMechanicState">State</label>
+                    <select id="updateMechanicState" class="form-control">
+                        <option selected>Choose...</option>
+                        <option>New South Wales</option>
+                        <option>Victoria</option>
+                        <option>Queensland</option>
+                        <option>South Australia</option>
+                        <option>Australian Capital Territory</option>
+                        <option>Tasmania</option>
+                        <option>Northern Territory</option>
+                        <option>Western Australia</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="updateMechanicPostcode">Postcode</label>
+                    <input type="text" class="form-control" id="updateMechanicPostcode">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" id="updateAccountBtn">Update Account</button>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
