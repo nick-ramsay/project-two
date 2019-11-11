@@ -38,6 +38,16 @@ VALUES
 
 
 
+
+
+
+
+
+
+
+
+
+
 CREATE TABLE IF NOT EXISTS MechanicCentres (
 	id INTEGER AUTO_INCREMENT,
 	centre_name VARCHAR(50),
@@ -67,21 +77,44 @@ VALUES
     ("brian's auto repairs", "0410500100", "brian@gmail.com", "1 E Street", "Eee City", "2000", "NSW", "Australia", 10.1, 10.1, 3, "2019-11-03", "12:00:00", "2019-11-03 12:00:00", "2019-11-03 12:00:00");
 
 
+
+
+
+
+
+
+
+
+
+
 CREATE TABLE IF NOT EXISTS MechanicCentreCredentials (
 	id INTEGER AUTO_INCREMENT,
     mechanic_centre_id INTEGER,
-	user_username VARCHAR(50),
+	user_username VARCHAR(50) UNIQUE,
 	user_password VARCHAR(50),
+	createdAt TIMESTAMP,
+	updatedAt TIMESTAMP,
 	PRIMARY KEY (id),
     FOREIGN KEY (mechanic_centre_id) REFERENCES MechanicCentres(id) ON DELETE CASCADE
 );
-INSERT INTO MechanicCentreCredentials (mechanic_centre_id, user_username, user_password)
+INSERT INTO MechanicCentreCredentials (mechanic_centre_id, user_username, user_password, createdAt, updatedAt)
 VALUES
-	(1, "rob@gmail.com", "asdf1234"),
-	(2, "mark@gmail.com", "asdf1234"),
-	(3, "john@gmail.com", "asdf1234"),
-	(4, "kevin@gmail.com", "asdf1234"),
-	(5, "brian@gmail.com", "asdf1234");
+	(1, "rob@gmail.com", "asdf1234", "2019-11-05 12:00:00", "2019-11-05 12:00:00"),
+	(2, "mark@gmail.com", "asdf1234", "2019-11-05 12:00:00", "2019-11-05 12:00:00"),
+	(3, "john@gmail.com", "asdf1234", "2019-11-05 12:00:00", "2019-11-05 12:00:00"),
+	(4, "kevin@gmail.com", "asdf1234", "2019-11-05 12:00:00", "2019-11-05 12:00:00"),
+	(5, "brian@gmail.com", "asdf1234", "2019-11-05 12:00:00", "2019-11-05 12:00:00");
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -110,6 +143,13 @@ VALUES
 	(5, 1, "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
 	(5, 3, "2019-11-03 12:00:00", "2019-11-03 12:00:00"),
     (5, 4, "2019-11-03 12:00:00", "2019-11-03 12:00:00");
+    
+    
+    
+    
+    
+    
+    
     
     
 
