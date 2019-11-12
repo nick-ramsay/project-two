@@ -1,30 +1,30 @@
 var db = require("./connection.js");
 var moment = require("moment");
 
-module.exports = function(app) {
-  app.get("/api/services", function(req, res) {
-    db.query("SELECT * FROM Services", function(error, results) {
+module.exports = function (app) {
+  app.get("/api/services", function (req, res) {
+    db.query("SELECT * FROM Services", function (error, results) {
       res.json(results);
     });
   });
 
   //////////////////////////////////////////////////////////////////////////////
 
-  app.get("/api/mechaniccentres", function(req, res) {
-    db.query("SELECT * FROM MechanicCentres", function(error, results) {
+  app.get("/api/mechaniccentres", function (req, res) {
+    db.query("SELECT * FROM MechanicCentres", function (error, results) {
       res.json(results);
     });
   });
-  app.get("/api/mechaniccentres/:id", function(req, res) {
+  app.get("/api/mechaniccentres/:id", function (req, res) {
     db.query(
       "SELECT * FROM MechanicCentres WHERE ?",
       { id: req.params.id },
-      function(error, results) {
+      function (error, results) {
         res.json(results);
       }
     );
   });
-  app.post("/api/mechaniccentres", function(req, res) {
+  app.post("/api/mechaniccentres", function (req, res) {
     console.log(req.body);
     var currDateTime = new moment();
     db.query(
@@ -48,7 +48,7 @@ module.exports = function(app) {
         currDateTime.format("YYYY-MM-DD HH:mm:ss"),
         currDateTime.format("YYYY-MM-DD HH:mm:ss")
       ],
-      function(error, results) {
+      function (error, results) {
         res.json(results);
       }
     );
@@ -56,7 +56,7 @@ module.exports = function(app) {
 
   //////////////////////////////////////////////////////////////////////////////
 
-  app.put("/api/mechaniccentres/:id", function(req, res) {
+  app.put("/api/mechaniccentres/:id", function (req, res) {
     console.log(req.body);
     var currDateTime = new moment();
     db.query(
@@ -76,7 +76,7 @@ module.exports = function(app) {
         currDateTime.format("YYYY-MM-DD HH:mm:ss"),
         req.body.id
       ],
-      function(error, result) {
+      function (error, result) {
         if (error) {
           return res.status(500).end();
         };
@@ -87,19 +87,19 @@ module.exports = function(app) {
 
   //////////////////////////////////////////////////////////////////////////////
 
-  app.get("/api/mechaniccenterservices", function(req, res) {
-    db.query("SELECT * FROM MechanicCentreServices", function(error, results) {
+  app.get("/api/mechaniccenterservices", function (req, res) {
+    db.query("SELECT * FROM MechanicCentreServices", function (error, results) {
       res.json(results);
     });
   });
-  app.get("/api/mechaniccenterservices", function(req, res) {
-    db.query("SELECT * FROM MechanicCentreServices", function(error, results) {
+  app.get("/api/mechaniccenterservices", function (req, res) {
+    db.query("SELECT * FROM MechanicCentreServices", function (error, results) {
       res.json(results);
     });
   });
-  app.post("/api/mechaniccenterservices", function(req, res) {
+  app.post("/api/mechaniccenterservices", function (req, res) {
     // var currDateTime = new moment();
-    db.query("INSERT INTO MechanicCentres () VALUES (?, ?)", [], function(
+    db.query("INSERT INTO MechanicCentres () VALUES (?, ?)", [], function (
       error,
       results
     ) {
@@ -109,26 +109,26 @@ module.exports = function(app) {
 
   //////////////////////////////////////////////////////////////////////////////
 
-  app.get("/api/mechaniccenterordinaryhours", function(req, res) {
-    db.query("SELECT * FROM MechanicCentreOrdinaryHours", function(
+  app.get("/api/mechaniccenterordinaryhours", function (req, res) {
+    db.query("SELECT * FROM MechanicCentreOrdinaryHours", function (
       error,
       results
     ) {
       res.json(results);
     });
   });
-  app.get("/api/mechaniccenterordinaryhours/:mechanicid", function(req, res) {
+  app.get("/api/mechaniccenterordinaryhours/:mechanicid", function (req, res) {
     db.query(
       "SELECT * FROM MechanicCentreOrdinaryHours WHERE ?",
       { mechanicid: req.params.id },
-      function(error, results) {
+      function (error, results) {
         res.json(results);
       }
     );
   });
-  app.post("/api/mechaniccenterservices", function(req, res) {
+  app.post("/api/mechaniccenterservices", function (req, res) {
     // var currDateTime = new moment();
-    db.query("INSERT INTO MechanicCentres () VALUES (?, ?)", [], function(
+    db.query("INSERT INTO MechanicCentres () VALUES (?, ?)", [], function (
       error,
       results
     ) {
@@ -138,32 +138,32 @@ module.exports = function(app) {
 
   //////////////////////////////////////////////////////////////////////////////
 
-  app.get("/api/appointments", function(req, res) {
-    db.query("SELECT * FROM Appointments", function(error, results) {
+  app.get("/api/appointments", function (req, res) {
+    db.query("SELECT * FROM Appointments", function (error, results) {
       res.json(results);
     });
   });
-  app.get("/api/appointments/customer/:customerid", function(req, res) {
+  app.get("/api/appointments/customer/:customerid", function (req, res) {
     db.query(
       "SELECT * FROM Appointments WHERE ?",
       { customerid: req.params.id },
-      function(error, results) {
+      function (error, results) {
         res.json(results);
       }
     );
   });
-  app.get("/api/appointments/mechanic/:mechanicid", function(req, res) {
+  app.get("/api/appointments/mechanic/:mechanicid", function (req, res) {
     db.query(
       "SELECT * FROM Appointments WHERE ?",
       { mechanicid: req.params.id },
-      function(error, results) {
+      function (error, results) {
         res.json(results);
       }
     );
   });
-  app.post("/api/mechaniccenterservices", function(req, res) {
+  app.post("/api/mechaniccenterservices", function (req, res) {
     // var currDateTime = new moment();
-    db.query("INSERT INTO MechanicCentres () VALUES (?, ?)", [], function(
+    db.query("INSERT INTO MechanicCentres () VALUES (?, ?)", [], function (
       error,
       results
     ) {
@@ -171,31 +171,43 @@ module.exports = function(app) {
     });
   });
 
-  app.get("/api/formrequests", function(req, res) {
-    db.query("SELECT * FROM Appointments", function(error, results) {
+  app.get("/api/formrequests", function (req, res) {
+    db.query("SELECT * FROM Appointments", function (error, results) {
       res.json(results);
     });
   });
-  
+
   app.post("/api/formrequests", function (req, res) {
-    db.query("INSERT INTO Appointments SET car_brand = ?, car_model = ?, car_plate = ?, car_services = ?, additional_notes = ?",
+    db.query("INSERT INTO appointments SET phone = ?, email = ?, car_brand = ?, car_model = ?, car_plate = ?, additional_notes = ?",
       [
-        req.body.carmake,
-        req.body.carmodel,
-        req.body.carplate,
-        req.body.service.req,
-        req.body.additional_notes
+        req.body.customerEmail,
+        req.body.customerPhone,
+        req.body.carMake,
+        req.body.carModel,
+        req.body.carPlate,
+        req.body.serviceRequest,
+        req.body.customerNotes
       ],
       function (err, result) {
-        if (err) {throw err};
+        if (err) { throw err };
         res.json(result);
       }
     );
   });
-
-
-
-
 };
 
 
+app.put("/api/formrequests", function (req, res) {
+  db.query("UPDATE WHERE... INTO appointments SET phone = ?, email = ?, car_brand = ?, car_model = ?, car_plate = ?, additional_notes = ?",
+    [
+      req.body.id,
+
+    ],
+    function (err, result) {
+      if (err) { throw err };
+      console.log(result)
+      res.json(result);
+    }
+  );
+});
+};

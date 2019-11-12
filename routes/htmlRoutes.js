@@ -25,8 +25,13 @@ module.exports = function (app) {
   });
 
   //server gives recommended mechanics
-  app.get("/recmechanic", function (req, res) {
-    res.render("mechanicdetails")
+  app.get("/recmechanic/:id", function (req, res) {
+    res.render("mechanicdetails", {
+      id: req.params.id, 
+      mechanic: mechaniccentreservices.mechanic_centre_id,
+      services: mechaniccentreservices.service_id,
+      mechaniccenter: mechaniccentres.centre_name
+    });
   });
 
   // Render 404 page for any unmatched routes

@@ -1,5 +1,3 @@
-var db = require("../models");
-
 var $createNewAccount = $("#createNewAccountBtn");
 var $updateAccount = $("#updateAccountBtn");
 
@@ -182,33 +180,4 @@ $(document).ready(function () {
   $(".customerBtn").on("click", function () {
     window.location.href = "form";
   });
-
-  var formButt =
-    $(".formButton").on("click", function (event) {
-      event.preventDefault();
-    });
-
-  //data insert to database
-  var requestInsert = function (event) {
-    var newAppointment = {
-      car_plate: $("#licenseNumber").val().trim(),
-      car_plate: $("#licenseNumber").val().trim(),
-      car_brand: $("#carMake").val().trim(),
-      car_model: $("#carModel").val().trim()/*,
-    //may need changing
-    customer_name: $("#custName").val().trim(),
-    customer_email: $("#customerEmail").val().trim(),
-    customer_Phone: $("#customerPhone").val().trim()*/
-    };
-    $.ajax("api/form", {
-      type: "PUT",
-      url: "api/forms",
-      data: newAppointment
-    }).then(
-      function () {
-        formButt;
-      }
-    )
-  };
-
 });
