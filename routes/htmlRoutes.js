@@ -1,42 +1,45 @@
-module.exports = function(app) {
+var db = require("./connection.js");
+var moment = require("moment");
+
+module.exports = function (app) {
   // Load index page
-  app.get("/", function(req, res) {
+  app.get("/", function (req, res) {
     res.render("index");
   });
 
-  app.get("/login", function(req, res) {
+  app.get("/login", function (req, res) {
     res.render("mechaniclogin");
   });
 
-  app.get("/create-account", function(req, res) {
+  app.get("/create-account", function (req, res) {
     res.render("mechanicaccountcreate");
   });
 
-  app.get("/account", function(req, res) {
+  app.get("/account", function (req, res) {
     res.render("mechanicaccount");
   });
 
-  app.get("/schedule", function(req, res) {
+  app.get("/schedule", function (req, res) {
     res.render("mechanicschedule");
   });
 
   //customer inputs requests
-  app.get("/requests", function(req, res) {
+  app.get("/requests", function (req, res) {
     res.render("brokendetails");
   });
 
   //customer inpts contact details
-  app.get("/contactdetails", function(req, res) {
+  app.get("/contactdetails", function (req, res) {
     res.render("customerdetails");
   });
 
   //server gives recommended mechanics
-  app.get("/recmechanic", function(req, res) {
+  app.get("/recmechanic", function (req, res) {
     res.render("mechanicdetails");
   });
 
   // Render 404 page for any unmatched routes
-  app.get("*", function(req, res) {
+  app.get("*", function (req, res) {
     res.render("404");
   });
 };

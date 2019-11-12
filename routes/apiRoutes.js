@@ -296,40 +296,41 @@ module.exports = function (app) {
         mechanic_centre_id: req.params.mechaniccentreid
       },
       function(error, results) {
+        console.log(req.params.scheduledate);
         var scheduleDate = moment();
         var currentDOW = scheduleDate.day();
         var openingTime;
         var closingTime;
 
         switch (currentDOW) {
-          case 0:
-            openingTime = results[0].sun_start;
-            closingTime = results[0].sun_end;
-            break;
-          case 1:
-            openingTime = results[0].mon_start;
-            closingTime = results[0].mon_end;
-            break;
-          case 2:
-            openingTime = results[0].tue_start;
-            closingTime = results[0].tue_end;
-            break;
-          case 3:
-            openingTime = results[0].wed_start;
-            closingTime = results[0].wed_end;
-            break;
-          case 4:
-            openingTime = results[0].thu_start;
-            closingTime = results[0].thu_end;
-            break;
-          case 5:
-            openingTime = results[0].fri_start;
-            closingTime = results[0].fri_end;
-            break;
-          case 6:
-            openingTime = results[0].sat_start;
-            closingTime = results[0].sat_end;
-            break;
+        case 0:
+          openingTime = results[0].sun_start;
+          closingTime = results[0].sun_end;
+          break;
+        case 1:
+          openingTime = results[0].mon_start;
+          closingTime = results[0].mon_end;
+          break;
+        case 2:
+          openingTime = results[0].tue_start;
+          closingTime = results[0].tue_end;
+          break;
+        case 3:
+          openingTime = results[0].wed_start;
+          closingTime = results[0].wed_end;
+          break;
+        case 4:
+          openingTime = results[0].thu_start;
+          closingTime = results[0].thu_end;
+          break;
+        case 5:
+          openingTime = results[0].fri_start;
+          closingTime = results[0].fri_end;
+          break;
+        case 6:
+          openingTime = results[0].sat_start;
+          closingTime = results[0].sat_end;
+          break;
         }
         console.log(openingTime);
         console.log(closingTime);
@@ -344,7 +345,7 @@ module.exports = function (app) {
         console.log(slotStart);
         console.log(slotEnd);
 
-        for(i = 0; i < slotCount; i++) {
+        for (i = 0; i < slotCount; i++) {
           var currentSlot = {
             slotID: i,
             slotDate: scheduleDate.format("YYYY-MM-DD"),
@@ -354,7 +355,7 @@ module.exports = function (app) {
           appointmentSlots.push(currentSlot);
           slotStart = moment(slotStart,"HH:mm:ss").add(30,"minutes").format("HH:mm:ss");
           slotEnd = moment(slotEnd,"HH:mm:ss").add(30,"minutes").format("HH:mm:ss");
-        };
+        }
 
         console.log(appointmentSlots);
 
