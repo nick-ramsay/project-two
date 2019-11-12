@@ -286,7 +286,7 @@ module.exports = function (app) {
   //   });
   // });
   // query to get SINGLE MECHANIC CENTRE ORDINARY HOURS
-  app.get("/api/mechaniccentreordinaryhours/:mechaniccentreid", function (
+  app.get("/api/mechaniccentreordinaryhours/:mechaniccentreid/:scheduledate", function (
     req,
     res
   ) {
@@ -297,7 +297,7 @@ module.exports = function (app) {
       },
       function(error, results) {
         console.log(req.params.scheduledate);
-        var scheduleDate = moment();
+        var scheduleDate = moment(req.params.scheduledate,"YYYY-MM-DD");
         var currentDOW = scheduleDate.day();
         var openingTime;
         var closingTime;
