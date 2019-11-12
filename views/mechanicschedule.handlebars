@@ -37,20 +37,36 @@
     </div>
 </div>
 
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="/js/index.js"></script>
+
 <script>
+    var credentials = JSON.parse(localStorage.getItem("credentials"));
+
     function renderTable() {
         var mechanicID = 1;
-        var timeSlots = 18;
+        var timeSlots;
         $.get("api/mechaniccentreordinaryhours/" + mechanicID, function (data) {
-            console.log(data);
+            timeslots = data;
+            console.log(timeslots);
+            console.log(timeslots.length);
+            for (i = 0; i < timeslots.length; i++) {
+                var row = `<tr><th scope="row">`+ timeslots[i].startTime +`</th><td class="table-success timeslot" data-date = `+ timeslots[i].slotDate + `data-starttime=` + timeslots[i].startTime + ` data-endTime=` + timeslots[i].endTime + `>Available</td></tr>`
+                $("#scheduleBody").append(row);
+            };
         });
 
-        for (i = 0; i < timeSlots; i++) {
-            var row = `<tr><th scope="row">9:00 AM</th><td class="table-success timeslot" data-time="0900">Available</td></tr>`
-            $("#scheduleBody").append(row);
-        };
+        $.ajax({
+            type: "POST",
+            url: "/api/viewmechaniccentreappointments",
+            data: credentials
+        }).done(function (data) {
+            var allAppointments = [];
+            appointments = data;
+            console.log(appointments);
+            console.log(moment().format());
+        });
     };
 
     window.onload = renderTable;

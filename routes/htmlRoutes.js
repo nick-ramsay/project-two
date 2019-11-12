@@ -23,14 +23,18 @@ module.exports = function (app) {
     res.render("mechanicschedule");
   });
 
-  //customer inputs requests
-  app.get("/requests", function (req, res) {
-    res.render("brokendetails");
+  app.get("/form", function (req, res) {
+    res.render("formdetails");
   });
 
-  //customer inpts contact details
-  app.get("/contactdetails", function (req, res) {
-    res.render("customerdetails");
+  //server gives recommended mechanics
+  app.get("/recmechanic/:id", function (req, res) {
+    res.render("mechanicdetails", {
+      id: req.params.id, 
+      mechanic: mechaniccentreservices.mechanic_centre_id,
+      services: mechaniccentreservices.service_id,
+      mechaniccenter: mechaniccentres.centre_name
+    });
   });
 
   //server gives recommended mechanics
