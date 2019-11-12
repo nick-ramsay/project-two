@@ -3,8 +3,8 @@
 </nav>
 <div class="container-fluid">
     <div class="col-md-6 mx-auto pt-3">
-        <div id="mechanicLoginForm">
-            <form>
+        <div>
+            <form id="mechanicLoginForm" class="bg-white py-5 px-5 rounded">
                 <div class="form-group">
                     <label for="mechanicUsername">Email address</label>
                     <input type="email" class="form-control" id="mechanicUsername" aria-describedby="emailHelp"
@@ -15,13 +15,14 @@
                     <input type="password" class="form-control" id="mechanicPassword" placeholder="Password">
                 </div>
                 <button type="submit" class="btn btn-primary" id="mechanicLoginBtn">Login</button>
+                <p id="outcomeMessage" class="d-none mt-2 mb-0 small text-danger">Invalid username or password. Please try again.</p>
+                <div class="createAccount mt-5">
+                    <p class="mb-0">Don't have an account? <a href="/create-account">Create one now.</a></p>
+                </div>
             </form>
-        </div>
-        <div class="createAccount">
-            <a href="create-account">New user? Create a new account.</a>
         </div>
     </div>
 </div>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="/js/index.js"></script>
+<script src="/js/loginpage.js"></script>

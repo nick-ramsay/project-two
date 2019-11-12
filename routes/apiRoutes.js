@@ -360,10 +360,10 @@ module.exports = function(app) {
       "SELECT * FROM MechanicCentres LEFT OUTER JOIN MechanicCentreCredentials ON MechanicCentres.id = MechanicCentreCredentials.mechanic_centre_id WHERE ? AND ?",
       [
         {
-          user_username: "mark@gmail.com"
+          user_username: req.body.username
         },
         {
-          user_password: "asdf1234"
+          user_password: req.body.password
         }
       ],
       function(error, results) {
@@ -383,10 +383,10 @@ module.exports = function(app) {
       "SELECT * FROM MechanicCentres LEFT OUTER JOIN MechanicCentreCredentials ON MechanicCentres.id = MechanicCentreCredentials.mechanic_centre_id WHERE ? AND ?",
       [
         {
-          user_username: "kevin@gmail.com"
+          user_username: req.body.username
         },
         {
-          user_password: "asdf1234"
+          user_password: req.body.password
         }
       ],
       function(error, results) {
