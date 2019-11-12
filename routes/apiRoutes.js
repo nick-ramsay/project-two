@@ -74,7 +74,6 @@ module.exports = function (app) {
   });
   // query to CREATE A NEW MECHANIC CENTRE
   app.post("/api/mechaniccentres", function (req, res) {
-    // console.log(req.body);
     var currDateTime = new moment();
     var mechanicCentreData = {
       created_date: currDateTime.format("YYYY-MM-DD"),
@@ -237,6 +236,23 @@ module.exports = function (app) {
           console.log(schedule);
           res.json(schedule);
         }
+      }
+    );
+  });
+
+  app.post("/api/noduplicateusernames", function (req, res) {
+    db.query(
+      "SELECT user_username FROM MechanicCentreCredentials WHERE ?",
+      { user_username: req.body.username },
+      function (error, results) {
+        if (error) {
+          throw error;
+        } 
+        var searchResult = {usernameAlreadyExists: true};
+        if (results.length === 0) {
+          searchResult.usernameAlreadyExists = false;
+        }
+        res.json(searchResult);
       }
     );
   });
@@ -487,29 +503,35 @@ module.exports = function (app) {
     console.log(req.body.username);
     console.log(req.body.password);
 
-    db.query(
-      "SELECT * FROM MechanicCentres LEFT OUTER JOIN MechanicCentreCredentials ON MechanicCentres.id = MechanicCentreCredentials.mechanic_centre_id WHERE ? AND ?",
-      [
-        {
-          user_username: req.body.username
-        },
-        {
-          user_password: req.body.password
-        }
-      ],
-      function (error, results) {
-        db.query(
-          "SELECT * FROM Appointments WHERE ? ORDER BY appointment_datetime",
+    if (!req.body.username || !req.body.password) {
+      res.send('fail').end();
+    } else {
+
+      db.query(
+        "SELECT * FROM MechanicCentres LEFT OUTER JOIN MechanicCentreCredentials ON MechanicCentres.id = MechanicCentreCredentials.mechanic_centre_id WHERE ? AND ?",
+        [
           {
-            mechanic_centre_id: results[0].mechanic_centre_id
+            user_username: req.body.username
           },
-          function (error, results) {
-            res.json(results);
+          {
+            user_password: req.body.password
           }
-        );
-      }
-    );
+        ],
+        function (error, results) {
+          db.query(
+            "SELECT * FROM Appointments WHERE ? ORDER BY appointment_datetime",
+            {
+              mechanic_centre_id: results[0].mechanic_centre_id
+            },
+            function (error, results) {
+              res.json(results);
+            }
+          );
+        }
+      );
+    }
   });
+  
   // ########################################################################
   // AUTHENTICATED ACTIONS - UPDATING INFORMATION
   // ########################################################################
@@ -552,21 +574,53 @@ module.exports = function (app) {
   });
   // query to UPDATE A SINGLE MECHANIC CENTRE
   app.put("/api/updatemechaniccentre", function (req, res) {
-    console.log(req.body);
+    // console.log(req.body);
     console.log(req.body.username);
     console.log(req.body.password);
     var currDateTime = new moment();
+    var mechanicCentreData = {
+      updatedAt: currDateTime.format("YYYY-MM-DD HH:mm:ss")
+    };
+    if (
+      req.body.name &&
+      req.body.phone &&
+      req.body.email &&
+      req.body.address1 &&
+      req.body.city &&
+      req.body.postcode &&
+      req.body.state &&
+      req.body.mechanicCount
+    ) {
+      mechanicCentreData.centre_name = req.body.name;
+      mechanicCentreData.phone = req.body.phone;
+      mechanicCentreData.email = req.body.email;
+      mechanicCentreData.address_street = req.body.address1;
+      mechanicCentreData.address_city = req.body.city;
+      mechanicCentreData.address_postcode = req.body.postcode;
+      mechanicCentreData.address_state = req.body.state;
+      mechanicCentreData.address_country = "Australia";
+      mechanicCentreData.employee_count = req.body.mechanicCount;
+      // mechanicCentreData.latitude = -27.3818;
+      // mechanicCentreData.longitude = 152.713;
+      console.log(mechanicCentreData);
+    } else {
+      console.log("something missing", typeof req.body.state === "undefined");
+      res.send("fail").end();
+      return;
+    }
+
+
     db.query(
       "SELECT * FROM MechanicCentreCredentials WHERE ? AND ?",
       [
         {
-          user_username: "mark@gmail.com"
+          user_username: req.body.username
         },
         {
-          user_password: "asdf1234"
+          user_password: req.body.password
         }
       ],
-      function (error, result) {
+      function (error, results) {
         if (error) {
           console.log(error);
         }
@@ -574,20 +628,7 @@ module.exports = function (app) {
         db.query(
           "UPDATE MechanicCentres SET ? WHERE ?",
           [
-            {
-              centre_name: "ASDF's auto repairs",
-              phone: "0410500100",
-              email: "ASDF@gmail.com",
-              address_street: "1 E Street",
-              address_city: "Eee City",
-              address_postcode: "2000",
-              address_state: "NSW",
-              address_country: "Australia",
-              latitude: 10.1,
-              longitude: 10.1,
-              employee_count: 3,
-              updatedAt: currDateTime.format("YYYY-MM-DD HH:mm:ss")
-            },
+            mechanicCentreData,
             {
               id: results[0].mechanic_centre_id
             }
@@ -842,7 +883,7 @@ module.exports = function (app) {
         req.body.customerNotes
       ],
       function (err, result) {
-        if (err) { throw err };
+        if (err) { throw err; }
         res.json(result);
       }
     );

@@ -3,7 +3,7 @@
 </nav>
 <div class="container">
     <div class="row">
-        <form class="clearfix mx-auto" action="POST">
+        <form class="mt-5 mb-5 mx-auto p-5 clearfix bg-white rounded" action="POST">
             <div class="form-group">
                 <label for="mechanicShopName">Shop Name</label>
                 <input type="text" class="form-control" id="mechanicShopName"
@@ -14,11 +14,12 @@
                 <input type="number" class="form-control" id="mechanicCount"
                     placeholder="How many mechanics work in your shop?" value=1 min=1>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-0">
                 <label for="mechanicEmail">Email</label>
                 <input type="email" class="form-control" id="mechanicEmail" placeholder="Email">
             </div>
-            <div class="form-group">
+            <p id="errorMessageEmail" class="d-none mb-0 mt-2 small text-danger">This username already exists</p>
+            <div class="form-group mt-3">
                 <label for="mechanicPhone">Phone</label>
                 <input type="tel" class="form-control" id="mechanicPhone" placeholder="Phone Number">
             </div>
@@ -37,10 +38,6 @@
                 <label for="mechanicAddress">Address</label>
                 <input type="text" class="form-control" id="mechanicAddress" placeholder="1234 Main St">
             </div>
-            <div class="form-group">
-                <label for="mechanicAddress2">Address 2</label>
-                <input type="text" class="form-control" id="mechanicAddress2" placeholder="Apartment, studio, or floor">
-            </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="mechanicCity">City</label>
@@ -49,15 +46,15 @@
                 <div class="form-group col-md-4">
                     <label for="mechanicState">State</label>
                     <select id="mechanicState" class="form-control">
-                        <option selected>Choose...</option>
-                        <option>New South Wales</option>
-                        <option>Victoria</option>
-                        <option>Queensland</option>
-                        <option>South Australia</option>
-                        <option>Australian Capital Territory</option>
-                        <option>Tasmania</option>
-                        <option>Northern Territory</option>
-                        <option>Western Australia</option>
+                        <option value="0" selected>Choose...</option>
+                        <option value="NSW">New South Wales</option>
+                        <option value="VIC">Victoria</option>
+                        <option value="QLD">Queensland</option>
+                        <option value="SA">South Australia</option>
+                        <option value="ACT">Australian Capital Territory</option>
+                        <option value="TAS">Tasmania</option>
+                        <option value="NT">Northern Territory</option>
+                        <option value="WA">Western Australia</option>
                     </select>
                 </div>
                 <div class="form-group col-md-2">
