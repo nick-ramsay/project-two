@@ -122,6 +122,7 @@ CREATE TABLE IF NOT EXISTS MechanicCentreServices (
 	id INTEGER AUTO_INCREMENT,
 	mechanic_centre_id INTEGER,
 	service_id INTEGER,
+	available BOOLEAN,
 	createdAt TIMESTAMP,
 	updatedAt TIMESTAMP,
 	PRIMARY KEY (id),
