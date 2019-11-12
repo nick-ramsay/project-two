@@ -97,6 +97,9 @@
         </div>
         <div class="col-md-6" id="scheduleDetails" align="center">
             <h3>Time Slot Details</h3>
+            {{#each appointmentSlots}}
+            <p>{{this.id}}</p>
+            {{/each}}
         </div>
     </div>
 </div>

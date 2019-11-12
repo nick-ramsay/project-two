@@ -2,13 +2,13 @@ var db = require("./connection.js");
 var moment = require("moment");
 var geolib = require("geolib");
 
-module.exports = function(app) {
+module.exports = function (app) {
   // ########################################################################
   // SERVICES
   // ########################################################################
   // query to get ALL SERVICES
-  app.get("/api/services", function(req, res) {
-    db.query("SELECT * FROM Services", function(error, results) {
+  app.get("/api/services", function (req, res) {
+    db.query("SELECT * FROM Services", function (error, results) {
       res.json(results);
     });
   });
@@ -26,13 +26,13 @@ module.exports = function(app) {
   //   );
   // });
   // query to get A SINGLE MECAHNIC CENTRE'S SERVICES
-  app.get("/api/mechaniccentreservices/:mechaniccentreid", function(req, res) {
+  app.get("/api/mechaniccentreservices/:mechaniccentreid", function (req, res) {
     db.query(
       "SELECT * FROM MechanicCentreServices JOIN Services ON MechanicCentreServices.service_id = Services.id WHERE ?",
       {
         mechanic_centre_id: req.params.mechaniccentreid
       },
-      function(error, results) {
+      function (error, results) {
         res.json(results);
       }
     );
@@ -58,7 +58,7 @@ module.exports = function(app) {
   //   );
   // });
   // query to get SINGLE MECHANIC CENTRE and THEIR ORDINARY HOURS
-  app.get("/api/mechaniccentresandordinaryhours/:mechaniccentreid", function(
+  app.get("/api/mechaniccentresandordinaryhours/:mechaniccentreid", function (
     req,
     res
   ) {
@@ -67,13 +67,13 @@ module.exports = function(app) {
       {
         mechanic_centre_id: req.params.mechaniccentreid
       },
-      function(error, results) {
+      function (error, results) {
         res.json(results);
       }
     );
   });
   // query to CREATE A NEW MECHANIC CENTRE
-  app.post("/api/mechaniccentres", function(req, res) {
+  app.post("/api/mechaniccentres", function (req, res) {
     // console.log(req.body);
     var currDateTime = new moment();
     var mechanicCentreData = {
@@ -127,7 +127,7 @@ module.exports = function(app) {
     };
     // var mechanicCentreServicesArr = {};
 
-    db.query("INSERT INTO MechanicCentres SET ?", mechanicCentreData, function(
+    db.query("INSERT INTO MechanicCentres SET ?", mechanicCentreData, function (
       error,
       results
     ) {
@@ -139,7 +139,7 @@ module.exports = function(app) {
       db.query(
         "INSERT INTO MechanicCentreCredentials SET ?",
         mechanicCentreCredentialsData,
-        function(error, results) {
+        function (error, results) {
           if (error) {
             console.log(error);
           }
@@ -166,7 +166,7 @@ module.exports = function(app) {
           sun_start: "00:00:00",
           sun_end: "00:00:00"
         },
-        function(error, results) {
+        function (error, results) {
           if (error) {
             console.log(error);
           }
@@ -177,7 +177,7 @@ module.exports = function(app) {
       var queryStr =
         "INSERT INTO MechanicCentreServices (mechanic_centre_id, service_id, createdAt, updatedAt) VALUES ";
       var servicesArr = [1, 2, 3, 4, 5];
-      servicesArr.forEach(function(curr, i, arr) {
+      servicesArr.forEach(function (curr, i, arr) {
         var str =
           "(" +
           results.insertId +
@@ -193,7 +193,7 @@ module.exports = function(app) {
           queryStr += ",";
         }
       });
-      db.query(queryStr, function(error, results) {
+      db.query(queryStr, function (error, results) {
         if (error) {
           console.log(error);
         }
@@ -216,12 +216,12 @@ module.exports = function(app) {
   //   });
   // });
   // query to CHECK AGAINST EXISTING USERNAMES
-  app.post("/api/checkifusernameexists", function(req, res) {
+  app.post("/api/checkifusernameexists", function (req, res) {
     console.log(req.body.username);
     db.query(
       "SELECT user_username FROM MechanicCentreCredentials WHERE ?",
       { user_username: "rob@gmail.com" },
-      function(error, results) {
+      function (error, results) {
         if (error) {
           throw error;
         } else {
@@ -286,7 +286,7 @@ module.exports = function(app) {
   //   });
   // });
   // query to get SINGLE MECHANIC CENTRE ORDINARY HOURS
-  app.get("/api/mechaniccentreordinaryhours/:mechaniccentreid", function(
+  app.get("/api/mechaniccentreordinaryhours/:mechaniccentreid", function (
     req,
     res
   ) {
@@ -296,7 +296,69 @@ module.exports = function(app) {
         mechanic_centre_id: req.params.mechaniccentreid
       },
       function(error, results) {
-        res.json(results);
+        var scheduleDate = moment();
+        var currentDOW = scheduleDate.day();
+        var openingTime;
+        var closingTime;
+
+        switch (currentDOW) {
+          case 0:
+            openingTime = results[0].sun_start;
+            closingTime = results[0].sun_end;
+            break;
+          case 1:
+            openingTime = results[0].mon_start;
+            closingTime = results[0].mon_end;
+            break;
+          case 2:
+            openingTime = results[0].tue_start;
+            closingTime = results[0].tue_end;
+            break;
+          case 3:
+            openingTime = results[0].wed_start;
+            closingTime = results[0].wed_end;
+            break;
+          case 4:
+            openingTime = results[0].thu_start;
+            closingTime = results[0].thu_end;
+            break;
+          case 5:
+            openingTime = results[0].fri_start;
+            closingTime = results[0].fri_end;
+            break;
+          case 6:
+            openingTime = results[0].sat_start;
+            closingTime = results[0].sat_end;
+            break;
+        }
+        console.log(openingTime);
+        console.log(closingTime);
+
+        var dailyHours = moment(closingTime,"HH:mm:ss").diff(moment(openingTime,"HH:mm:ss"),"minutes");
+        var slotCount = dailyHours/30;
+        console.log(slotCount);
+
+        var appointmentSlots = [];
+        var slotStart = moment(openingTime,"HH:mm:ss").format("HH:mm:ss");
+        var slotEnd = moment(openingTime,"HH:mm:ss").add(30,"minutes").format("HH:mm:ss");
+        console.log(slotStart);
+        console.log(slotEnd);
+
+        for(i = 0; i < slotCount; i++) {
+          var currentSlot = {
+            slotID: i,
+            slotDate: scheduleDate.format("YYYY-MM-DD"),
+            startTime: slotStart,
+            endTime: slotEnd
+          };
+          appointmentSlots.push(currentSlot);
+          slotStart = moment(slotStart,"HH:mm:ss").add(30,"minutes").format("HH:mm:ss");
+          slotEnd = moment(slotEnd,"HH:mm:ss").add(30,"minutes").format("HH:mm:ss");
+        };
+
+        console.log(appointmentSlots);
+
+        res.json(appointmentSlots);
       }
     );
   });
@@ -311,14 +373,14 @@ module.exports = function(app) {
   //   });
   // });
   // query to get SINGLE APPOINTMENT DETAILS
-  app.get("/api/appointments/customer/:appointmentid", function(req, res) {
+  app.get("/api/appointments/customer/:appointmentid", function (req, res) {
     var appointmentid = "00000001";
     appointmentid = parseInt(appointmentid, 10);
     db.query(
       "SELECT * FROM Appointments WHERE ?",
       // { id: req.params.appointmentid },
       { id: appointmentid },
-      function(error, results) {
+      function (error, results) {
         res.json(results);
       }
     );
@@ -326,20 +388,20 @@ module.exports = function(app) {
   // query to get APPOINTMENT COUNT by MECHANIC CENTRE ID
   // // SELECT appointment_date, appointment_time, appointment_datetime, count(appointment_datetime) FROM Appointments WHERE mechanic_centre_id = 4 GROUP BY appointment_date, appointment_time, appointment_datetime ORDER BY appointment_datetime;
   // // SELECT appointment_datetime, count(appointment_datetime) FROM Appointments WHERE mechanic_centre_id = 4 GROUP BY appointment_datetime ORDER BY appointment_datetime;
-  app.get("/api/appointmentscounttoday/:mechaniccentreid", function(req, res) {
+  app.get("/api/appointmentscounttoday/:mechaniccentreid", function (req, res) {
     db.query(
       "SELECT appointment_datetime, count(appointment_datetime) AS count FROM Appointments WHERE ? GROUP BY appointment_datetime ORDER BY appointment_datetime",
       // "SELECT appointment_date, appointment_time, appointment_datetime, count(appointment_datetime) AS count FROM Appointments WHERE ? GROUP BY appointment_date, appointment_time, appointment_datetime ORDER BY appointment_datetime",
       {
         mechanic_centre_id: req.params.mechaniccentreid
       },
-      function(error, results) {
+      function (error, results) {
         console.log(JSON.stringify(results, null, 2));
         res.json(results);
       }
     );
   });
-  app.get("/api/appointmentscount/:mechaniccentreid", function(req, res) {
+  app.get("/api/appointmentscount/:mechaniccentreid", function (req, res) {
     var curr = new moment();
     var currDateTime = new moment(curr.format("YYYY-MM-DD")).add(2, "days");
     console.log(currDateTime.format("YYYY-MM-DD 00:00:01"));
@@ -353,14 +415,14 @@ module.exports = function(app) {
         currDateTime.format("YYYY-MM-DDT00:00:01.000Z")
         // currDateTime.format("YYYY-MM-DD 00:00:00") // this is today midnight
       ],
-      function(error, results) {
+      function (error, results) {
         console.log(JSON.stringify(results, null, 2));
         res.json(results);
       }
     );
   });
   // query to CREATE A NEW APPOINTMENTS
-  app.post("/api/appointments", function(req, res) {
+  app.post("/api/appointments", function (req, res) {
     console.log(req.body);
     var currDateTime = new moment();
     db.query(
@@ -380,7 +442,7 @@ module.exports = function(app) {
         createdAt: currDateTime.format("YYYY-MM-DD HH:mm:ss"),
         updatedAt: currDateTime.format("YYYY-MM-DD HH:mm:ss")
       },
-      function(error, results) {
+      function (error, results) {
         res.json(results);
       }
     );
@@ -397,7 +459,7 @@ module.exports = function(app) {
   // AUTHENTICATED ACTIONS - LOGIN
   // ########################################################################
   // query to get AUTHENTICATED ACCESS TO MECHANIC CENTRE DASHBOARD
-  app.post("/api/login", function(req, res) {
+  app.post("/api/login", function (req, res) {
     console.log(req.body.username);
     console.log(req.body.password);
 
@@ -411,7 +473,7 @@ module.exports = function(app) {
           user_password: "asdf1234"
         }
       ],
-      function(error, results) {
+      function (error, results) {
         res.json(results);
       }
     );
@@ -420,7 +482,7 @@ module.exports = function(app) {
   // AUTHENTICATED ACTIONS - VIEWING INFORMATION
   // ########################################################################
   // query to get AUTHENTICATED ACCESS TO MECHANIC CENTRE DASHBOARD
-  app.post("/api/viewmechaniccentreappointments", function(req, res) {
+  app.post("/api/viewmechaniccentreappointments", function (req, res) {
     console.log(req.body.username);
     console.log(req.body.password);
 
@@ -434,13 +496,13 @@ module.exports = function(app) {
           user_password: "asdf1234"
         }
       ],
-      function(error, results) {
+      function (error, results) {
         db.query(
           "SELECT * FROM Appointments WHERE ? ORDER BY appointment_datetime",
           {
             mechanic_centre_id: results[0].mechanic_centre_id
           },
-          function(error, results) {
+          function (error, results) {
             res.json(results);
           }
         );
@@ -450,7 +512,7 @@ module.exports = function(app) {
   // ########################################################################
   // AUTHENTICATED ACTIONS - UPDATING INFORMATION
   // ########################################################################
-  app.put("/api/changepassword", function(req, res) {
+  app.put("/api/changepassword", function (req, res) {
     // app.post("/api/login", function(req, res) {
     console.log(req.body.username);
     console.log(req.body.password);
@@ -466,7 +528,7 @@ module.exports = function(app) {
           user_password: "asdf1234"
         }
       ],
-      function(error, results) {
+      function (error, results) {
         console.log(results);
         console.log(results[0].mechanic_centre_id);
         db.query(
@@ -480,7 +542,7 @@ module.exports = function(app) {
               mechanic_centre_id: results[0].mechanic_centre_id
             }
           ],
-          function(error, results) {
+          function (error, results) {
             res.json(results);
           }
         );
@@ -488,7 +550,7 @@ module.exports = function(app) {
     );
   });
   // query to UPDATE A SINGLE MECHANIC CENTRE
-  app.put("/api/updatemechaniccentre", function(req, res) {
+  app.put("/api/updatemechaniccentre", function (req, res) {
     console.log(req.body);
     console.log(req.body.username);
     console.log(req.body.password);
@@ -503,7 +565,7 @@ module.exports = function(app) {
           user_password: "asdf1234"
         }
       ],
-      function(error, results) {
+      function (error, results) {
         if (error) {
           console.log(error);
         }
@@ -529,7 +591,7 @@ module.exports = function(app) {
               id: results[0].mechanic_centre_id
             }
           ],
-          function(error, results) {
+          function (error, results) {
             res.json(results);
           }
         );
@@ -537,7 +599,7 @@ module.exports = function(app) {
     );
   });
   // query to UPDATE A SINGLE MECHANIC CENTRE HOURS
-  app.put("/api/updatemechaniccentreordinaryhours", function(req, res) {
+  app.put("/api/updatemechaniccentreordinaryhours", function (req, res) {
     console.log(req.body);
     console.log(req.body.username);
     console.log(req.body.password);
@@ -552,7 +614,7 @@ module.exports = function(app) {
           user_password: "asdf1234"
         }
       ],
-      function(error, results) {
+      function (error, results) {
         if (error) {
           console.log(error);
         }
@@ -582,7 +644,7 @@ module.exports = function(app) {
               mechanic_centre_id: results[0].mechanic_centre_id
             }
           ],
-          function(error, results) {
+          function (error, results) {
             res.json(results);
           }
         );
@@ -590,7 +652,7 @@ module.exports = function(app) {
     );
   });
   // query to DELETE SERVICES FROM A SINGLE MECHANIC CENTRE
-  app.put("/api/deletemechaniccentreservices", function(req, res) {
+  app.put("/api/deletemechaniccentreservices", function (req, res) {
     console.log(req.body);
     console.log(req.body.username);
     console.log(req.body.password);
@@ -604,7 +666,7 @@ module.exports = function(app) {
           user_password: "asdf1234"
         }
       ],
-      function(error, results) {
+      function (error, results) {
         if (error) {
           console.log(error);
         }
@@ -615,7 +677,7 @@ module.exports = function(app) {
         if (deleteServicesArr.length !== 0) {
           var queryStr = "DELETE FROM MechanicCentreServices WHERE";
 
-          deleteServicesArr.forEach(function(curr, i, arr) {
+          deleteServicesArr.forEach(function (curr, i, arr) {
             var str = " ? AND" + " service_id = " + curr;
             if (i !== arr.length - 1) {
               str += " OR";
@@ -625,7 +687,7 @@ module.exports = function(app) {
               mechanic_centre_id: results[0].mechanic_centre_id
             });
           });
-          db.query(queryStr, mechanicArr, function(error, results) {
+          db.query(queryStr, mechanicArr, function (error, results) {
             res.json(results);
           });
         }
@@ -633,7 +695,7 @@ module.exports = function(app) {
     );
   });
   // query to INSERT SERVICES FOR A SINGLE MECHANIC CENTRE
-  app.post("/api/createmechaniccentreservices", function(req, res) {
+  app.post("/api/createmechaniccentreservices", function (req, res) {
     console.log(req.body);
     console.log(req.body.username);
     console.log(req.body.password);
@@ -647,7 +709,7 @@ module.exports = function(app) {
           user_password: "asdf1234"
         }
       ],
-      function(error, results) {
+      function (error, results) {
         if (error) {
           console.log(error);
         }
@@ -659,7 +721,7 @@ module.exports = function(app) {
           var queryStr =
             "INSERT INTO MechanicCentreServices (mechanic_centre_id, service_id, createdAt, updatedAt) VALUES";
 
-          insertServicesArr.forEach(function(curr, i, arr) {
+          insertServicesArr.forEach(function (curr, i, arr) {
             var str =
               " (" +
               results[0].mechanic_centre_id +
@@ -675,7 +737,7 @@ module.exports = function(app) {
             }
             queryStr += str;
           });
-          db.query(queryStr, function(error, results) {
+          db.query(queryStr, function (error, results) {
             res.json(results);
           });
         }
@@ -699,7 +761,7 @@ module.exports = function(app) {
   // CUSTOM QUERIES
   // ########################################################################
   // query to get MECHANICS THAT PROVIDE A SPECIFIC SERVICES AND WITHIN SPECIFIC RANGE
-  app.get("/api/mechaniccentresfilter", function(req, res) {
+  app.get("/api/mechaniccentresfilter", function (req, res) {
     var townhallstationposition = {
       latitude: -33.873539,
       longitude: 151.2047353
@@ -720,15 +782,15 @@ module.exports = function(app) {
 
     db.query(
       "SELECT * FROM Services" +
-        " LEFT OUTER JOIN MechanicCentreServices ON Services.id = MechanicCentreServices.service_id" +
-        " LEFT OUTER JOIN MechanicCentres ON MechanicCentreServices.mechanic_centre_id = MechanicCentres.id" +
-        " LEFT OUTER JOIN MechanicCentreOrdinaryHours ON MechanicCentres.id = MechanicCentreOrdinaryHours.mechanic_centre_id" +
-        " WHERE ?",
+      " LEFT OUTER JOIN MechanicCentreServices ON Services.id = MechanicCentreServices.service_id" +
+      " LEFT OUTER JOIN MechanicCentres ON MechanicCentreServices.mechanic_centre_id = MechanicCentres.id" +
+      " LEFT OUTER JOIN MechanicCentreOrdinaryHours ON MechanicCentres.id = MechanicCentreOrdinaryHours.mechanic_centre_id" +
+      " WHERE ?",
       {
         "Services.service_name": servicename
       },
-      function(error, results) {
-        var mechanicCentresArr = results.filter(function(curr) {
+      function (error, results) {
+        var mechanicCentresArr = results.filter(function (curr) {
           var distance = geolib.getDistance(userPosition, {
             latitude: curr.latitude,
             longitude: curr.longitude
@@ -743,7 +805,7 @@ module.exports = function(app) {
       }
     );
   });
-  app.get("/api/calcdist", function(req, res) {
+  app.get("/api/calcdist", function (req, res) {
     var townhallstationposition = {
       latitude: -33.873539,
       longitude: 151.2047353
