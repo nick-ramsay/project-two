@@ -11,6 +11,24 @@
                         <h1>{{id}}</h1>
                     <form>
                         <input name="id" type="hidden" value="{{id}}">
+                        <select>
+                            <option>Select a mechanic</option>
+                            {{#each mechanics}}
+                                <option value="{{id}}">{{name}}</option>
+                            {{/each}}
+                        </select>
+                        <select>
+                            <option>Select a service</option>
+                            {{#each services}}
+                                <option value="{{id}}">{{service_name}}</option>
+                            {{/each}}
+                        </select>
+                        <select>
+                            <option>Select a centre</option>
+                            {{#each centers}}
+                                <option value="{{id}}">{{centre_name}}</option>
+                            {{/each}}
+                        </select>
                         <button class="btn btn-primary mechButton">SUBMIT</button>
                     </form>
                 </div>

@@ -1,3 +1,5 @@
+var db = require("./connection.js");
+
 module.exports = function (app) {
   // Load index page
   app.get("/", function (req, res) {
@@ -26,11 +28,18 @@ module.exports = function (app) {
 
   //server gives recommended mechanics
   app.get("/recmechanic/:id", function (req, res) {
-    res.render("mechanicdetails", {
-      id: req.params.id, 
-      mechanic: mechaniccentreservices.mechanic_centre_id,
-      services: mechaniccentreservices.service_id,
-      mechaniccenter: mechaniccentres.centre_name
+    
+    db.query('SELECT * FROM automender.mechanics; SELECT * FROM automender.services; SELECT * FROM automender.mechaniccentres;',
+      function (err, results, fields) {
+        console.log(results);
+        // console.log(fields);
+      
+          res.render("mechanicdetails", {
+            id: req.params.id, 
+            mechanics: results[0],
+            services: results[1],
+            centers: results[2]
+          });
     });
   });
 

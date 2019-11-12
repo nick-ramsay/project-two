@@ -194,20 +194,19 @@ module.exports = function (app) {
       }
     );
   });
+  
+  app.put("/api/formrequests", function (req, res) {
+    db.query("UPDATE WHERE... INTO appointments SET phone = ?, email = ?, car_brand = ?, car_model = ?, car_plate = ?, additional_notes = ?",
+      [
+        req.body.id,
+  
+      ],
+      function (err, result) {
+        if (err) { throw err };
+        console.log(result)
+        res.json(result);
+      }
+    );
+  });
 };
 
-
-app.put("/api/formrequests", function (req, res) {
-  db.query("UPDATE WHERE... INTO appointments SET phone = ?, email = ?, car_brand = ?, car_model = ?, car_plate = ?, additional_notes = ?",
-    [
-      req.body.id,
-
-    ],
-    function (err, result) {
-      if (err) { throw err };
-      console.log(result)
-      res.json(result);
-    }
-  );
-});
-};
