@@ -566,7 +566,7 @@ module.exports = function (app) {
           user_password: "asdf1234"
         }
       ],
-      function (error, results) {
+      function (error, result) {
         if (error) {
           console.log(error);
         }
@@ -822,6 +822,30 @@ module.exports = function (app) {
     res.json({
       distance: distance
     });
+  });
+
+  app.get("/api/formrequests", function (req, res) {
+    db.query("SELECT * FROM Appointments", function (error, results) {
+      res.json(results);
+    });
+  });
+
+  app.post("/api/formrequests", function (req, res) {
+    db.query("INSERT INTO appointments SET phone = ?, email = ?, car_brand = ?, car_model = ?, car_plate = ?, additional_notes = ?",
+      [
+        req.body.customerEmail,
+        req.body.customerPhone,
+        req.body.carMake,
+        req.body.carModel,
+        req.body.carPlate,
+        req.body.serviceRequest,
+        req.body.customerNotes
+      ],
+      function (err, result) {
+        if (err) { throw err };
+        res.json(result);
+      }
+    );
   });
 };
 
