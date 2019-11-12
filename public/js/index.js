@@ -1,15 +1,15 @@
 var $createNewAccount = $("#createNewAccountBtn");
 var $updateAccount = $("#updateAccountBtn");
 
-$(".timeslot").on("click", function () {
+$(".timeslot").on("click", function() {
   console.log("Test");
-  var date = $("#selectedMechanicDate").val()
+  var date = $("#selectedMechanicDate").val();
   var time = $(this).attr("data-time");
   console.log(date);
   console.log(time);
 });
 
-$(".mechanicBtn").on("click", function () {
+$(".mechanicBtn").on("click", function() {
   window.location.href = "login";
 });
 
@@ -23,22 +23,16 @@ var $exampleList = $("#example-list");
 var API = {
   createAccount: function(newAccount) {
     return $.ajax({
-      headers: {
-        "Content-Type": "application/json"
-      },
       type: "POST",
       url: "/api/mechaniccentres",
-      data: JSON.stringify(newAccount)
+      data: newAccount
     });
   },
   updateAccount: function(updateAccount) {
     return $.ajax({
-      headers: {
-        "Content-Type": "application/json"
-      },
       type: "PUT",
-      url: "/api/mechaniccentres/" + updateAccount.id,
-      data: JSON.stringify(updateAccount)
+      url: "/api/updatemechaniccentre/",
+      data: updateAccount
     });
   },
   createAppointment: function(createAppointment) {
@@ -110,24 +104,56 @@ var handleCreateAccountSubmit = function(event) {
   event.preventDefault();
 
   var newAccount = {
-    name: $("#mechanicShopName").val().trim(),
+    name: $("#mechanicShopName")
+      .val()
+      .trim(),
     mechanicCount: $("#mechanicCount").val(),
-    email: $("#mechanicEmail").val().trim(),
-    phone: $("#mechanicPhone").val().trim(),
-    password: $("#newMechanicPW").val().trim(),
-    confirmPassword: $("#newMechanicPWConfirm").val().trim(),
-    address1: $("#mechanicAddress").val().trim(),
-    address2: $("#mechanicAddress2").val().trim(),
-    city: $("#mechanicCity").val().trim(),
-    state: $("#mechanicState").val().trim(),
-    postcode: $("#mechanicPostcode").val().trim()
+    email: $("#mechanicEmail")
+      .val()
+      .trim(),
+    phone: $("#mechanicPhone")
+      .val()
+      .trim(),
+    password: $("#newMechanicPW")
+      .val()
+      .trim(),
+    confirmPassword: $("#newMechanicPWConfirm")
+      .val()
+      .trim(),
+    address1: $("#mechanicAddress")
+      .val()
+      .trim(),
+    address2: $("#mechanicAddress2")
+      .val()
+      .trim(),
+    city: $("#mechanicCity")
+      .val()
+      .trim(),
+    state: $("#mechanicState")
+      .val()
+      .trim(),
+    postcode: $("#mechanicPostcode")
+      .val()
+      .trim()
   };
 
-  if (!newAccount.name || !newAccount.mechanicCount || !newAccount.email || !newAccount.phone || !newAccount.password || !newAccount.confirmPassword || !newAccount.address1 || !newAccount.city || !newAccount.postcode || !newAccount.state || newAccount.state === "Choose...") {
+  if (
+    !newAccount.name ||
+    !newAccount.mechanicCount ||
+    !newAccount.email ||
+    !newAccount.phone ||
+    !newAccount.password ||
+    !newAccount.confirmPassword ||
+    !newAccount.address1 ||
+    !newAccount.city ||
+    !newAccount.postcode ||
+    !newAccount.state ||
+    newAccount.state === "Choose..."
+  ) {
     alert("You haven't completed all the fields");
     return;
   } else if (newAccount.mechanicCount < 1) {
-    alert("Mechanic count must be at least 1")
+    alert("Mechanic count must be at least 1");
     return;
   } else if (newAccount.password !== newAccount.confirmPassword) {
     alert("Passwords don't match. Please enter new password.");
@@ -135,12 +161,12 @@ var handleCreateAccountSubmit = function(event) {
     $("#newMechanicPWConfirm").val("");
     return;
   }
-
-  API.createAccount(newAccount).then(function () {
+  console.log(newAccount);
+  API.createAccount(newAccount).then(function() {
     console.log("createAccount response received");
   });
 
-  window.location.href = "schedule";
+  // window.location.href = "schedule";
 };
 
 var handleUpdateAccountSubmit = function(event) {
@@ -148,18 +174,44 @@ var handleUpdateAccountSubmit = function(event) {
 
   var updateAccount = {
     id: $("#updateAccountForm").attr("data-accountID"),
-    name: $("#updateMechanicShopName").val().trim(),
+    name: $("#updateMechanicShopName")
+      .val()
+      .trim(),
     mechanicCount: $("#updateMechanicCount").val(),
-    email: $("#updateMechanicEmail").val().trim(),
-    phone: $("#updateMechanicPhone").val().trim(),
-    address1: $("#updateMechanicAddress").val().trim(),
-    address2: $("#updateMechanicAddress2").val().trim(),
-    city: $("#updateMechanicCity").val().trim(),
-    state: $("#updateMechanicState").val().trim(),
-    postcode: $("#updateMechanicPostcode").val().trim()
+    email: $("#updateMechanicEmail")
+      .val()
+      .trim(),
+    phone: $("#updateMechanicPhone")
+      .val()
+      .trim(),
+    address1: $("#updateMechanicAddress")
+      .val()
+      .trim(),
+    address2: $("#updateMechanicAddress2")
+      .val()
+      .trim(),
+    city: $("#updateMechanicCity")
+      .val()
+      .trim(),
+    state: $("#updateMechanicState")
+      .val()
+      .trim(),
+    postcode: $("#updateMechanicPostcode")
+      .val()
+      .trim()
   };
 
-  if (!updateAccount.name || !updateAccount.mechanicCount || !updateAccount.email || !updateAccount.phone || !updateAccount.address1 || !updateAccount.city || !updateAccount.postcode || !updateAccount.state || updateAccount.state === "Choose...") {
+  if (
+    !updateAccount.name ||
+    !updateAccount.mechanicCount ||
+    !updateAccount.email ||
+    !updateAccount.phone ||
+    !updateAccount.address1 ||
+    !updateAccount.city ||
+    !updateAccount.postcode ||
+    !updateAccount.state ||
+    updateAccount.state === "Choose..."
+  ) {
     alert("You haven't completed all the fields");
     return;
   } else if (updateAccount.mechanicCount < 1) {
