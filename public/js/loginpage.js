@@ -29,6 +29,7 @@ $("#mechanicLoginForm").on("submit", function(e) {
         //   "localStorage",
         //   JSON.parse(localStorage.getItem("credentials"))
         // );
+        window.location.replace("/schedule");
       } else {
         console.log("no matches found");
         $("#outcomeMessage").removeClass("d-none");
@@ -47,11 +48,11 @@ $("#mechanicLoginForm").on("submit", function(e) {
 
 $("#mechanicUsername, #mechanicPassword").on("input", function() {
   switch ($(this).attr("id")) {
-    case "mechanicUsername":
-      $("#mechanicUsername").removeClass("border-danger");
-      break;
-    case "mechanicPassword":
-      $("#mechanicPassword").removeClass("border-danger");
-      break;
+  case "mechanicUsername":
+    $("#mechanicUsername").removeClass("border-danger");
+    break;
+  case "mechanicPassword":
+    $("#mechanicPassword").removeClass("border-danger");
+    break;
   }
 });
