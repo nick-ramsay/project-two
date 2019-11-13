@@ -243,22 +243,22 @@ module.exports = function (app) {
   //   });
   // });
   // query to get SINGLE MECHANIC CENTRE ORDINARY HOURS
-  app.get("/api/mechaniccentreordinaryhours/:mechaniccentreid", function (
+  app.get("/api/mechaniccentreordinaryhours/:mechaniccentreid/:scheduledate", function (
     req,
     res
   ) {
     db.MechanicCentreOrdinaryHour.findAll({
       where: {
         mechanic_centre_id: req.params.mechaniccentreid
-      }
-    }).then(function (results) {
-      console.log(req.params.scheduledate);
-      var scheduleDate = moment();
-      var currentDOW = scheduleDate.day();
-      var openingTime;
-      var closingTime;
+      },
+      function(error, results) {
+        console.log(req.params.scheduledate);
+        var scheduleDate = moment(req.params.scheduledate,"YYYY-MM-DD");
+        var currentDOW = scheduleDate.day();
+        var openingTime;
+        var closingTime;
 
-      switch (currentDOW) {
+        switch (currentDOW) {
         case 0:
           openingTime = results[0].sun_start;
           closingTime = results[0].sun_end;
@@ -744,8 +744,7 @@ module.exports = function (app) {
       res.json(mechanicCentresArr);
     });
   });
-
-
+//FORM STUFF
   app.get("/api/formrequests", function (req, res) {
     db.Appointment.findAll().then(function (results) {
       res.json(results);
@@ -768,5 +767,18 @@ module.exports = function (app) {
     }).then(function (results) {
       res.json(results);
     });
+  });
+//MECHANIC STUFF
+  app.put("/api/formrequests", function (req, res) {
+    db.query("UPDATE WHERE... INTO appointments SET phone = ?, email = ?, car_brand = ?, car_model = ?, car_plate = ?, additional_notes = ?",
+      [
+        req.body.id,
+      ],
+      function (err, result) {
+        if (err) { throw err };
+        console.log(result)
+        res.json(result);
+      }
+    );
   });
 };
