@@ -28,19 +28,10 @@ module.exports = function (app) {
 
   //server gives recommended mechanics
   app.get("/recmechanic/:id", function (req, res) {
-    db.query('SELECT * FROM automender.mechanics; SELECT * FROM automender.services; SELECT * FROM automender.mechaniccentres;',
-      function (err, results, fields) {
-        console.log(results);
-        // console.log(fields);
-        res.render("mechanicdetails", {
-          id: req.params.id,
-          mechanics: results[0],
-          services: results[1],
-          centers: results[2]
-        });
-      });
+    res.render("mechanicdetails");
   });
-//page after submitting service request with details
+
+  //page after submitting service request with details
   app.get("/done", function (req, res) {
     res.render("servicesubmitted");
   });
@@ -55,6 +46,19 @@ module.exports = function (app) {
     res.render("404");
   });
 };
+
+    /*db.query('SELECT * FROM automender.mechanics; SELECT * FROM automender.services; SELECT * FROM automender.mechaniccentres;',
+      function (err, results, fields) {
+        console.log(results);
+        // console.log(fields);
+        res.render("mechanicdetails", {
+          id: req.params.id,
+          mechanics: results[0],
+          services: results[1],
+          centers: results[2]
+        });
+      });
+  });*/
 
 // module.exports = function(app) {
 //   // Load index page

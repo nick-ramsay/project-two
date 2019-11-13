@@ -13,21 +13,21 @@
                         <input name="id" type="hidden" value="{{id}}">
 
                         <select>
-                            <option>Select a mechanic</option>
+                            <option name="chosenMechanic">Select a mechanic</option>
                             {{#each mechanics}}
                             <option value="{{id}}">{{name}}</option>
                             {{/each}}
                         </select>
                         <select>
-                            <option>Select a service</option>
-                            {{#each services}}
-                            <option name="serviceName" value="{{id}}">{{service_name}}</option>
+                            <option>Select a date</option>
+                            {{#each centers}}
+                            <option name="customerDate" value="{{id}}">{{centre_name}}</option>
                             {{/each}}
                         </select>
                         <select>
-                            <option>Select a centre</option>
+                            <option>Select a time</option>
                             {{#each centers}}
-                            <option name="centreName" value="{{id}}">{{centre_name}}</option>
+                            <option name="customerTime" value="{{id}}">{{centre_name}}</option>
                             {{/each}}
                         </select>
                         <button class="btn btn-primary mechButton">SUBMIT</button>

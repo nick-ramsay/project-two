@@ -53,19 +53,19 @@
                             <textarea class="form-control" id="carPlate" name="carPlate"
                                 placeholder="Name as shown on your license"></textarea>
                         </div>
-                        {{!
+                        
                         <div class="form-group">
                             <label for="serviceRequest">
                                 <label for="serviceRequest">SERVICES NEEDED</label>
                                 <select class="form-control" id="serviceRequest" name="serviceRequest">
-                                    <option>1 Wheel Alignment</option>
-                                    <option>2 Type Replacement</option>
-                                    <option>3 Battery Replacement</option>
-                                    <option>4 Servicing</option>
-                                    <option>5 Window Tinting</option>
+                                    {{!<option name="1">1 Wheel Alignment</option>
+                                    <option name="2">2 Type Replacement</option>
+                                    <option name="3">3 Battery Replacement</option>
+                                    <option name="4">4 Servicing</option>
+                                    <option name="5">5 Window Tinting</option>}}
                                 </select>
                         </div>
-                        }}
+                
 
                         <div class="form-group">
                             <label for="customerNotes">ADDITIONAL NOTES</label>
@@ -74,7 +74,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <button type="submit" class="btn btn-primary">SUBMIT</button>
+                    <a href="#" type="submit" class="btn btn-primary">SUBMIT</button>
                 </div>
             </form>
         </div>
