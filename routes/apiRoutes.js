@@ -781,31 +781,34 @@ module.exports = function (app) {
     });
   });
 
-  app.get("/api/mmechanicrequests/:id", function (req, res) {
+  app.get("/api/mechanicrequests/", function (req, res) {
     db.Appointment.findAll({
-      where: {
-        id: req.params.id
-      },
       include: [
         {
-          model: db.services_table, 
-          model: db.mechaniccentres 
+          model: db.services_table,
+          model: db.mechaniccentres
         }
-        ]
+      ]
     }).then(function (result) {
       console.log(result);
       res.json(result);
     });
   });
+
   app.post("/api/mechanicrequests/:id", function (req, res) {
     db.Appointment.update({
-      mechanic_centre_id: req.body.chosenMechanic,
-      appointment_date: req.body.customerDate,
-      appointment_time: req.body.customerTime
-    }).then(function (results) {
-      console.log(results);
-      res.json(results);
-    });
+      where: {
+        id: req.params.id
+      }
+    },
+      {
+        mechanic_centre_id: req.body.chosenMechanic,
+        appointment_date: req.body.customerDate,
+        appointment_time: req.body.customerTime
+      }).then(function (results) {
+        console.log(results);
+        res.json(results);
+      });
   });
 
   /*

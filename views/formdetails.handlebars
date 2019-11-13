@@ -1,10 +1,10 @@
 {{!navbar}}
 <div class="brokenDeets">
-    <nav class="navbar container-fluid text-center sticky-top">
-        <span class="navbar-brand mb-0 h1 col-md-4 offset-md-4">
-            <h1>AUTOMENDER</h1>
-        </span>
-    </nav>
+  <nav class="navbar container-fluid text-center sticky-top">
+    <span class="navbar-brand mb-0 h1 col-md-4 offset-md-4">
+      <a href="/"><h1><u>AUTOMENDER</u></h1></a>
+    </span>
+  </nav>
     {{!form}}
     <div class="background">
         <div class="card col-8 offset-2">
@@ -58,11 +58,10 @@
                             <label for="serviceRequest">
                                 <label for="serviceRequest">SERVICES NEEDED</label>
                                 <select class="form-control" id="serviceRequest" name="serviceRequest">
-                                    {{!<option name="1">1 Wheel Alignment</option>
-                                    <option name="2">2 Type Replacement</option>
-                                    <option name="3">3 Battery Replacement</option>
-                                    <option name="4">4 Servicing</option>
-                                    <option name="5">5 Window Tinting</option>}}
+                                    <option name="chosenMechanic">Select a service</option>
+                                    {{#each service_name}}
+                                    <option value="{{id}}">{{service_name}}</option>
+                                    {{/each}}
                                 </select>
                         </div>
                 

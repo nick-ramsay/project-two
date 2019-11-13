@@ -9,9 +9,37 @@ body{
   background-attachment: fixed;
 }
 
+.navbar {
+  background: #171616;
+  height: 10%;
+}
+
 h1 {
   font-family: 'Montserrat Subrayada', sans-serif;
   margin: 0 auto;
+}
+
+u {
+  color: #E6E6E6;
+}
+
+u:hover {
+  color: #FFFFFF;
+}
+
+.btn-lg {
+  color: #707070;
+  background-color: #141414;
+}
+
+.btn-lg:hover {
+  color: #FFFFFF;
+  background-color: #000000;
+}
+
+/*might need to change name*/
+.card {
+  background: rgba(0, 0, 0, 0.4);
 }
 
 label {
@@ -23,11 +51,6 @@ label {
   margin-top: 12%;
 }
 
-/*might need to change name*/
-.card {
-  background: rgba(255, 255, 255, 0.4);
-}
-
 .list-group-item {
   line-height: 2.5;
 }
@@ -36,6 +59,7 @@ label {
   cursor: pointer;
 }
 
+/* can re-add if needed, needed to change text colour
 .btn {
   background: #171616;
   color: #FFFFFF;
@@ -44,13 +68,7 @@ label {
 .btn:hover {
   background: #000000;
   color: #FFFFFF;
-}
-
-.navbar {
-  background: #171616;
-  color: #FFFFFF;
-  height: 10%;
-}
+}*/
 
 #scheduleSection, #scheduleDetails {
   background-color: #FFFFFF;
