@@ -2,6 +2,7 @@ var keys = require("./keys.js");
 
 var mysql = require("mysql");
 var pool = mysql.createPool({
+  multipleStatements: true,
   connectionLimit: 10,
   host: "localhost",
   port: 3306,
