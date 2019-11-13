@@ -123,9 +123,6 @@ var handleCreateAccountSubmit = function(event) {
     address1: $("#mechanicAddress")
       .val()
       .trim(),
-    address2: $("#mechanicAddress2")
-      .val()
-      .trim(),
     city: $("#mechanicCity")
       .val()
       .trim(),
@@ -161,12 +158,47 @@ var handleCreateAccountSubmit = function(event) {
     $("#newMechanicPWConfirm").val("");
     return;
   }
-  console.log(newAccount);
-  API.createAccount(newAccount).then(function() {
-    console.log("createAccount response received");
-  });
+  $.ajax({
+    type: "post",
+    url: "/api/noduplicateusernames",
+    data: {username: newAccount.email}
+  }).done(function(data) {
+    console.log(data);
+    if (!data.usernameAlreadyExists) {
+      API.createAccount(newAccount).then(function() {
+        console.log("createAccount response received");
+        var testCredentials = {
+          username: newAccount.email,
+          password: newAccount.password
+        };
+        $.ajax({
+          type: "post",
+          url: "/api/login",
+          data: testCredentials
+        }).done(function(data) {
+          if (data.length !== 0) {
+            var credentials = {
+              username: data[0].user_username,
+              password: data[0].user_password,
+              mechanic_centre_id: data[0].mechanic_centre_id
+            };
+            localStorage.setItem("credentials", JSON.stringify(credentials));
+            console.log("credentials stored");
+            window.location.replace("/schedule");
+          } else {
+            console.log("no matches found");
+            window.location.replace("/login");
+          }
+        });
 
-  // window.location.href = "schedule";
+      });
+    } else {
+      $("#errorMessageEmail").removeClass("d-none");
+      $('#mechanicEmail').on('input', function() {
+        $("#errorMessageEmail").addClass("d-none");
+      });
+    }
+  });
 };
 
 var handleUpdateAccountSubmit = function(event) {

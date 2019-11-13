@@ -1,5 +1,4 @@
-var db = require("./connection.js");
-var moment = require("moment");
+// var moment = require("moment");
 
 module.exports = function (app) {
   // Load index page
