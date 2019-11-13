@@ -57,7 +57,7 @@ if (credentials) {
       break;
     case "mechanicPassword":
       if ($("#mechanicPassword").val().trim().length === 0) {
-        $("#mechanicUsername").addClass("border-danger");
+        $("#mechanicPassword").addClass("border-danger");
       } else {
         $("#mechanicPassword").removeClass("border-danger");
       }

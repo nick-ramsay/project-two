@@ -26,14 +26,31 @@ require("./routes/apiRoutes")(app);
 require("./routes/htmlRoutes")(app);
 
 
-var restart = false;
-db.sequelize.sync({ force: restart }).then(function () {
-  createDummyData(restart);
+var restartPopulate = false;
+db.sequelize.sync({ force: restartPopulate }).then(function () {
+  createDummyData(restartPopulate);
   
   app.listen(PORT, function () {
     console.log("listening on port " + PORT);
   });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function createDummyData(shouldrun) {
   if (!shouldrun) {
@@ -277,9 +294,9 @@ function createDummyData(shouldrun) {
             db.Appointment.bulkCreate([
               { mechanic_centre_id: 1,
                 service_id: 1,
-                appointment_date: "2019-11-28",
+                appointment_date: "2019-11-30",
                 appointment_time: "12:00:00",
-                appointment_datetime: "2019-11-28 12:00:00",
+                appointment_datetime: "2019-11-30 12:00:00",
                 phone: "0412341234",
                 email: "aaa@gmail.com",
                 car_plate: "AAA111",
@@ -301,9 +318,9 @@ function createDummyData(shouldrun) {
               },
               { mechanic_centre_id: 1,
                 service_id: 1,
-                appointment_date: "2019-11-28",
+                appointment_date: "2019-11-29",
                 appointment_time: "12:00:00",
-                appointment_datetime: "2019-11-28 12:00:00",
+                appointment_datetime: "2019-11-29 12:00:00",
                 phone: "0412341234",
                 email: "aaa@gmail.com",
                 car_plate: "AAA111",
@@ -313,9 +330,9 @@ function createDummyData(shouldrun) {
               },
               { mechanic_centre_id: 1,
                 service_id: 1,
-                appointment_date: "2019-11-28",
+                appointment_date: "2019-11-29",
                 appointment_time: "12:00:00",
-                appointment_datetime: "2019-11-28 12:00:00",
+                appointment_datetime: "2019-11-29 12:00:00",
                 phone: "0412341234",
                 email: "aaa@gmail.com",
                 car_plate: "AAA111",
