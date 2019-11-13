@@ -158,7 +158,6 @@ var handleCreateAccountSubmit = function(event) {
     $("#newMechanicPWConfirm").val("");
     return;
   }
-  console.log({username: newAccount.email});
   $.ajax({
     type: "post",
     url: "/api/noduplicateusernames",
@@ -184,13 +183,14 @@ var handleCreateAccountSubmit = function(event) {
               mechanic_centre_id: data[0].mechanic_centre_id
             };
             localStorage.setItem("credentials", JSON.stringify(credentials));
+            console.log("credentials stored");
             window.location.replace("/schedule");
           } else {
             console.log("no matches found");
             window.location.replace("/login");
           }
         });
-        window.location.href = "schedule";
+
       });
     } else {
       $("#errorMessageEmail").removeClass("d-none");
