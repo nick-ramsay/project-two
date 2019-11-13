@@ -823,7 +823,7 @@ module.exports = function (app) {
       distance: distance
     });
   });
-
+//FORM STUFF
   app.get("/api/formrequests", function (req, res) {
     db.query("SELECT * FROM Appointments", function (error, results) {
       res.json(results);
@@ -847,12 +847,11 @@ module.exports = function (app) {
       }
     );
   });
-  
+//MECHANIC STUFF
   app.put("/api/formrequests", function (req, res) {
     db.query("UPDATE WHERE... INTO appointments SET phone = ?, email = ?, car_brand = ?, car_model = ?, car_plate = ?, additional_notes = ?",
       [
         req.body.id,
-  
       ],
       function (err, result) {
         if (err) { throw err };
@@ -862,6 +861,81 @@ module.exports = function (app) {
     );
   });
 };
+
+app.get("/api/formrequests", function (req, res) {
+  db.query("SELECT * FROM Appointments", function (error, results) {
+    res.json(results);
+  });
+});
+
+app.post("/api/formrequests", function (req, res) {
+  db.query("INSERT INTO appointments SET phone = ?, email = ?, car_brand = ?, car_model = ?, car_plate = ?, additional_notes = ?",
+    [
+      req.body.customerEmail,
+      req.body.customerPhone,
+      req.body.carMake,
+      req.body.carModel,
+      req.body.carPlate,
+      req.body.serviceRequest,
+      req.body.customerNotes
+    ],
+    function (err, result) {
+      if (err) { throw err };
+      res.json(result);
+    }
+  );
+});
+
+app.get("/api/mechrequests", function (req, res) {
+  db.query("SELECT * FROM Appointments", function (error, results) {
+    res.json(results);
+  });
+});
+
+app.put("/api/mechrequests", function (req, res) {
+  db.query("UPDATE appointments SET mechanic_centre_id = ?, required_service_id = ?, appointment_date = ?, appointment_time = ? WHERE=?",
+    [
+      req.body.customerEmail,
+      req.body.customerPhone,
+      req.body.carMake,
+      req.body.carModel,
+      req.body.carPlate,
+      req.body.serviceRequest,
+      req.body.customerNotes
+    ],
+
+    function (err, result) {
+      if (err) { throw err };
+      res.json(result);
+    }
+  );
+});
+
+//MECHANIC PAGE
+app.get("/api/formrequests", function (req, res) {
+  db.query("SELECT * FROM Appointments", function (error, results) {
+    res.json(results);
+  });
+});
+
+app.post("/api/formrequests", function (req, res) {
+  db.query("INSERT INTO appointments SET phone = ?, email = ?, car_brand = ?, car_model = ?, car_plate = ?, additional_notes = ?",
+    [
+      req.body.customerEmail,
+      req.body.customerPhone,
+      req.body.carMake,
+      req.body.carModel,
+      req.body.carPlate,
+      req.body.serviceRequest,
+      req.body.customerNotes
+    ],
+    function (err, result) {
+      if (err) { throw err };
+      res.json(result);
+    }
+  );
+});
+
 
 //////
 // for inserting into the mechanics centre table
