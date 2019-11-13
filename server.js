@@ -26,9 +26,9 @@ require("./routes/apiRoutes")(app);
 require("./routes/htmlRoutes")(app);
 
 
-var restartPopulate = false;
-db.sequelize.sync({ force: restartPopulate }).then(function () {
-  createDummyData(restartPopulate);
+var repopulate = false;
+db.sequelize.sync({ force: repopulate }).then(function () {
+  createDummyData(repopulate);
   
   app.listen(PORT, function () {
     console.log("listening on port " + PORT);
