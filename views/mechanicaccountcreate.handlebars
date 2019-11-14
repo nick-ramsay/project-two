@@ -1,0 +1,149 @@
+<nav class="navbar navbar-light bg-light sticky-top">
+    <span class="navbar-brand mb-0 h1">automender</span>
+</nav>
+<div class="container">
+    <div class="row">
+        <form class="mt-5 mb-5 mx-auto p-5 clearfix bg-white rounded" action="POST">
+            <div class="form-group">
+                <label for="mechanicShopName">Shop Name</label>
+                <input type="text" class="form-control" id="mechanicShopName"
+                    placeholder="What's the name of your shop?">
+            </div>
+            <div class="form-group">
+                <label for="mechanicCount">Number of Mechanics</label>
+                <input type="number" class="form-control" id="mechanicCount"
+                    placeholder="How many mechanics work in your shop?" value=1 min=1>
+            </div>
+            <div class="form-group mb-0">
+                <label for="mechanicEmail">Email</label>
+                <input type="email" class="form-control" id="mechanicEmail" placeholder="Email">
+            </div>
+            <p id="errorMessageEmail" class="d-none mb-0 mt-2 small text-danger">This username already exists</p>
+            <div class="form-group mt-3">
+                <label for="mechanicPhone">Phone</label>
+                <input type="tel" class="form-control" id="mechanicPhone" placeholder="Phone Number">
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="newMechanicPW">Password</label>
+                    <input type="password" class="form-control" id="newMechanicPW" placeholder="Enter New Password">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="newMechanicPWConfirm">Confirm Password</label>
+                    <input type="password" class="form-control" id="newMechanicPWConfirm"
+                        placeholder="Confirm New Password">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="mechanicAddress">Address</label>
+                <input type="text" class="form-control" id="mechanicAddress" placeholder="1234 Main St">
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="mechanicCity">City</label>
+                    <input type="text" class="form-control" id="mechanicCity">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="mechanicState">State</label>
+                    <select id="mechanicState" class="form-control">
+                        <option value="0" selected>Choose...</option>
+                        <option value="NSW">New South Wales</option>
+                        <option value="VIC">Victoria</option>
+                        <option value="QLD">Queensland</option>
+                        <option value="SA">South Australia</option>
+                        <option value="ACT">Australian Capital Territory</option>
+                        <option value="TAS">Tasmania</option>
+                        <option value="NT">Northern Territory</option>
+                        <option value="WA">Western Australia</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="mechanicPostcode">Postcode</label>
+                    <input type="text" class="form-control" id="mechanicPostcode">
+                </div>
+            </div>
+            <h5 align="center">Daily Hours</h5>
+            <div class="row">
+                <div class="col">
+                    <p class="hourLabel">Monday</p>
+                </div>
+                <div class="col">
+                    <input type="time" class="form-control" id="setMonStartHour" value="09:00:00">
+                </div>
+                <div class="col">
+                    <input type="time"  class="form-control" id="setMonEndHour" value="17:00:00">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p class="hourLabel">Tuesday</p>
+                </div>
+                <div class="col">
+                    <input type="time" class="form-control" id="setTueStartHour" value="09:00:00">
+                </div>
+                <div class="col">
+                    <input type="time"  class="form-control" id="setTueEndHour" value="17:00:00">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p class="hourLabel">Wednesday</p>
+                </div>
+                <div class="col">
+                    <input type="time" class="form-control" id="setWedStartHour" value="09:00:00">
+                </div>
+                <div class="col">
+                    <input type="time"  class="form-control" id="setWedEndHour" value="17:00:00">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p class="hourLabel">Thursday</p>
+                </div>
+                <div class="col">
+                    <input type="time" class="form-control" id="setThuStartHour" value="09:00:00">
+                </div>
+                <div class="col">
+                    <input type="time"  class="form-control" id="setThuEndHour" value="17:00:00">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p class="hourLabel">Friday</p>
+                </div>
+                <div class="col">
+                    <input type="time" class="form-control" id="setFriStartHour" value="09:00:00">
+                </div>
+                <div class="col">
+                    <input type="time"  class="form-control" id="setFriEndHour" value="17:00:00">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p class="hourLabel">Saturday</p>
+                </div>
+                <div class="col">
+                    <input type="time" class="form-control" id="setSatStartHour" value="00:00:00">
+                </div>
+                <div class="col">
+                    <input type="time"  class="form-control" id="setSatEndHour" value="00:00:00">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p class="hourLabel">Friday</p>
+                </div>
+                <div class="col">
+                    <input type="time" class="form-control" id="setSunStartHour" value="00:00:00">
+                </div>
+                <div class="col">
+                    <input type="time"  class="form-control" id="setSunEndHour" value="00:00:00">
+                </div>
+            </div>
+            <button class="btn btn-primary mt-5" id="createNewAccountBtn">Create Account</button>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>

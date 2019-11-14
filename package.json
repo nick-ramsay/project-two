@@ -4,7 +4,7 @@
   "description": "Project 2 Starter",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "nodemon server.js",
     "lint": "eslint --quiet .",
     "fix": "eslint --fix .",
     "test": "npm run lint && cross-env NODE_ENV=test mocha -u tdd --reporter spec --exit",
@@ -12,9 +12,11 @@
   },
   "license": "ISC",
   "dependencies": {
+    "@barba/core": "^2.8.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.0",
     "express-handlebars": "^3.1.0",
+    "geolib": "^3.1.0",
     "moment": "^2.24.0",
     "mysql": "^2.17.1",
     "mysql2": "^1.6.5",

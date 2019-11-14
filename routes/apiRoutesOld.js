@@ -245,8 +245,6 @@ module.exports = function (app) {
   //   });
   // });
   // query to get SINGLE MECHANIC CENTRE ORDINARY HOURS
-
-
   app.get("/api/mechaniccentreordinaryhours/:mechaniccentreid/:scheduledate", function (req, res) {
     db.MechanicCentreOrdinaryHour.findAll({
       where: {
@@ -259,50 +257,50 @@ module.exports = function (app) {
       var currentDOW = scheduleDate.day();
       var openingTime;
       var closingTime;
-
+  
       switch (currentDOW) {
-        case 0:
-          openingTime = results[0].sun_start;
-          closingTime = results[0].sun_end;
-          break;
-        case 1:
-          openingTime = results[0].mon_start;
-          closingTime = results[0].mon_end;
-          break;
-        case 2:
-          openingTime = results[0].tue_start;
-          closingTime = results[0].tue_end;
-          break;
-        case 3:
-          openingTime = results[0].wed_start;
-          closingTime = results[0].wed_end;
-          break;
-        case 4:
-          openingTime = results[0].thu_start;
-          closingTime = results[0].thu_end;
-          break;
-        case 5:
-          openingTime = results[0].fri_start;
-          closingTime = results[0].fri_end;
-          break;
-        case 6:
-          openingTime = results[0].sat_start;
-          closingTime = results[0].sat_end;
-          break;
+      case 0:
+        openingTime = results[0].sun_start;
+        closingTime = results[0].sun_end;
+        break;
+      case 1:
+        openingTime = results[0].mon_start;
+        closingTime = results[0].mon_end;
+        break;
+      case 2:
+        openingTime = results[0].tue_start;
+        closingTime = results[0].tue_end;
+        break;
+      case 3:
+        openingTime = results[0].wed_start;
+        closingTime = results[0].wed_end;
+        break;
+      case 4:
+        openingTime = results[0].thu_start;
+        closingTime = results[0].thu_end;
+        break;
+      case 5:
+        openingTime = results[0].fri_start;
+        closingTime = results[0].fri_end;
+        break;
+      case 6:
+        openingTime = results[0].sat_start;
+        closingTime = results[0].sat_end;
+        break;
       }
       console.log(openingTime);
       console.log(closingTime);
-
+  
       var dailyHours = moment(closingTime, "HH:mm:ss").diff(moment(openingTime, "HH:mm:ss"), "minutes");
       var slotCount = dailyHours / 30;
       console.log(slotCount);
-
+  
       var appointmentSlots = [];
       var slotStart = moment(openingTime, "HH:mm:ss").format("HH:mm:ss");
       var slotEnd = moment(openingTime, "HH:mm:ss").add(30, "minutes").format("HH:mm:ss");
       console.log(slotStart);
       console.log(slotEnd);
-
+  
       for (i = 0; i < slotCount; i++) {
         var currentSlot = {
           slotID: i,
@@ -314,9 +312,9 @@ module.exports = function (app) {
         slotStart = moment(slotStart, "HH:mm:ss").add(30, "minutes").format("HH:mm:ss");
         slotEnd = moment(slotEnd, "HH:mm:ss").add(30, "minutes").format("HH:mm:ss");
       }
-
+  
       console.log(appointmentSlots);
-
+  
       res.json(appointmentSlots);
     });
   });
@@ -422,7 +420,18 @@ module.exports = function (app) {
       "SELECT * FROM MechanicCentres LEFT OUTER JOIN MechanicCentreCredentials ON MechanicCentres.id = MechanicCentreCredentials.mechanic_centre_id WHERE user_username = :username AND user_password = :password",
       { replacements: { username: req.body.username, password: req.body.password }, type: db.sequelize.QueryTypes.SELECT }
     ).then(function (result) {
-      res.json(result);
+      console.log(result);
+      // console.log('mechanic_centre_id', result[0].id);
+      // db.Appointment.findAll({ where: { mechanic_centre_id: result[0].mechanic_centre_id } }).then(function (results) {
+      //   res.json(results);
+      // });
+              res.json(results);
+      // db.sequelize.query(
+      //   "SELECT * FROM Appointments LEFT OUTER JOIN Services ON Appointments.service_id = Services.id WHERE mechanic_centre_id = :mechaniccentreid",
+      //   { replacements: { mechaniccentreid: result[0].mechanic_centre_id }, type: db.sequelize.QueryTypes.SELECT }
+      // ).then(function (results) {
+      //   res.json(results);
+      // });
     });
   });
   // ########################################################################
@@ -625,117 +634,117 @@ module.exports = function (app) {
         });
       }
     });
-
-
-    ///////////////////////////
-    ///////////////////////////
-    ///////////////////////////
-    ///////////////////////////
-    ///////////////////////////
-    ///////////////////////////
-    ///////////////////////////
-    ///////////////////////////
-    ///////////////////////////
-    ///////////////////////////
-    ///////////////////////////
-    ///////////////////////////
-    // ########################################################################
-    // CUSTOM QUERIES
-    // ########################################################################
-    // query to get MECHANICS THAT PROVIDE A SPECIFIC SERVICES AND WITHIN SPECIFIC RANGE
-    app.get("/api/mechaniccentresfilter", function (req, res) {
-      var townhallstationposition = {
-        latitude: -33.873539,
-        longitude: 151.2047353
-      };
-
-      // console.log(req.query.servicename);
-      // console.log(req.query.metres);
-      // console.log(req.query.lat);
-      // console.log(req.query.lon);
-
-      var servicename = req.query.servicename || "wheel alignment";
-      var metres = req.query.metres || 10000000;
-
-      var userPosition = {
-        latitude: req.query.lat || townhallstationposition.latitude,
-        longitude: req.query.lon || townhallstationposition.longitude
-      };
-
-      db.sequelize.query(
-        "SELECT * FROM Services LEFT OUTER JOIN MechanicCentreServices ON Services.id = MechanicCentreServices.service_id LEFT OUTER JOIN MechanicCentres ON MechanicCentreServices.mechanic_centre_id = MechanicCentres.id LEFT OUTER JOIN MechanicCentreOrdinaryHours ON MechanicCentres.id = MechanicCentreOrdinaryHours.mechanic_centre_id WHERE Services.service_name = :servicename",
-        { replacements: { servicename: servicename }, type: db.sequelize.QueryTypes.SELECT }
-      ).then(function (results) {
-        var mechanicCentresArr = results.filter(function (curr) {
-          var distance = geolib.getDistance(userPosition, {
-            latitude: curr.latitude,
-            longitude: curr.longitude
-          });
-          curr.distance_metres = distance;
-          console.log(distance);
-          if (distance <= metres) {
-            return true;
-          }
-          return false;
-        });
-        res.json(mechanicCentresArr);
-      });
-    });
-
   });
 
-  app.post("/api/appointment", function (req, res) {
-    db.Appointment.create({
-      service_id: parseInt(req.body.serviceRequest),
-      phone: req.body.customerPhone,
-      email: req.body.customerEmail,
-      car_plate: req.body.carPlate,
-      car_brand: req.body.carMake,
-      car_model: req.body.carModel,
-      additional_notes: req.body.customerNotes
+  ///////////////////////////
+  ///////////////////////////
+  ///////////////////////////
+  ///////////////////////////
+  ///////////////////////////
+  ///////////////////////////
+  ///////////////////////////
+  ///////////////////////////
+  ///////////////////////////
+  ///////////////////////////
+  ///////////////////////////
+  ///////////////////////////
+  // ########################################################################
+  // CUSTOM QUERIES
+  // ########################################################################
+  // query to get MECHANICS THAT PROVIDE A SPECIFIC SERVICES AND WITHIN SPECIFIC RANGE
+  app.get("/api/mechaniccentresfilter", function (req, res) {
+    var townhallstationposition = {
+      latitude: -33.873539,
+      longitude: 151.2047353
+    };
+
+    // console.log(req.query.servicename);
+    // console.log(req.query.metres);
+    // console.log(req.query.lat);
+    // console.log(req.query.lon);
+
+    var servicename = req.query.servicename || "wheel alignment";
+    var metres = req.query.metres || 10000000;
+
+    var userPosition = {
+      latitude: req.query.lat || townhallstationposition.latitude,
+      longitude: req.query.lon || townhallstationposition.longitude
+    };
+
+    db.sequelize.query(
+      "SELECT * FROM Services LEFT OUTER JOIN MechanicCentreServices ON Services.id = MechanicCentreServices.service_id LEFT OUTER JOIN MechanicCentres ON MechanicCentreServices.mechanic_centre_id = MechanicCentres.id LEFT OUTER JOIN MechanicCentreOrdinaryHours ON MechanicCentres.id = MechanicCentreOrdinaryHours.mechanic_centre_id WHERE Services.service_name = :servicename",
+      { replacements: { servicename: servicename }, type: db.sequelize.QueryTypes.SELECT }
+    ).then(function (results) {
+      var mechanicCentresArr = results.filter(function (curr) {
+        var distance = geolib.getDistance(userPosition, {
+          latitude: curr.latitude,
+          longitude: curr.longitude
+        });
+        curr.distance_metres = distance;
+        console.log(distance);
+        if (distance <= metres) {
+          return true;
+        }
+        return false;
+      });
+      res.json(mechanicCentresArr);
+    });
+  });
+
+});
+
+app.post("/api/appointment", function (req, res) {
+  db.Appointment.create({
+    service_id: parseInt(req.body.serviceRequest),
+    phone: req.body.customerPhone,
+    email: req.body.customerEmail,
+    car_plate: req.body.carPlate,
+    car_brand: req.body.carMake,
+    car_model: req.body.carModel,
+    additional_notes: req.body.customerNotes
+  }).then(function (results) {
+    res.json(results);
+  });
+});
+
+// app.get("/api/services", function (req,res) {
+//   db.Services.findAll({
+//     service: req.body.service_id
+//   }).then(function (result) {
+//     console.log(result);
+//     res.json(result);
+//   });
+// });
+
+app.get("/api/mechanicrequests/", function (req, res) {
+  db.Appointment.findAll({
+    include: [
+      {
+        model: db.services_table,
+        model: db.mechaniccentres
+      }
+    ]
+  }).then(function (result) {
+    console.log(result);
+    res.json(result);
+  });
+});
+
+app.post("/api/mechanicrequests/:id", function (req, res) {
+  db.Appointment.update({
+    where: {
+      id: req.params.id
+    }
+  },
+    {
+      mechanic_centre_id: req.body.chosenMechanic,
+      appointment_date: req.body.customerDate,
+      appointment_time: req.body.customerTime
     }).then(function (results) {
+      console.log(results);
       res.json(results);
     });
-  });
-
-  // app.get("/api/services", function (req,res) {
-  //   db.Services.findAll({
-  //     service: req.body.service_id
-  //   }).then(function (result) {
-  //     console.log(result);
-  //     res.json(result);
-  //   });
-  // });
-
-  app.get("/api/mechanicrequests/", function (req, res) {
-    db.Appointment.findAll({
-      include: [
-        {
-          model: db.services_table,
-          model: db.mechaniccentres
-        }
-      ]
-    }).then(function (result) {
-      console.log(result);
-      res.json(result);
-    });
-  });
-
-  app.post("/api/mechanicrequests/:id", function (req, res) {
-    db.Appointment.update({
-      where: {
-        id: req.params.id
-      }
-    },
-      {
-        mechanic_centre_id: req.body.chosenMechanic,
-        appointment_date: req.body.customerDate,
-        appointment_time: req.body.customerTime
-      }).then(function (results) {
-        console.log(results);
-        res.json(results);
-      });
-  });
+});
 
   /*
   app.get("/api/mechanicrequests", function (req, res) {
