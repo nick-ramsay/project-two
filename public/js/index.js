@@ -1,7 +1,7 @@
 var $createNewAccount = $("#createNewAccountBtn");
 var $updateAccount = $("#updateAccountBtn");
 
-$(".timeslot").on("click", function() {
+$(".timeslot").on("click", function () {
   console.log("Test");
   var date = $("#selectedMechanicDate").val();
   var time = $(this).attr("data-time");
@@ -9,7 +9,7 @@ $(".timeslot").on("click", function() {
   console.log(time);
 });
 
-$(".mechanicBtn").on("click", function() {
+$(".mechanicBtn").on("click", function () {
   window.location.href = "login";
 });
 
@@ -21,21 +21,21 @@ var $exampleList = $("#example-list");
 
 // The API object contains methods for each kind of request we'll make
 var API = {
-  createAccount: function(newAccount) {
+  createAccount: function (newAccount) {
     return $.ajax({
       type: "POST",
       url: "/api/mechaniccentres",
       data: newAccount
     });
   },
-  updateAccount: function(updateAccount) {
+  updateAccount: function (updateAccount) {
     return $.ajax({
       type: "PUT",
       url: "/api/updatemechaniccentre/",
       data: updateAccount
     });
   },
-  createAppointment: function(createAppointment) {
+  createAppointment: function (createAppointment) {
     return $.ajax({
       headers: {
         "Content-Type": "application/json"
@@ -45,7 +45,7 @@ var API = {
       data: JSON.stringify(createAppointment)
     });
   }
-  
+
   /*
   saveExample: function(example) {
     return $.ajax({
@@ -100,7 +100,7 @@ var refreshExamples = function () {
   });
 };
 
-var handleCreateAccountSubmit = function(event) {
+var handleCreateAccountSubmit = function (event) {
   event.preventDefault();
 
   var newAccount = {
@@ -131,8 +131,52 @@ var handleCreateAccountSubmit = function(event) {
       .trim(),
     postcode: $("#mechanicPostcode")
       .val()
+      .trim(),
+    monStart: $("#setMonStartHour")
+      .val()
+      .trim(),
+    monEnd: $("#setMonEndHour")
+      .val()
+      .trim(),
+    tueStart: $("#setTueStartHour")
+      .val()
+      .trim(),
+    tueEnd: $("#setTueEndHour")
+      .val()
+      .trim(),
+    wedStart: $("#setWedStartHour")
+      .val()
+      .trim(),
+    wedEnd: $("#setWedEndHour")
+      .val()
+      .trim(),
+    thuStart: $("#setThuStartHour")
+      .val()
+      .trim(),
+    thuEnd: $("#setThuEndHour")
+      .val()
+      .trim(),
+    friStart: $("#setFriStartHour")
+      .val()
+      .trim(),
+    friEnd: $("#setFriEndHour")
+      .val()
+      .trim(),
+    satStart: $("#setSatStartHour")
+      .val()
+      .trim(),
+    satEnd: $("#setSatEndHour")
+      .val()
+      .trim(),
+    sunStart: $("#setSunStartHour")
+      .val()
+      .trim(),
+    sunEnd: $("#setSunEndHour")
+      .val()
       .trim()
   };
+
+  console.log(newAccount);
 
   if (
     !newAccount.name ||
@@ -161,11 +205,11 @@ var handleCreateAccountSubmit = function(event) {
   $.ajax({
     type: "post",
     url: "/api/noduplicateusernames",
-    data: {username: newAccount.email}
-  }).done(function(data) {
+    data: { username: newAccount.email }
+  }).done(function (data) {
     console.log(data);
     if (!data.usernameAlreadyExists) {
-      API.createAccount(newAccount).then(function() {
+      API.createAccount(newAccount).then(function () {
         console.log("createAccount response received");
         var testCredentials = {
           username: newAccount.email,
@@ -175,7 +219,7 @@ var handleCreateAccountSubmit = function(event) {
           type: "post",
           url: "/api/login",
           data: testCredentials
-        }).done(function(data) {
+        }).done(function (data) {
           if (data.length !== 0) {
             var credentials = {
               username: data[0].user_username,
@@ -194,15 +238,16 @@ var handleCreateAccountSubmit = function(event) {
       });
     } else {
       $("#errorMessageEmail").removeClass("d-none");
-      $('#mechanicEmail').on('input', function() {
+      $('#mechanicEmail').on('input', function () {
         $("#errorMessageEmail").addClass("d-none");
       });
     }
   });
 };
 
-var handleUpdateAccountSubmit = function(event) {
+var handleUpdateAccountSubmit = function (event) {
   event.preventDefault();
+  console.log("update occurred!")
 
   var updateAccount = {
     id: $("#updateAccountForm").attr("data-accountID"),
@@ -230,9 +275,51 @@ var handleUpdateAccountSubmit = function(event) {
       .trim(),
     postcode: $("#updateMechanicPostcode")
       .val()
+      .trim(),
+    monStart: $("#updateMonStartHour")
+      .val()
+      .trim(),
+    monEnd: $("#updateMonEndHour")
+      .val()
+      .trim(),
+    tueStart: $("#updateTueStartHour")
+      .val()
+      .trim(),
+    tueEnd: $("#updateTueEndHour")
+      .val()
+      .trim(),
+    wedStart: $("#updateWedStartHour")
+      .val()
+      .trim(),
+    wedEnd: $("#updateWedEndHour")
+      .val()
+      .trim(),
+    thuStart: $("#updateThuStartHour")
+      .val()
+      .trim(),
+    thuEnd: $("#updateThuEndHour")
+      .val()
+      .trim(),
+    friStart: $("#updateFriStartHour")
+      .val()
+      .trim(),
+    friEnd: $("#updateFriEndHour")
+      .val()
+      .trim(),
+    satStart: $("#updateSatStartHour")
+      .val()
+      .trim(),
+    satEnd: $("#updateSatEndHour")
+      .val()
+      .trim(),
+    sunStart: $("#updateSunStartHour")
+      .val()
+      .trim(),
+    sunEnd: $("#updateSunEndHour")
+      .val()
       .trim()
   };
-
+  console.log(updateAccount);
   if (
     !updateAccount.name ||
     !updateAccount.mechanicCount ||
@@ -251,7 +338,7 @@ var handleUpdateAccountSubmit = function(event) {
     return;
   }
 
-  API.updateAccount(updateAccount).then(function() {
+  API.updateAccount(updateAccount).then(function () {
     console.log("updateAccount response received");
   });
 };

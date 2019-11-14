@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "root",
-    "password": "asdfgh",
-    "database": "automendo",
+    "password": "Asdf1234",
+    "database": "Automender2",
     "host": "localhost",
     "dialect": "mysql"
   },
@@ -15,7 +15,12 @@
     "logging": false
   },
   "production": {
-    "use_env_variable": "JAWSDB_URL",
-    "dialect": "mysql"
+    "username": "jn4l3wmb87jpokpo",
+    "password": "a1gm17d09pa15i5o",
+    "database": "x1gnp2rkogsan0ol",
+    "host": "lolyz0ok3stvj6f0.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    "port": 3306,
+    "dialect": "mysql",
+    "operatorsAliases": false
   }
 }
