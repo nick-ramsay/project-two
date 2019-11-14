@@ -180,9 +180,11 @@ module.exports = function (app) {
   // query to CHECK AGAINST EXISTING USERNAMES
   app.post("/api/checkifusernameexists", function (req, res) {
     console.log(req.body.username);
-    db.MechanicCentreCredential.findAll({where: {
-      user_username: "rob@gmail.com"
-    }}).then(function(results) {
+    db.MechanicCentreCredential.findAll({
+      where: {
+        user_username: "rob@gmail.com"
+      }
+    }).then(function (results) {
       console.log(results[0].timeslots);
       var schedule = [];
       for (i = 0; i < results[0].timeslots; i++) {
@@ -504,7 +506,13 @@ module.exports = function (app) {
         { replacements: { username: req.body.username, password: req.body.password }, type: db.sequelize.QueryTypes.SELECT }
       ).then(function (result) {
         console.log('mechanic_centre_id', result[0].id);
-        db.Appointment.findAll({ where: { mechanic_centre_id: result[0].mechanic_centre_id } }).then(function (results) {
+        // db.Appointment.findAll({ where: { mechanic_centre_id: result[0].mechanic_centre_id } }).then(function (results) {
+        //   res.json(results);
+        // });
+        db.sequelize.query(
+          "SELECT * FROM Appointments LEFT OUTER JOIN Services ON Appointments.service_id = Services.id WHERE mechanic_centre_id = :mechaniccentreid",
+          { replacements: { mechaniccentreid: result[0].mechanic_centre_id }, type: db.sequelize.QueryTypes.SELECT }
+        ).then(function (results) {
           res.json(results);
         });
       });
