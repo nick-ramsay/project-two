@@ -247,6 +247,7 @@ var handleCreateAccountSubmit = function (event) {
 
 var handleUpdateAccountSubmit = function (event) {
   event.preventDefault();
+  console.log("update occurred!")
 
   var updateAccount = {
     id: $("#updateAccountForm").attr("data-accountID"),
@@ -274,9 +275,51 @@ var handleUpdateAccountSubmit = function (event) {
       .trim(),
     postcode: $("#updateMechanicPostcode")
       .val()
+      .trim(),
+    monStart: $("#updateMonStartHour")
+      .val()
+      .trim(),
+    monEnd: $("#updateMonEndHour")
+      .val()
+      .trim(),
+    tueStart: $("#updateTueStartHour")
+      .val()
+      .trim(),
+    tueEnd: $("#updateTueEndHour")
+      .val()
+      .trim(),
+    wedStart: $("#updateWedStartHour")
+      .val()
+      .trim(),
+    wedEnd: $("#updateWedEndHour")
+      .val()
+      .trim(),
+    thuStart: $("#updateThuStartHour")
+      .val()
+      .trim(),
+    thuEnd: $("#updateThuEndHour")
+      .val()
+      .trim(),
+    friStart: $("#updateFriStartHour")
+      .val()
+      .trim(),
+    friEnd: $("#updateFriEndHour")
+      .val()
+      .trim(),
+    satStart: $("#updateSatStartHour")
+      .val()
+      .trim(),
+    satEnd: $("#updateSatEndHour")
+      .val()
+      .trim(),
+    sunStart: $("#updateSunStartHour")
+      .val()
+      .trim(),
+    sunEnd: $("#updateSunEndHour")
+      .val()
       .trim()
   };
-
+  console.log(updateAccount);
   if (
     !updateAccount.name ||
     !updateAccount.mechanicCount ||
