@@ -261,7 +261,7 @@ $createNewAccount.on("click", handleCreateAccountSubmit);
 
 $(document).ready(function () {
   //buttons
-  $(".customerBtn").on("click", function () {
+  $(".customerButton").on("click", function () {
     window.location.href = "form";
   });
 });

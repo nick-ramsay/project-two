@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "root",
-    "password": "Asdf1234",
-    "database": "Automender2",
+    "password": "asdfgh",
+    "database": "automendo",
     "host": "localhost",
     "dialect": "mysql"
   },

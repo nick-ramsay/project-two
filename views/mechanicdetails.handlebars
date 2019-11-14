@@ -1,16 +1,35 @@
 {{!navbar}}
-<div class="mechanic">
-    <div class="container-fluid">
-        <nav class="navbar navbar-light bg-light sticky-top">
-            <span class="navbar-brand mb-0 h1">{{msg}}</span>
-        </nav>
-{{!mech details}}
+<div id="mechanic">
+  <nav class="navbar container-fluid text-center sticky-top">
+    <span class="navbar-brand mb-0 h1 col-md-4 offset-md-4">
+      <a href="/"><h1><u>AUTOMENDER</u></h1></a>
+    </span>
+  </nav>
+        {{!mech details}}
         <div class="background">
             <div class="card">
                 <div class="card-body">
-                        <h1>{{id}}</h1>
+                    <h1>MAKE YOUR BOOKING</h1>
                     <form>
                         <input name="id" type="hidden" value="{{id}}">
+                        <select>
+                            <option name="chosenMechanic">Select a mechanic</option>
+                            {{#each mechanics}}
+                                <option value="{{id}}">{{centre_name}}</option>
+                            {{/each}}
+                        </select>
+                        <select>
+                            <option>Select a date</option>
+                            {{#each centers}}
+                                <option name="customerDate" value="{{id}}">{{centre_name}}</option>
+                            {{/each}}
+                        </select>
+                        <select>
+                            <option>Select a time</option>
+                            {{#each centers}}
+                                <option name="customerTime" value="{{id}}">{{centre_name}}</option>
+                            {{/each}}
+                        </select>
                         <button class="btn btn-primary mechButton">SUBMIT</button>
                     </form>
                 </div>

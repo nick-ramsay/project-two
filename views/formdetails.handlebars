@@ -1,10 +1,32 @@
 {{!navbar}}
 <div class="brokenDeets">
-    <nav class="navbar container-fluid text-center sticky-top">
-        <span class="navbar-brand mb-0 h1 col-md-4 offset-md-4">
-            <h1>AUTOMENDER</h1>
-        </span>
-    </nav>
+    <nav class="navbar navbar-expand-lg .align-content-start sticky-top">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item nav-link align-middle" href="#">
+                    ABOUT US
+                </li>
+                <li class="nav-item nav-link align-middle" href="#">
+                    SERVICES
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link navbar-brand align-middle" href="#">
+                        <h1><u>AUTOMENDER</u></h1>
+                    </a>
+                </li>
+                <li class="nav-item nav-link align-middle" href="#">
+                    MECHANICS
+                </li>
+                <li class="nav-item nav-link align-middle" href="#">
+                    BLOG
+                </li>
+            </ul>
+        </div>
+    </nav class=".align-content-end">
     {{!form}}
     <div class="background">
         <div class="card col-8 offset-2">
@@ -16,27 +38,20 @@
             <form id="customerForm">
                 <div class="row">
                     <div class="col-5 offset-1">
-                        {{!<div class="form-group">
-                                <label for="custName">NAME</label>
-                                <textarea class="form-control" id="custName" name="custName"
-                                    placeholder="Name as shown on your license"></textarea>
-                            </div>}}
-
                         <div class="form-group">
                             <label for="customerEmail">EMAIL ADDRESS</label>
-                            <input type="email" class="form-control" id="customerEmail" name="customerEmail"
-                                placeholder="johndoe@emails.com">
+                            <input type="email" class="form-control" id="customerEmail" name="customerEmail" placeholder="johndoe@emails.com">
                         </div>
 
                         <div class="form-group">
                             <label for="customerPhone">PHONE NUMBER</label>
-                            <textarea class="form-control" id="customerPhone" name="customerPhone"
-                                placeholder="Name as shown on your license"></textarea>
+                            <input type="input" class="form-control" id="customerPhone" name="customerPhone"
+                                placeholder="Name as shown on your license">
                         </div>
 
                         <div class="form-group">
                             <label for="carMake">CAR MAKE</label>
-                            <textarea class="form-control" id="carMake" name="carMake"
+                            <input type="input" class="form-control" id="carMake" name="carMake"
                                 placeholder="Eg. Toyota, Honda, Volswagon"></textarea>
                         </div>
                     </div>
@@ -44,28 +59,27 @@
                     <div class="col-5">
                         <div class="form-group">
                             <label for="carModel">CAR MODEL</label>
-                            <textarea class="form-control" id="carModel" name="carModel"
-                                placeholder="Eg. Sedan, Convertible, SUV"></textarea>
+                            <input type="input" class="form-control" id="carModel" name="carModel"
+                                placeholder="Eg. Sedan, Convertible, SUV">
                         </div>
 
                         <div class="form-group">
                             <label for="carPlate">LICENSE PLATE NUMBER<label>
-                            <textarea class="form-control" id="carPlate" name="carPlate"
-                                placeholder="Name as shown on your license"></textarea>
+                            <input type="input" class="form-control" id="carPlate" name="carPlate"
+                                placeholder="Name as shown on your license">
                         </div>
-                        {{!
+                        
                         <div class="form-group">
                             <label for="serviceRequest">
                                 <label for="serviceRequest">SERVICES NEEDED</label>
                                 <select class="form-control" id="serviceRequest" name="serviceRequest">
-                                    <option>1 Wheel Alignment</option>
-                                    <option>2 Type Replacement</option>
-                                    <option>3 Battery Replacement</option>
-                                    <option>4 Servicing</option>
-                                    <option>5 Window Tinting</option>
+                                    <option name="chosenMechanic">Select a service</option>
+                                    {{#each services}}
+                                    <option value="{{id}}">{{service_name}}</option>
+                                    {{/each}}
                                 </select>
                         </div>
-                        }}
+                
 
                         <div class="form-group">
                             <label for="customerNotes">ADDITIONAL NOTES</label>
@@ -74,7 +88,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <button type="submit" class="btn btn-primary">SUBMIT</button>
+                    <button type="submit" class="btn btn-primary customerFormButton">SUBMIT</button>
                 </div>
             </form>
         </div>
