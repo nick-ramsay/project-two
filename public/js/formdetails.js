@@ -1,14 +1,15 @@
 $(document).ready(function () {
     $("#customerForm").on("submit", function (event) {
         event.preventDefault();
+
         var formInput = $(this).serialize();
-        $.ajax("/api/formrequests", {
+        $.ajax({
             type: "POST",
-            url: "api/forms",
+            url: "/api/appointment",
             data: formInput
         }).then(function (res) {
             console.log(res);
-            window.location.href = "recmechanic/" + res.insertId;  
+            window.location.href = "recmechanic/" + res.id;  
         });     
     });
 });

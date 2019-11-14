@@ -8,15 +8,45 @@ body{
   background-position: center;
   background-attachment: fixed;
 }
-
 .navbar {
   background: #171616;
+  width: 100%;
   height: 10%;
+  vertical-align: middle;
 }
 
 h1 {
   font-family: 'Montserrat Subrayada', sans-serif;
   margin: 0 auto;
+}
+
+.navbar-brand {
+    margin: 0px;
+}
+.navbar-expand-lg .navbar-nav .nav-link {
+    padding-right: 5rem;
+    padding-left: 5rem;
+}
+
+.nav-item {
+    padding: 1rem 1rem;
+}
+
+.smaller {
+  font-size: 
+}
+
+li.nav-item.nav-link.align-middle {
+    padding: 40px 25px 20px 25px;
+}
+
+li{
+  color: #707070;
+}
+
+li:hover {
+  color: #FFFFFF;
+  transition: 0.2s ease all; 
 }
 
 u {
@@ -25,16 +55,19 @@ u {
 
 u:hover {
   color: #FFFFFF;
+  transition: 0.2s ease all; 
 }
 
 .btn-lg {
   color: #707070;
   background-color: #141414;
+  border: none;
 }
 
 .btn-lg:hover {
   color: #FFFFFF;
   background-color: #000000;
+  transition: 0.2s ease all; 
 }
 
 /*might need to change name*/

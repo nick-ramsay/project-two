@@ -12,23 +12,22 @@
                     <h1>MAKE YOUR BOOKING</h1>
                     <form>
                         <input name="id" type="hidden" value="{{id}}">
-
                         <select>
                             <option name="chosenMechanic">Select a mechanic</option>
                             {{#each mechanics}}
-                            <option value="{{id}}">{{name}}</option>
+                                <option value="{{id}}">{{centre_name}}</option>
                             {{/each}}
                         </select>
                         <select>
                             <option>Select a date</option>
                             {{#each centers}}
-                            <option name="customerDate" value="{{id}}">{{centre_name}}</option>
+                                <option name="customerDate" value="{{id}}">{{centre_name}}</option>
                             {{/each}}
                         </select>
                         <select>
                             <option>Select a time</option>
                             {{#each centers}}
-                            <option name="customerTime" value="{{id}}">{{centre_name}}</option>
+                                <option name="customerTime" value="{{id}}">{{centre_name}}</option>
                             {{/each}}
                         </select>
                         <button class="btn btn-primary mechButton">SUBMIT</button>

@@ -1,11 +1,11 @@
 $(document).ready(function () {
     $("#customerForm").on("click", function (event) {
         event.preventDefault();
-        var formInput = $(this).serialize();
-        $.ajax("/api/formrequests", {
+        var mechInput = $(this).serialize();
+        $.ajax({
             type: "PUT",
             url: "api/forms",
-            data: formInput
+            data: mechInput
         }).then(function (res) {
             console.log(res);
             window.location.href = "recmechanic/" + res.insertId;  

@@ -1,5 +1,5 @@
 // var moment = require("moment");
-
+var db = require('../models');
 module.exports = function (app) {
   // Load index page
   app.get("/", function (req, res) {
@@ -23,12 +23,26 @@ module.exports = function (app) {
   });
 
   app.get("/form", function (req, res) {
-    res.render("formdetails");
+    db.Service.findAll({}).then(function (results) {
+      res.render("formdetails", {
+        services: results
+      });
+    });
   });
 
   //server gives recommended mechanics
   app.get("/recmechanic/:id", function (req, res) {
-    res.render("mechanicdetails");
+    db.Appointment.findOne({where: {id: req.params.id}}).then(function (appointment) {
+      console.log(appointment.service_id);
+      var serviceID = appointment.service_id;
+
+      db.sequelize.query(
+        "SELECT * FROM Services LEFT OUTER JOIN MechanicCentreServices ON Services.id = MechanicCentreServices.service_id LEFT OUTER JOIN MechanicCentres ON MechanicCentreServices.mechanic_centre_id = MechanicCentres.id LEFT OUTER JOIN MechanicCentreOrdinaryHours ON MechanicCentres.id = MechanicCentreOrdinaryHours.mechanic_centre_id WHERE Services.id = :serviceID",
+        { replacements: { serviceID }, type: db.sequelize.QueryTypes.SELECT }
+      ).then(function (mechanics) {
+        res.render("mechanicdetails", {mechanics});
+      })
+    });
   });
 
   //page after submitting service request with details

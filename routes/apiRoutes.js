@@ -753,33 +753,32 @@ module.exports = function (app) {
         res.json(result);
       });
 
-      app.post("/api/formrequests", function (req, res) {
-        db.Appointment.create({
-          service_id: req.body.serivceRequest,
-          phone: req.body.customerPhone,
-          email: req.body.customerEmail,
-          car_plate: req.body.carPlate,
-          car_brand: req.body.carMake,
-          car_model: req.body.carModel,
-          additional_notes: req.body.customerNotes
-          /*mechanic_centre_id: 5,
-          service_id: 5,3
-          appointment_date: "2019-12-01",
-          appointment_time: "11:30:00",
-          appointment_datetime: "2019-12-01 11:30:00",
-          phone: "0410500100",
-          email: "adam@gmail.com",
-          car_plate: "ABC123",
-          car_brand: "mazda",
-          car_model: "model 11",
-          additional_notes: "make it fancy"*/
-        }).then(function (results) {
-          console.log(results);
-          res.json(results);
-        });
-      });
+     
     });
   });
+
+  app.post("/api/appointment", function (req, res) {
+    db.Appointment.create({
+      service_id: parseInt(req.body.serviceRequest),
+      phone: req.body.customerPhone,
+      email: req.body.customerEmail,
+      car_plate: req.body.carPlate,
+      car_brand: req.body.carMake,
+      car_model: req.body.carModel,
+      additional_notes: req.body.customerNotes
+    }).then(function (results) {
+      res.json(results);
+    });
+  });
+
+  // app.get("/api/services", function (req,res) {
+  //   db.Services.findAll({
+  //     service: req.body.service_id
+  //   }).then(function (result) {
+  //     console.log(result);
+  //     res.json(result);
+  //   });
+  // });
 
   app.get("/api/mechanicrequests/", function (req, res) {
     db.Appointment.findAll({

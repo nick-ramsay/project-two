@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "asdfgh",
-    "database": "automender",
+    "database": "automendo",
     "host": "localhost",
     "dialect": "mysql"
   },
