@@ -1,6 +1,6 @@
 <nav class="navbar navbar-light bg-light sticky-top">
     <span class="navbar-brand mb-0 h1 mr-auto">automender</span>
-    <button id="logout" class="mr-1 btn btn-primary d-none" style="transform: scale(0.8);">Sign Out</button>
+    <button id="logout" class="mr-1 btn btn-primary" style="transform: scale(0.8);">Sign Out</button>
     <a href="/account" class="mr-0"><img src="/images/setting.png"></a>
 </nav>
 <div class="container pt-4">
@@ -32,28 +32,8 @@
             </div>
         </div>
         <div class="col-md-6" id="scheduleDetails" align="center">
-            <h3>Time Slot Details</h3>
+            <h3>Appointments</h3>
             <div class="appointmentDetails">
-            </div>
-        </div>
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        ...
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -63,7 +43,20 @@
 
     <script>
         var credentials = JSON.parse(localStorage.getItem("credentials"));
+
+        $('#logout').removeClass('d-none');
+        $('#logout').on('click', function () {
+            localStorage.removeItem("credentials");
+            window.location.replace("/");
+        });
         var currentDate;
+
+        function toTitleCase(str) {
+            return str.replace(/(?:^|\s)\w/g, function (match) {
+                return match.toUpperCase();
+            });
+        };
+        //NOTE: toTitleCase function is credited to Stack Overflow (https://stackoverflow.com/questions/5086390/jquery-title-case)
 
         function currentDate() {
             currentDate = moment().format("YYYY-MM-DD");
@@ -73,7 +66,7 @@
 
         function renderTable() {
             $("#scheduleBody").empty();
-            var mechanicID = 1;
+            var mechanicID = credentials.mechanic_centre_id;
             var scheduleDate = $("#selectedMechanicDate").val();
             var timeSlots;
 
@@ -82,6 +75,7 @@
                 url: "/api/viewmechaniccentreappointments",
                 data: credentials
             }).done(function (data) {
+                console.log(data);
                 var appointments = [];
                 data.forEach(function (appointment) {
                     appointments.push(appointment);
@@ -140,12 +134,19 @@
                 $(".appointmentDetails").append(selectedTime);
                 appointments.forEach(function (appointments) {
                     var cardClass = '<div class="card"><div class="card-body">';
-                    var cardTitle = '<h5 class="card-title">' + appointments.car_brand.toUpperCase() + " " + appointments.car_model.toUpperCase() + '</h5>'
-                    var cardMessage = '<p class="card-text">"' + appointments.additional_notes + '"</p>';
-                    var cardButton = '<button type="button" class="btn btn-primary apptDetailsBtn" data-toggle="modal" data-target="#exampleModal">Details</button>';
+                    var cardTitle = '<h5 class="card-title">' + appointments.car_brand.toUpperCase() + " " + appointments.car_model.toUpperCase() + '</h5>';
+                    var cardMessage = '<p class="card-text m-0" style="font-style:italic;">"' + toTitleCase(appointments.additional_notes) + '"</p>';
+                    var cardService = '<p class="card-text m-0"><strong>Service: </strong> ' + toTitleCase(appointments.service_name) + '</p>';
+                    var cardPlate = '<p class="card-text m-0"><strong>Plate #: </strong> ' + appointments.car_plate + '</p>';
+                    var cardPhone = '<p class="card-text m-0"><strong>Phone: </strong> ' + appointments.phone + '</p>';
+                    var cardEmail = '<p class="card-text m-0"><strong>Email: </strong> ' + appointments.email + '</p>';
+                    //var cardButton = '<button type="button" class="btn btn-primary apptDetailsBtn" data-toggle="modal" data-target="#exampleModal">Details</button>';
                     cardClass += cardTitle;
                     cardClass += cardMessage;
-                    cardClass += cardButton;
+                    cardClass += cardService;
+                    cardClass += cardPlate;
+                    cardClass += cardPhone;
+                    cardClass += cardEmail;
                     $(".appointmentDetails").append(cardClass);
                 });
                 console.log(appointments);

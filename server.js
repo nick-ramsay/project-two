@@ -26,7 +26,7 @@ require("./routes/apiRoutes")(app);
 require("./routes/htmlRoutes")(app);
 
 
-var repopulate = false;
+var repopulate = true;
 db.sequelize.sync({ force: repopulate }).then(function () {
   createDummyData(repopulate);
   
@@ -318,7 +318,7 @@ function createDummyData(shouldrun) {
               },
               { mechanic_centre_id: 1,
                 service_id: 1,
-                appointment_date: "2019-11-29",
+                appointment_date: "2019-11-28",
                 appointment_time: "12:00:00",
                 appointment_datetime: "2019-11-29 12:00:00",
                 phone: "0412341234",

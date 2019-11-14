@@ -180,9 +180,11 @@ module.exports = function (app) {
   // query to CHECK AGAINST EXISTING USERNAMES
   app.post("/api/checkifusernameexists", function (req, res) {
     console.log(req.body.username);
-    db.MechanicCentreCredential.findAll({where: {
-      user_username: "rob@gmail.com"
-    }}).then(function(results) {
+    db.MechanicCentreCredential.findAll({
+      where: {
+        user_username: "rob@gmail.com"
+      }
+    }).then(function (results) {
       console.log(results[0].timeslots);
       var schedule = [];
       for (i = 0; i < results[0].timeslots; i++) {
@@ -250,15 +252,16 @@ module.exports = function (app) {
     db.MechanicCentreOrdinaryHour.findAll({
       where: {
         mechanic_centre_id: req.params.mechaniccentreid
-      },
-      function(error, results) {
-        console.log(req.params.scheduledate);
-        var scheduleDate = moment(req.params.scheduledate,"YYYY-MM-DD");
-        var currentDOW = scheduleDate.day();
-        var openingTime;
-        var closingTime;
+      }
+    }).then(function (results) {
+      console.log(req.params.scheduledate);
+      console.log(results);
+      var scheduleDate = moment(req.params.scheduledate, "YYYY-MM-DD");
+      var currentDOW = scheduleDate.day();
+      var openingTime;
+      var closingTime;
 
-        switch (currentDOW) {
+      switch (currentDOW) {
         case 0:
           openingTime = results[0].sun_start;
           closingTime = results[0].sun_end;
@@ -316,7 +319,7 @@ module.exports = function (app) {
       console.log(appointmentSlots);
 
       res.json(appointmentSlots);
-    });
+    })
     // oldDB.query(
     //   "SELECT * FROM MechanicCentreOrdinaryHours WHERE ?",
     //   {
@@ -504,9 +507,15 @@ module.exports = function (app) {
         { replacements: { username: req.body.username, password: req.body.password }, type: db.sequelize.QueryTypes.SELECT }
       ).then(function (result) {
         console.log('mechanic_centre_id', result[0].id);
-        db.Appointment.findAll({ where: { mechanic_centre_id: result[0].mechanic_centre_id } }).then(function (results) {
+        db.sequelize.query(
+          "SELECT * FROM Appointments LEFT OUTER JOIN Services ON Appointments.service_id = Services.id WHERE mechanic_centre_id = :mechaniccentreid",
+          { replacements: { mechaniccentreid: result[0].mechanic_centre_id }, type: db.sequelize.QueryTypes.SELECT }
+        ).then(function (results) {
           res.json(results);
         });
+        /*db.Appointment.findAll({ where: { mechanic_centre_id: result[0].mechanic_centre_id } }).then(function (results) {
+          res.json(results);
+        });*/
       });
     }
   });
@@ -744,7 +753,7 @@ module.exports = function (app) {
       res.json(mechanicCentresArr);
     });
   });
-//FORM STUFF
+  //FORM STUFF
   app.get("/api/formrequests", function (req, res) {
     db.Appointment.findAll().then(function (results) {
       res.json(results);
@@ -768,7 +777,7 @@ module.exports = function (app) {
       res.json(results);
     });
   });
-//MECHANIC STUFF
+  //MECHANIC STUFF
   app.put("/api/formrequests", function (req, res) {
     db.query("UPDATE WHERE... INTO appointments SET phone = ?, email = ?, car_brand = ?, car_model = ?, car_plate = ?, additional_notes = ?",
       [
