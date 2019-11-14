@@ -107,3 +107,7 @@ label {
   background-color: #FFFFFF;
 }
 
+.hourLabel {
+  font-weight: bold;
+}
+
