@@ -1,42 +1,76 @@
 <div id="home">
-  {{!navbar}}
-    <nav class="navbar navbar-expand-lg .align-content-start sticky-top">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <nav class="navbar bg-dark navbar-dark sticky-top" style="border-bottom: 5px solid white;">
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav mx-auto">
-                <li class="nav-item nav-link align-middle smaller" href="#">
-                    ABOUT US
-                </li>
-                <li class="nav-item nav-link align-middle smaller" href="#">
-                    SERVICES
+
+
+        <div class="position-absolute d-flex justify-content-center align-items-center"
+            style="left: 50%; top: 0px; height: 58px; transform: translateX(-50%);">
+            <a href="/" class="d-none d-md-block text-light m-4 text-nowrap link-light">Mechanics</a>
+            <a href="/" class="d-none d-md-block text-light text-nowrap link-light">Services</a>
+            <a class="navbar-brand mx-5" href="/">
+                <h1><u>AUTOMENDER</u></h1>
+            </a>
+            <a href="/" class="d-none d-md-block text-light text-nowrap link-light">Blog</a>
+            <a href="/" class="d-none d-md-block text-light m-4 text-nowrap link-light">About us</a>
+        </div>
+
+        <div class="collapse navbar-collapse d-md-none" id="navbarNavDropdown">
+            <ul class="navbar-nav visibility-none d-md-none">
+                <li class="nav-item">
+                    <a class="nav-link text-light link-light" href="/">Mechanics</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link navbar-brand align-middle" href="#">
-                        <h1><u>AUTOMENDER</u></h1>
-                    </a>
+                    <a class="nav-link text-light link-light" href="/">Services</a>
                 </li>
-                <li class="nav-item nav-link align-middle smaller" href="#">
-                    MECHANICS
+                <li class="nav-item">
+                    <a class="nav-link text-light link-light" href="/">Blog</a>
                 </li>
-                <li class="nav-item nav-link align-middle smaller" href="#">
-                    BLOG
+                <li class="nav-item">
+                    <a class="nav-link text-light link-light" href="/">About us</a>
                 </li>
             </ul>
         </div>
-    </nav class=".align-content-end">
-    {{!form}}
-  
-  <div class="card col-4 offset-4 frontCard">
-    <div class="card-body text-center">
-      <a href="form" class="btn btn-secondary btn-lg btn-block customerButton">CUSTOMER</a>
-      <a id="mechanicPortal" href="/login" class="btn btn-secondary btn-lg btn-block mechanicButton">MECHANIC</a>
+    </nav>
+
+
+
+    <div class="container py-5">
+
+
+
+        <div class="row pt-5">
+            <div class="col-12 col-lg-7 mb-5">
+                <p class="text-white text-nowrap m-0" style="font-size: 30px;">Welcome to</p>
+                <p class="display-3 text-white">Automender</p>
+                <p class="text-white" style="font-size: 20px;">A <i>better</i> place for customers to find mechanics.
+                </p>
+            </div>
+
+            <div class="col-12 col-lg-5">
+                <div class="card frontCard">
+                    <div class="card-header bg-white py-2">
+                        <p class="mb-0" style="font-size: 20px;">Get started as a Customer or Mechanic</p>
+                    </div>
+                    <div class="card-body text-center p-2">
+                        <div class="row no-gutters">
+                            <div class="col-12 col-sm-6 p-2">
+                                <a href="/appointment" class="btn btn-dark btn-lg btn-block">CUSTOMER</a>
+                            </div>
+                            <div class="col-12 col-sm-6 p-2">
+                                <a id="mechanicPortal" href="/login"
+                                    class="btn btn-dark btn-lg btn-block mechanicButton">MECHANIC</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
-  </div>
 </div>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="/js/homepage.js"></script>
-
-

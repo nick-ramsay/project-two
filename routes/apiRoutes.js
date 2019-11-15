@@ -2,6 +2,7 @@
 var db = require('../models');
 var moment = require("moment");
 var geolib = require("geolib");
+var axios = require('axios');
 
 module.exports = function (app) {
   // ########################################################################
@@ -85,6 +86,7 @@ module.exports = function (app) {
   // query to CREATE A NEW MECHANIC CENTRE
   app.post("/api/mechaniccentres", function (req, res) {
     // basic details
+    console.log(req.body);
     var mechanicCentreData = {};
     if (
       req.body.name && req.body.phone && req.body.email && req.body.address1 &&
@@ -119,22 +121,22 @@ module.exports = function (app) {
       return;
     }
 
-    // working hours
+    // working hours upon account creation
     var mechanicCentreOrdinaryHoursData = {
-      mon_start: "09:20:00",
-      mon_end: "18:30:00",
-      tue_start: "09:20:00",
-      tue_end: "18:30:00",
-      wed_start: "09:20:00",
-      wed_end: "18:30:00",
-      thu_start: "09:20:00",
-      thu_end: "18:30:00",
-      fri_start: "09:20:00",
-      fri_end: "18:30:00",
-      sat_start: "00:00:00",
-      sat_end: "00:00:00",
-      sun_start: "00:00:00",
-      sun_end: "00:00:00"
+      mon_start: moment(req.body.monStart, "HH:mm:ss").format("HH:mm:ss"),
+      mon_end: moment(req.body.monEnd, "HH:mm:ss").format("HH:mm:ss"),
+      tue_start: moment(req.body.tueStart, "HH:mm:ss").format("HH:mm:ss"),
+      tue_end: moment(req.body.tueEnd, "HH:mm:ss").format("HH:mm:ss"),
+      wed_start: moment(req.body.wedStart, "HH:mm:ss").format("HH:mm:ss"),
+      wed_end: moment(req.body.wedEnd, "HH:mm:ss").format("HH:mm:ss"),
+      thu_start: moment(req.body.thuStart, "HH:mm:ss").format("HH:mm:ss"),
+      thu_end: moment(req.body.thuEnd, "HH:mm:ss").format("HH:mm:ss"),
+      fri_start: moment(req.body.friStart, "HH:mm:ss").format("HH:mm:ss"),
+      fri_end: moment(req.body.friEnd, "HH:mm:ss").format("HH:mm:ss"),
+      sat_start: moment(req.body.satStart, "HH:mm:ss").format("HH:mm:ss"),
+      sat_end: moment(req.body.satEnd, "HH:mm:ss").format("HH:mm:ss"),
+      sun_start: moment(req.body.sunStart, "HH:mm:ss").format("HH:mm:ss"),
+      sun_end: moment(req.body.sunEnd, "HH:mm:ss").format("HH:mm:ss")
     };
 
     // services offered by mechanic centre
@@ -197,27 +199,6 @@ module.exports = function (app) {
       console.log(schedule);
       res.json(schedule);
     });
-    // oldDB.query(
-    //   "SELECT user_username FROM MechanicCentreCredentials WHERE ?",
-    //   { user_username: "rob@gmail.com" },
-    //   function (error, results) {
-    //     if (error) {
-    //       throw error;
-    //     } else {
-    //       console.log(results[0].timeslots);
-    //       var schedule = [];
-    //       for (i = 0; i < results[0].timeslots; i++) {
-    //         var slot = {
-    //           startTime: "09:00",
-    //           endTime: "09:30"
-    //         };
-    //         schedule.push(slot);
-    //       }
-    //       console.log(schedule);
-    //       res.json(schedule);
-    //     }
-    //   }
-    // );
   });
 
   app.post("/api/noduplicateusernames", function (req, res) {
@@ -366,39 +347,52 @@ module.exports = function (app) {
   });
   app.get("/api/appointmentscount/:mechaniccentreid", function (req, res) {
     var curr = new moment();
-    var currDateTime = new moment(curr.format("YYYY-MM-DD")).add(2, "days");
-    db.Appointment.findAll({
-      attributes: ['appointment_date', 'appointment_time', 'appointment_datetime', [db.sequelize.fn('COUNT', db.sequelize.col('appointment_datetime')), 'same_datetime']],
-      where: {
-        mechanic_centre_id: req.params.mechaniccentreid,
-        appointment_datetime: {
-          [db.Sequelize.Op.gte]: currDateTime.format("YYYY-MM-DD 00:00:00")
-        }
-      },
-      order: [
-        ["appointment_datetime"]
-      ],
-      group: ['appointment_datetime', 'appointment_date', 'appointment_time']
-    }).then(function (results) {
+    // var currDateTime = new moment(curr.format("YYYY-MM-DD")).add(2, "days");
+    var currDateTime = curr;
+    // db.Appointment.findAll({
+    //   attributes: ['appointment_date', 'appointment_time', 'appointment_datetime', [db.sequelize.fn('COUNT', db.sequelize.col('appointment_datetime')), 'same_datetime']],
+    //   where: {
+    //     mechanic_centre_id: req.params.mechaniccentreid,
+    //     appointment_datetime: {
+    //       [db.Sequelize.Op.gte]: currDateTime.format("YYYY-MM-DD 00:00:00")
+    //     }
+    //   },
+    //   order: [
+    //     ["appointment_datetime"]
+    //   ],
+    //   group: ['appointment_datetime', 'appointment_date', 'appointment_time']
+    // }).then(function (results) {
+    //   console.log(results[0], results[1], results[2]);
+    //   res.json(results);
+    // });
+    db.sequelize.query(
+      "SELECT appointment_datetime, count(appointment_datetime) AS count FROM Appointments WHERE mechanic_centre_id = :mechaniccentreid GROUP BY appointment_datetime ORDER BY appointment_datetime",
+      { replacements: { mechaniccentreid: req.params.mechaniccentreid }, type: db.sequelize.QueryTypes.SELECT }
+    ).done(function (results) {
       res.json(results);
-    });
+    })
   });
+
+
   // query to CREATE A NEW APPOINTMENTS
   app.post("/api/appointments", function (req, res) {
-    console.log(req.body);
-    db.Appointment.create({
-      mechanic_centre_id: 5,
-      service_id: 5,
-      appointment_date: "2019-12-01",
-      appointment_time: "11:30:00",
-      appointment_datetime: "2019-12-01 11:30:00",
-      phone: "0410500100",
-      email: "adam@gmail.com",
-      car_plate: "ABC123",
-      car_brand: "mazda",
-      car_model: "model 11",
-      additional_notes: "make it fancy",
-    }).then(function (result) {
+    console.log("######", req.body);
+    db.Appointment.create(
+      // {
+      // mechanic_centre_id: 5,
+      // service_id: 5,
+      // appointment_date: "2019-12-01",
+      // appointment_time: "11:30:00",
+      // appointment_datetime: "2019-12-01 11:30:00",
+      // phone: "0410500100",
+      // email: "adam@gmail.com",
+      // car_plate: "ABC123",
+      // car_brand: "mazda",
+      // car_model: "model 11",
+      // additional_notes: "make it fancy",
+      // }
+      req.body
+    ).then(function (result) {
       res.json(result);
     });
   });
@@ -441,7 +435,13 @@ module.exports = function (app) {
         { replacements: { username: req.body.username, password: req.body.password }, type: db.sequelize.QueryTypes.SELECT }
       ).then(function (result) {
         console.log('mechanic_centre_id', result[0].id);
-        db.Appointment.findAll({ where: { mechanic_centre_id: result[0].mechanic_centre_id } }).then(function (results) {
+        // db.Appointment.findAll({ where: { mechanic_centre_id: result[0].mechanic_centre_id } }).then(function (results) {
+        //   res.json(results);
+        // });
+        db.sequelize.query(
+          "SELECT * FROM Appointments LEFT OUTER JOIN Services ON Appointments.service_id = Services.id WHERE mechanic_centre_id = :mechaniccentreid",
+          { replacements: { mechaniccentreid: result[0].mechanic_centre_id }, type: db.sequelize.QueryTypes.SELECT }
+        ).then(function (results) {
           res.json(results);
         });
       });
@@ -511,15 +511,49 @@ module.exports = function (app) {
       return;
     }
 
+    // working hours upon account creation
+    var mechanicCentreOrdinaryHoursData = {
+      mon_start: moment(req.body.monStart, "HH:mm:ss").format("HH:mm:ss"),
+      mon_end: moment(req.body.monEnd, "HH:mm:ss").format("HH:mm:ss"),
+      tue_start: moment(req.body.tueStart, "HH:mm:ss").format("HH:mm:ss"),
+      tue_end: moment(req.body.tueEnd, "HH:mm:ss").format("HH:mm:ss"),
+      wed_start: moment(req.body.wedStart, "HH:mm:ss").format("HH:mm:ss"),
+      wed_end: moment(req.body.wedEnd, "HH:mm:ss").format("HH:mm:ss"),
+      thu_start: moment(req.body.thuStart, "HH:mm:ss").format("HH:mm:ss"),
+      thu_end: moment(req.body.thuEnd, "HH:mm:ss").format("HH:mm:ss"),
+      fri_start: moment(req.body.friStart, "HH:mm:ss").format("HH:mm:ss"),
+      fri_end: moment(req.body.friEnd, "HH:mm:ss").format("HH:mm:ss"),
+      sat_start: moment(req.body.satStart, "HH:mm:ss").format("HH:mm:ss"),
+      sat_end: moment(req.body.satEnd, "HH:mm:ss").format("HH:mm:ss"),
+      sun_start: moment(req.body.sunStart, "HH:mm:ss").format("HH:mm:ss"),
+      sun_end: moment(req.body.sunEnd, "HH:mm:ss").format("HH:mm:ss")
+    };
+
+    console.log(mechanicCentreOrdinaryHoursData);
+
     db.MechanicCentreCredential.findOne({
       where: {
         user_username: req.body.username,
         user_password: req.body.password
       }
     }).then(function (result) {
+      console.log(result.mechanic_centre_id)
       var mechanicCentreId = result.mechanic_centre_id;
       db.MechanicCentre.update(
         mechanicCentreData,
+        {
+          where: {
+            id: mechanicCentreId
+          }
+        }
+      ).then(function (results) {
+        console.log(results);
+        // res.json(results);
+        res.json({ successful: true });
+      });
+
+      db.MechanicCentreOrdinaryHour.update(
+        mechanicCentreOrdinaryHoursData,
         {
           where: {
             id: mechanicCentreId
@@ -537,6 +571,7 @@ module.exports = function (app) {
     console.log(req.body);
     console.log(req.body.username);
     console.log(req.body.password);
+    // res.json({succes});
     db.MechanicCentreCredential.findAll({
       where: {
         // user_username: "rob@gmail.com",
@@ -625,78 +660,112 @@ module.exports = function (app) {
         });
       }
     });
+  });
 
 
-    ///////////////////////////
-    ///////////////////////////
-    ///////////////////////////
-    ///////////////////////////
-    ///////////////////////////
-    ///////////////////////////
-    ///////////////////////////
-    ///////////////////////////
-    ///////////////////////////
-    ///////////////////////////
-    ///////////////////////////
-    ///////////////////////////
-    // ########################################################################
-    // CUSTOM QUERIES
-    // ########################################################################
-    // query to get MECHANICS THAT PROVIDE A SPECIFIC SERVICES AND WITHIN SPECIFIC RANGE
-    app.get("/api/mechaniccentresfilter", function (req, res) {
-      var townhallstationposition = {
-        latitude: -33.873539,
-        longitude: 151.2047353
-      };
+  ///////////////////////////
+  ///////////////////////////
+  ///////////////////////////
+  ///////////////////////////
+  ///////////////////////////
+  ///////////////////////////
+  ///////////////////////////
+  ///////////////////////////
+  ///////////////////////////
+  ///////////////////////////
+  ///////////////////////////
+  ///////////////////////////
+  // ########################################################################
+  // CUSTOM QUERIES
+  // ########################################################################
+  // query to get MECHANICS THAT PROVIDE A SPECIFIC SERVICES AND WITHIN SPECIFIC RANGE
+  app.get("/api/mechaniccentresfilter", function (req, res) {
 
-      // console.log(req.query.servicename);
-      // console.log(req.query.metres);
-      // console.log(req.query.lat);
-      // console.log(req.query.lon);
+    // console.log(req.query.serviceid);
+    // console.log(req.query.metres);
+    // console.log(req.query.location);
 
-      var servicename = req.query.servicename || "wheel alignment";
-      var metres = req.query.metres || 10000000;
+    var serviceid = req.query.serviceid;
+    var metres = req.query.metres;
+    var userPosition = {};
 
-      var userPosition = {
-        latitude: req.query.lat || townhallstationposition.latitude,
-        longitude: req.query.lon || townhallstationposition.longitude
-      };
 
-      db.sequelize.query(
-        "SELECT * FROM Services LEFT OUTER JOIN MechanicCentreServices ON Services.id = MechanicCentreServices.service_id LEFT OUTER JOIN MechanicCentres ON MechanicCentreServices.mechanic_centre_id = MechanicCentres.id LEFT OUTER JOIN MechanicCentreOrdinaryHours ON MechanicCentres.id = MechanicCentreOrdinaryHours.mechanic_centre_id WHERE Services.service_name = :servicename",
-        { replacements: { servicename: servicename }, type: db.sequelize.QueryTypes.SELECT }
-      ).then(function (results) {
-        var mechanicCentresArr = results.filter(function (curr) {
-          var distance = geolib.getDistance(userPosition, {
-            latitude: curr.latitude,
-            longitude: curr.longitude
+
+    axios.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + req.query.location + '&key=AIzaSyDztmGphx7y_JZlodad0K8Bjxwmr4hLiZc')
+      .then(function (response) {
+        // console.log(response.data.results[0].geometry.location.lat);
+        // console.log(response.data.results[0].geometry.location.lng);
+
+        userPosition.latitude = response.data.results[0].geometry.location.lat;
+        userPosition.longitude = response.data.results[0].geometry.location.lng;
+        // console.log(userPosition);
+
+        db.sequelize.query(
+          "SELECT * FROM Services LEFT OUTER JOIN MechanicCentreServices ON Services.id = MechanicCentreServices.service_id LEFT OUTER JOIN MechanicCentres ON MechanicCentreServices.mechanic_centre_id = MechanicCentres.id LEFT OUTER JOIN MechanicCentreOrdinaryHours ON MechanicCentres.id = MechanicCentreOrdinaryHours.mechanic_centre_id WHERE Services.id = :serviceid",
+          { replacements: { serviceid: serviceid }, type: db.sequelize.QueryTypes.SELECT }
+        ).then(function (results) {
+          // console.log(results);
+          var mechanicCentresArr = results.filter(function (curr) {
+            var distance = geolib.getDistance(userPosition, {
+              latitude: curr.latitude,
+              longitude: curr.longitude
+            });
+            curr.distance_metres = distance;
+            // console.log(curr.latitude, curr.longitude, distance);
+            if (distance <= metres) {
+              return true;
+            }
+            return false;
           });
-          curr.distance_metres = distance;
-          console.log(distance);
-          if (distance <= metres) {
-            return true;
-          }
-          return false;
+          var mechanicCentresArr = mechanicCentresArr.sort(function (a, b) { return a.distance_metres - b.distance_metres });
+
+          res.json({
+            mechanics: mechanicCentresArr,
+            geography: response.data.results[0]
+          });
         });
-        res.json(mechanicCentresArr);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+        res.json({ outcome: 'error occured' });
+      })
+      .finally(function () {
+        // always executed
       });
-    });
-
   });
 
-  app.post("/api/appointment", function (req, res) {
-    db.Appointment.create({
-      service_id: parseInt(req.body.serviceRequest),
-      phone: req.body.customerPhone,
-      email: req.body.customerEmail,
-      car_plate: req.body.carPlate,
-      car_brand: req.body.carMake,
-      car_model: req.body.carModel,
-      additional_notes: req.body.customerNotes
-    }).then(function (results) {
-      res.json(results);
-    });
-  });
+
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////
 
   // app.get("/api/services", function (req,res) {
   //   db.Services.findAll({

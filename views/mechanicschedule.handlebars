@@ -1,20 +1,85 @@
-<nav class="navbar navbar-light bg-light sticky-top">
-    <span class="navbar-brand mb-0 h1 mr-auto">automender</span>
+<nav class="navbar bg-white navbar-light sticky-top" style="border-bottom: 5px solid black; height: 61px;">
+    <div class="position-absolute d-flex w-100 align-items-center px-3" style="left: 0px; top: 0px; height: 58px;">
+        <a class="navbar-brand mr-auto" href="/">
+            <h1><u>AUTOMENDER</u></h1>
+        </a>
+        <button id="logout" class="mr-1 btn btn-outline-dark" style="transform: scale(0.8);">Sign Out</button>
+        <a href="/account" class="mr-0"><img src="/images/setting.png"></a>
+    </div>
+</nav>
+
+
+<div class="container">
+    <div class="row page rounded p-5 my-0 my-sm-5 bg-white">
+        <div class="col-12">
+            <div class="row">
+                <h2 id="mechanicCentreName" class="mb-5 d-block"></h2>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="row">
+                <hr class="mt-0 mb-5 w-100">
+            </div>
+        </div>
+        <div class="col-md-6" id="scheduleSection">
+            <div class="row">
+                <div class="input-group mb-3 col-md-12 p-0">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Date</span>
+                    </div>
+                    <input type="date" class="form-control p-0 px-1" aria-label="Selected date for time slots"
+                        aria-describedby="inputGroup-sizing-default" id="selectedMechanicDate" value="2019-11-10">
+                    <div class="input-group-append">
+                        <button class="btn btn-dark" id="newDateBtn">Go</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <table class="table table-sm mt-3">
+                    <thead>
+                        <tr>
+                            <th scope="col">Time</th>
+                            <th scope="col">Availability</th>
+                        </tr>
+                    </thead>
+                    <tbody id="scheduleBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-6 mt-5 mt-md-0" id="scheduleDetails" align="center">
+            <h3>Appointments</h3>
+            <div class="appointmentDetails">
+                <div class="card mb-1">
+                    <div class="card-body">
+                        <p class="card-text m-0 text-muted"><i>Pick a date to time slot to view appointments</i></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="/js/mechanicschedulepage.js"></script>
+
+
+{{!-- <nav class="navbar navbar-light bg-light sticky-top">
+    <span class="navbar-brand mb-0 h1 mr-auto"><h4 class="mechanicLogo">AUTOMENDER</h4></span>
     <button id="logout" class="mr-1 btn btn-primary" style="transform: scale(0.8);">Sign Out</button>
     <a href="/account" class="mr-0"><img src="/images/setting.png"></a>
 </nav>
 <div class="container pt-4">
     <div class="row">
-        <div class="col-md-6" id="scheduleSection">
+        <div class="col-md-6 p-5" id="scheduleSection">
             <div class="row">
-                <div class="input-group mb-3 col-md-8">
+                <div class="input-group mb-3 col-md-9" align="left">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Date</span>
                     </div>
                     <input type="date" class="form-control" aria-label="Selected date for time slots"
                         aria-describedby="inputGroup-sizing-default" id="selectedMechanicDate" value="2019-11-10">
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3" align="right">
                     <button class="btn btn-primary" id="newDateBtn">Go</button>
                 </div>
             </div>
@@ -31,7 +96,7 @@
                 </table>
             </div>
         </div>
-        <div class="col-md-6" id="scheduleDetails" align="center">
+        <div class="col-md-6 p-5" id="scheduleDetails" align="center">
             <h3>Appointments</h3>
             <div class="appointmentDetails">
             </div>
@@ -65,6 +130,7 @@
         };
 
         function renderTable() {
+            $(".appointmentDetails").empty();
             $("#scheduleBody").empty();
             var mechanicID = credentials.mechanic_centre_id;
             var scheduleDate = $("#selectedMechanicDate").val();
@@ -134,17 +200,17 @@
                 var selectedTime = '<h4>' + moment(slotStart).format("hh:mm A") + '</h5>';
                 $(".appointmentDetails").append(selectedTime);
                 appointments.forEach(function (appointments) {
-                    var cardClass = '<div class="card"><div class="card-body">';
+                    var cardClass = '<div class="card mt-1"><div class="card-body">';
                     var cardTitle = '<h5 class="card-title">' + appointments.car_brand.toUpperCase() + " " + appointments.car_model.toUpperCase() + '</h5>';
                     var cardMessage = '<p class="card-text m-0" style="font-style:italic;">"' + toTitleCase(appointments.additional_notes) + '"</p>';
-                    var cardService = '<p class="card-text m-0"><strong>Service: </strong> ' + toTitleCase(appointments.service_name) + '</p>';
+                    //var cardService = '<p class="card-text m-0"><strong>Service: </strong> ' + toTitleCase(appointments.service_name) + '</p>';
                     var cardPlate = '<p class="card-text m-0"><strong>Plate #: </strong> ' + appointments.car_plate + '</p>';
                     var cardPhone = '<p class="card-text m-0"><strong>Phone: </strong> ' + appointments.phone + '</p>';
                     var cardEmail = '<p class="card-text m-0"><strong>Email: </strong> ' + appointments.email + '</p>';
                     //var cardButton = '<button type="button" class="btn btn-primary apptDetailsBtn" data-toggle="modal" data-target="#exampleModal">Details</button>';
                     cardClass += cardTitle;
                     cardClass += cardMessage;
-                    cardClass += cardService;
+                    //cardClass += cardService;
                     cardClass += cardPlate;
                     cardClass += cardPhone;
                     cardClass += cardEmail;
@@ -160,4 +226,4 @@
         });
         $("#newDateBtn").on("click", renderTable);
         window.onload = currentDate();
-    </script>
+    </script> --}}

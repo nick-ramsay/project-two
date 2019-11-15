@@ -1,11 +1,20 @@
-<nav class="navbar navbar-light bg-light sticky-top">
-    <span class="navbar-brand mb-0 h1 mr-auto">automender</span>
-    <button id="logout" class="mr-1 btn btn-primary d-none" style="transform: scale(0.8);">Sign Out</button>
-    <a href="/schedule"class="mr-0" ><img src="/images/schedule.png"></a>
+<nav class="navbar bg-white navbar-light sticky-top" style="border-bottom: 5px solid black; height: 61px;">
+    <div class="position-absolute d-flex w-100 align-items-center px-3" style="left: 0px; top: 0px; height: 58px;">
+        <a class="navbar-brand mr-auto" href="/">
+            <h1><u>AUTOMENDER</u></h1>
+        </a>
+        <button id="logout" class="mr-1 btn btn-outline-dark" style="transform: scale(0.8);">Sign Out</button>
+        <a href="/schedule" class="mr-0"><img src="/images/schedule.png"></a>
+    </div>
 </nav>
+
+
 <div class="container">
-    <div class="row">
-        <form class="mx-auto bg-white p-5 rounded mt-5 mb-5" id="updateAccountForm" data-accountID=12>
+    <div class="row ">
+        <form class="mx-auto page rounded p-5 my-0 my-sm-5 bg-white" id="updateAccountForm" data-accountID=12>
+            <h2 class="mb-5 d-block">Update Details</h2>
+            <hr class="mt-4 mb-5">
+            <h5 class="text-muted mb-4">General Information</h5>
             <div class="form-group">
                 <label for="updateMechanicShopName">Shop Name</label>
                 <input type="text" class="form-control" id="updateMechanicShopName"
@@ -52,88 +61,110 @@
                     <input type="text" class="form-control" id="updateMechanicPostcode">
                 </div>
             </div>
-            <h5 align="center">Daily Hours</h5>
-            <div class="row">
-                <div class="col">
-                    <p class="hourLabel">Monday</p>
+
+            <hr class="mt-5">
+
+            <h5 class="text-muted mt-5 mb-4">Opening Hours</h5>
+            <div class="row mb-3 align-items-center">
+                <div class="col-12 col-md-2">
+                    <p class="hourLabel mb-1">Monday</p>
                 </div>
                 <div class="col">
                     <input type="time" class="form-control" id="updateMonStartHour">
                 </div>
+                <div class="flex-shrink-1">
+                    <p class="m-0 p-0">to</p>
+                </div>
                 <div class="col">
-                    <input type="time"  class="form-control" id="updateMonEndHour">
+                    <input type="time" class="form-control" id="updateMonEndHour">
                 </div>
             </div>
-            <div class="row">
-                <div class="col">
-                    <p class="hourLabel">Tuesday</p>
+            <div class="row mb-3 align-items-center">
+                <div class="col-12 col-md-2">
+                    <p class="hourLabel mb-1">Tuesday</p>
                 </div>
                 <div class="col">
                     <input type="time" class="form-control" id="updateTueStartHour">
                 </div>
+                <div class="flex-shrink-1">
+                    <p class="m-0 p-0">to</p>
+                </div>
                 <div class="col">
-                    <input type="time"  class="form-control" id="updateTueEndHour">
+                    <input type="time" class="form-control" id="updateTueEndHour">
                 </div>
             </div>
-            <div class="row">
-                <div class="col">
-                    <p class="hourLabel">Wednesday</p>
+            <div class="row mb-3 align-items-center">
+                <div class="col-12 col-md-2">
+                    <p class="hourLabel mb-1">Wednesday</p>
                 </div>
                 <div class="col">
                     <input type="time" class="form-control" id="updateWedStartHour">
                 </div>
+                <div class="flex-shrink-1">
+                    <p class="m-0 p-0">to</p>
+                </div>
                 <div class="col">
-                    <input type="time"  class="form-control" id="updateWedEndHour">
+                    <input type="time" class="form-control" id="updateWedEndHour">
                 </div>
             </div>
-            <div class="row">
-                <div class="col">
-                    <p class="hourLabel">Thursday</p>
+            <div class="row mb-3 align-items-center">
+                <div class="col-12 col-md-2">
+                    <p class="hourLabel mb-1">Thursday</p>
                 </div>
                 <div class="col">
                     <input type="time" class="form-control" id="updateThuStartHour">
                 </div>
+                <div class="flex-shrink-1">
+                    <p class="m-0 p-0">to</p>
+                </div>
                 <div class="col">
-                    <input type="time"  class="form-control" id="updateThuEndHour">
+                    <input type="time" class="form-control" id="updateThuEndHour">
                 </div>
             </div>
-            <div class="row">
-                <div class="col">
-                    <p class="hourLabel">Friday</p>
+            <div class="row mb-3 align-items-center">
+                <div class="col-12 col-md-2">
+                    <p class="hourLabel mb-1">Friday</p>
                 </div>
                 <div class="col">
                     <input type="time" class="form-control" id="updateFriStartHour">
                 </div>
+                <div class="flex-shrink-1">
+                    <p class="m-0 p-0">to</p>
+                </div>
                 <div class="col">
-                    <input type="time"  class="form-control" id="updateFriEndHour">
+                    <input type="time" class="form-control" id="updateFriEndHour">
                 </div>
             </div>
-            <div class="row">
-                <div class="col">
-                    <p class="hourLabel">Saturday</p>
+            <div class="row mb-3 align-items-center">
+                <div class="col-12 col-md-2">
+                    <p class="hourLabel mb-1">Saturday</p>
                 </div>
                 <div class="col">
                     <input type="time" class="form-control" id="updateSatStartHour">
                 </div>
+                <div class="flex-shrink-1">
+                    <p class="m-0 p-0">to</p>
+                </div>
                 <div class="col">
-                    <input type="time"  class="form-control" id="updateSatEndHour">
+                    <input type="time" class="form-control" id="updateSatEndHour">
                 </div>
             </div>
-            <div class="row">
-                <div class="col">
-                    <p class="hourLabel">Friday</p>
+            <div class="row mb-5 align-items-center">
+                <div class="col-12 col-md-2">
+                    <p class="hourLabel mb-1">Sunday</p>
                 </div>
                 <div class="col">
                     <input type="time" class="form-control" id="updateSunStartHour">
                 </div>
+                <div class="flex-shrink-1">
+                    <p class="m-0 p-0">to</p>
+                </div>
                 <div class="col">
-                    <input type="time"  class="form-control" id="updateSunEndHour">
+                    <input type="time" class="form-control" id="updateSunEndHour">
                 </div>
             </div>
-            <button class="btn btn-primary" id="updateAccountBtn">Update Account</button>
+            <button class="btn btn-dark" id="updateAccountBtn">Update Account</button>
         </form>
     </div>
 </div>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="/js/mechanicaccountpage.js"></script>

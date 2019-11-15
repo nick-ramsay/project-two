@@ -2,77 +2,87 @@ body{
   min-height: 100vh;
   background: #262424;
   font-family: 'Roboto', sans-serif;
-  background-image: url("../images/background.jpg");
+  background: url("../images/background.jpg"), rgba(0, 0, 0, 0.6);
+  background-blend-mode: overlay;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   background-attachment: fixed;
-}
-.navbar {
-  background: #171616;
-  width: 100%;
-  height: 10%;
-  vertical-align: middle;
+  min-width: 400px;
+  overflow-x: hidden;
 }
 
-h1 {
+h1, .mechanicLogo {
   font-family: 'Montserrat Subrayada', sans-serif;
   margin: 0 auto;
 }
 
-.navbar-brand {
-    margin: 0px;
+.navbar.navbar-dark {
+  background: #171616 !important;
 }
-.navbar-expand-lg .navbar-nav .nav-link {
-    padding-right: 5rem;
-    padding-left: 5rem;
-}
-
-.nav-item {
-    padding: 1rem 1rem;
+.navbar-toggler {
+  visibility: hidden;
 }
 
-.smaller {
-  font-size: 
-}
-
-li.nav-item.nav-link.align-middle {
-    padding: 40px 25px 20px 25px;
-}
-
-li{
-  color: #707070;
-}
-
-li:hover {
-  color: #FFFFFF;
+a.link-light {
+  color: rgb(230, 230, 230) !important;
+  text-decoration: none;
   transition: 0.2s ease all; 
 }
-
-u {
-  color: #E6E6E6;
+a.link-light:hover {
+  color: white !important;
+  text-decoration: none;
 }
 
-u:hover {
-  color: #FFFFFF;
-  transition: 0.2s ease all; 
+@media(max-width: 576px) {
+  h1 {
+    font-size: 20px;
+  }
 }
+
+@media(max-width: 576px) {
+  .page.rounded {
+    border-radius: 0px !important;
+  }  
+}
+
+@media(max-width: 768px) {
+  .navbar-toggler {
+    visibility: visible;
+  }  
+}
+
+
+
+
+
+
 
 .btn-lg {
-  color: #707070;
+  color: #DDDDDD;
   background-color: #141414;
   border: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: 0.2s ease all; 
+
 }
 
 .btn-lg:hover {
-  color: #FFFFFF;
   background-color: #000000;
-  transition: 0.2s ease all; 
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 1);
+}
+
+.btn-lg:focus {
+  background-color: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 1) !important;
 }
 
 /*might need to change name*/
 .card {
   background: rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.4);
 }
 
 label {
@@ -80,8 +90,8 @@ label {
 }
 
 .frontCard { 
-  height: 40%;
-  margin-top: 12%;
+  /* height: 40%; */
+  /* margin-top: 12%; */
 }
 
 .list-group-item {
@@ -110,4 +120,6 @@ label {
 .hourLabel {
   font-weight: bold;
 }
+
+
 

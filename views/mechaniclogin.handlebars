@@ -1,10 +1,47 @@
-<nav class="navbar navbar-light bg-light sticky-top">
-    <span class="navbar-brand mb-0 h1">automender</span>
+<nav class="navbar bg-dark navbar-dark sticky-top" style="border-bottom: 5px solid white;">
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+    <div class="position-absolute d-flex justify-content-center align-items-center"
+        style="left: 50%; top: 0px; height: 58px; transform: translateX(-50%);">
+        <a href="/" class="d-none d-md-block text-light m-4 text-nowrap link-light">Mechanics</a>
+        <a href="/" class="d-none d-md-block text-light text-nowrap link-light">Services</a>
+        <a class="navbar-brand mx-5" href="/">
+            <h1><u>AUTOMENDER</u></h1>
+        </a>
+        <a href="/" class="d-none d-md-block text-light text-nowrap link-light">Blog</a>
+        <a href="/" class="d-none d-md-block text-light m-4 text-nowrap link-light">About us</a>
+    </div>
+
+    <div class="collapse navbar-collapse d-md-none" id="navbarNavDropdown">
+        <ul class="navbar-nav visibility-none d-md-none">
+            <li class="nav-item">
+                <a class="nav-link text-light link-light" href="/">Mechanics</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light link-light" href="/">Services</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light link-light" href="/">Blog</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light link-light" href="/">About us</a>
+            </li>
+        </ul>
+    </div>
 </nav>
-<div class="container-fluid">
-    <div class="col-md-6 mx-auto pt-3">
+
+
+
+<div class="container-fluid p-0">
+    <div class="col-sm-9 col-md-6 mx-auto">
         <div>
-            <form id="mechanicLoginForm" class="mt-4 mb-4 py-5 px-5 bg-white  rounded">
+            <form id="mechanicLoginForm" class="my-5 mb-4 py-5 px-5 bg-white  rounded">
+                <h2 class="mb-5 text-nowrap">Account Login</h2>
                 <div class="form-group">
                     <label for="mechanicUsername">Email address</label>
                     <input type="email" class="form-control" id="mechanicUsername" aria-describedby="emailHelp"
@@ -14,15 +51,24 @@
                     <label for="mechanicPassword">Password</label>
                     <input type="password" class="form-control" id="mechanicPassword" placeholder="Password">
                 </div>
-                <button type="submit" class="btn btn-primary" id="mechanicLoginBtn">Login</button>
-                <p id="outcomeMessage" class="d-none mt-2 mb-0 small text-danger">Invalid username or password. Please try again.</p>
+                <button type="submit" class="btn btn-dark" id="mechanicLoginBtn">Login</button>
+                <p id="outcomeMessage" class="d-none mt-2 mb-0 small text-danger">Invalid username or password. Please
+                    try again.</p>
+                {{!-- <div class="d-flex">
+                    <label for="" class="mr-auto">
+                        <input type="checkbox">
+                        <span>Remember me</span>
+                    </label>
+                    <label for="">
+                        <a href="">Trouble signing in?</a>
+                    </label>
+                </div> --}}
                 <div class="createAccount mt-5">
-                    <p class="mb-0">Don't have an account? <a href="/create-account">Create one now.</a></p>
+                    <p class="mb-0 text-secondary">Don't have an account? <a href="/create-account"
+                            class="text-dark"><b>Create one now.</b></a></p>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="/js/loginpage.js"></script>

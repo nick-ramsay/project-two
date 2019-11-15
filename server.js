@@ -26,7 +26,7 @@ require("./routes/apiRoutes")(app);
 require("./routes/htmlRoutes")(app);
 
 
-var repopulate = true;
+var repopulate = false;
 db.sequelize.sync({ force: repopulate }).then(function () {
   createDummyData(repopulate);
   
@@ -66,69 +66,69 @@ function createDummyData(shouldrun) {
     console.log('#################### services done');
     db.MechanicCentre.bulkCreate([
       {
-        centre_name: "rob's auto repairs",
+        centre_name: "Auto and Mechanic Services",
         phone: "0410100100",
         email: "rob@gmail.com",
-        address_street: "1 A Street",
-        address_city: "AAA City",
-        address_postcode: "2001",
+        address_street: "Central",
+        address_city: "Haymarket",
+        address_postcode: "2000",
         address_state: "NSW",
         address_country: "Australia",
-        latitude: -30.3,
-        longitude: 125.25,
-        employee_count: 3
+        latitude: -33.8831733,
+        longitude: 151.2069512,
+        employee_count: 2
       },
       {
-        centre_name: "mark's auto repairs",
+        centre_name: "Mark' Automotive Repairs",
         phone: "0420200200",
         email: "mark@gmail.com",
-        address_street: "1 B Street",
-        address_city: "BBB City",
-        address_postcode: "2002",
+        address_street: "90 Burrows Rd",
+        address_city: "Alexandria",
+        address_postcode: "2015",
         address_state: "NSW",
         address_country: "Australia",
-        latitude: -30.3,
-        longitude: 125.25,
-        employee_count: 3
+        latitude: -33.909817,
+        longitude: 151.1886462,
+        employee_count: 1
       },
       {
-        centre_name: "paul's auto repairs",
+        centre_name: "Paul's Motor Body Works",
         phone: "0430300300",
         email: "paul@gmail.com",
-        address_street: "1 C Street",
-        address_city: "CCC City",
-        address_postcode: "2003",
+        address_street: "355 Botany Rd",
+        address_city: "Zetland NSW",
+        address_postcode: "2017",
         address_state: "NSW",
         address_country: "Australia",
-        latitude: -30.3,
-        longitude: 125.25,
-        employee_count: 3
+        latitude: -33.9071757,
+        longitude: 151.2058063,
+        employee_count: 2
       },
       {
-        centre_name: "john's auto repairs",
+        centre_name: "John's Car Servicing",
         phone: "0440400400",
         email: "john@gmail.com",
-        address_street: "1 D Street",
-        address_city: "DDD City",
-        address_postcode: "2004",
+        address_street: "Glebe Point Rd & Derby Pl",
+        address_city: "Glebe",
+        address_postcode: "2037",
         address_state: "NSW",
         address_country: "Australia",
-        latitude: -30.3,
-        longitude: 125.25,
+        latitude: -33.8839501,
+        longitude: 151.1828702,
         employee_count: 3
       },
       {
-        centre_name: "luke's auto repairs",
+        centre_name: "Luke's Auto Repairs",
         phone: "0450500500",
         email: "luke@gmail.com",
-        address_street: "1 E Street",
-        address_city: "EEE City",
-        address_postcode: "2005",
+        address_street: "88 Edwin Street North",
+        address_city: "Croydon",
+        address_postcode: "2132",
         address_state: "NSW",
         address_country: "Australia",
-        latitude: -30.3,
-        longitude: 125.25,
-        employee_count: 3
+        latitude: -33.8830675,
+        longitude: 151.1171277,
+        employee_count: 5
       }
     ]).then(function() {
       console.log('#################### mechanic centres done');
@@ -306,9 +306,9 @@ function createDummyData(shouldrun) {
               },
               { mechanic_centre_id: 1,
                 service_id: 1,
-                appointment_date: "2019-11-28",
+                appointment_date: "2019-11-17",
                 appointment_time: "12:00:00",
-                appointment_datetime: "2019-11-28 12:00:00",
+                appointment_datetime: "2019-11-17 12:00:00",
                 phone: "0412341234",
                 email: "aaa@gmail.com",
                 car_plate: "AAA111",
@@ -318,9 +318,9 @@ function createDummyData(shouldrun) {
               },
               { mechanic_centre_id: 1,
                 service_id: 1,
-                appointment_date: "2019-11-28",
+                appointment_date: "2019-11-17",
                 appointment_time: "12:00:00",
-                appointment_datetime: "2019-11-29 12:00:00",
+                appointment_datetime: "2019-11-17 12:00:00",
                 phone: "0412341234",
                 email: "aaa@gmail.com",
                 car_plate: "AAA111",
@@ -330,9 +330,21 @@ function createDummyData(shouldrun) {
               },
               { mechanic_centre_id: 1,
                 service_id: 1,
-                appointment_date: "2019-11-29",
+                appointment_date: "2019-11-18",
                 appointment_time: "12:00:00",
-                appointment_datetime: "2019-11-29 12:00:00",
+                appointment_datetime: "2019-11-18 12:00:00",
+                phone: "0412341234",
+                email: "aaa@gmail.com",
+                car_plate: "AAA111",
+                car_brand: "mazda",
+                car_model: "model 1",
+                additional_notes: "please fix quickly"
+              },
+              { mechanic_centre_id: 1,
+                service_id: 1,
+                appointment_date: "2019-11-17",
+                appointment_time: "15:30:00",
+                appointment_datetime: "2019-11-17 15:30:00",
                 phone: "0412341234",
                 email: "aaa@gmail.com",
                 car_plate: "AAA111",
