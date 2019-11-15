@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": "data.Dump89",
+    "password": "Asdf1234",
     "database": "Automender2",
     "host": "localhost",
     "dialect": "mysql"

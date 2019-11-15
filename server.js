@@ -26,7 +26,7 @@ require("./routes/apiRoutes")(app);
 require("./routes/htmlRoutes")(app);
 
 
-var repopulate = true;
+var repopulate = false;
 db.sequelize.sync({ force: repopulate }).then(function () {
   createDummyData(repopulate);
   
