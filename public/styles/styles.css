@@ -12,7 +12,7 @@ body{
   overflow-x: hidden;
 }
 
-h1 {
+h1, .mechanicLogo {
   font-family: 'Montserrat Subrayada', sans-serif;
   margin: 0 auto;
 }

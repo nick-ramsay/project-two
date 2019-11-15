@@ -86,6 +86,7 @@ module.exports = function (app) {
   // query to CREATE A NEW MECHANIC CENTRE
   app.post("/api/mechaniccentres", function (req, res) {
     // basic details
+    console.log(req.body);
     var mechanicCentreData = {};
     if (
       req.body.name && req.body.phone && req.body.email && req.body.address1 &&
@@ -120,22 +121,22 @@ module.exports = function (app) {
       return;
     }
 
-    // working hours
+    // working hours upon account creation
     var mechanicCentreOrdinaryHoursData = {
-      mon_start: "09:20:00",
-      mon_end: "18:30:00",
-      tue_start: "09:20:00",
-      tue_end: "18:30:00",
-      wed_start: "09:20:00",
-      wed_end: "18:30:00",
-      thu_start: "09:20:00",
-      thu_end: "18:30:00",
-      fri_start: "09:20:00",
-      fri_end: "18:30:00",
-      sat_start: "00:00:00",
-      sat_end: "00:00:00",
-      sun_start: "00:00:00",
-      sun_end: "00:00:00"
+      mon_start: moment(req.body.monStart, "HH:mm:ss").format("HH:mm:ss"),
+      mon_end: moment(req.body.monEnd, "HH:mm:ss").format("HH:mm:ss"),
+      tue_start: moment(req.body.tueStart, "HH:mm:ss").format("HH:mm:ss"),
+      tue_end: moment(req.body.tueEnd, "HH:mm:ss").format("HH:mm:ss"),
+      wed_start: moment(req.body.wedStart, "HH:mm:ss").format("HH:mm:ss"),
+      wed_end: moment(req.body.wedEnd, "HH:mm:ss").format("HH:mm:ss"),
+      thu_start: moment(req.body.thuStart, "HH:mm:ss").format("HH:mm:ss"),
+      thu_end: moment(req.body.thuEnd, "HH:mm:ss").format("HH:mm:ss"),
+      fri_start: moment(req.body.friStart, "HH:mm:ss").format("HH:mm:ss"),
+      fri_end: moment(req.body.friEnd, "HH:mm:ss").format("HH:mm:ss"),
+      sat_start: moment(req.body.satStart, "HH:mm:ss").format("HH:mm:ss"),
+      sat_end: moment(req.body.satEnd, "HH:mm:ss").format("HH:mm:ss"),
+      sun_start: moment(req.body.sunStart, "HH:mm:ss").format("HH:mm:ss"),
+      sun_end: moment(req.body.sunEnd, "HH:mm:ss").format("HH:mm:ss")
     };
 
     // services offered by mechanic centre
@@ -365,7 +366,6 @@ module.exports = function (app) {
   });
   // query to CREATE A NEW APPOINTMENTS
   app.post("/api/appointments", function (req, res) {
-    console.log(req.body);
     db.Appointment.create({
       mechanic_centre_id: 5,
       service_id: 5,
@@ -497,15 +497,49 @@ module.exports = function (app) {
       return;
     }
 
+    // working hours upon account creation
+    var mechanicCentreOrdinaryHoursData = {
+      mon_start: moment(req.body.monStart, "HH:mm:ss").format("HH:mm:ss"),
+      mon_end: moment(req.body.monEnd, "HH:mm:ss").format("HH:mm:ss"),
+      tue_start: moment(req.body.tueStart, "HH:mm:ss").format("HH:mm:ss"),
+      tue_end: moment(req.body.tueEnd, "HH:mm:ss").format("HH:mm:ss"),
+      wed_start: moment(req.body.wedStart, "HH:mm:ss").format("HH:mm:ss"),
+      wed_end: moment(req.body.wedEnd, "HH:mm:ss").format("HH:mm:ss"),
+      thu_start: moment(req.body.thuStart, "HH:mm:ss").format("HH:mm:ss"),
+      thu_end: moment(req.body.thuEnd, "HH:mm:ss").format("HH:mm:ss"),
+      fri_start: moment(req.body.friStart, "HH:mm:ss").format("HH:mm:ss"),
+      fri_end: moment(req.body.friEnd, "HH:mm:ss").format("HH:mm:ss"),
+      sat_start: moment(req.body.satStart, "HH:mm:ss").format("HH:mm:ss"),
+      sat_end: moment(req.body.satEnd, "HH:mm:ss").format("HH:mm:ss"),
+      sun_start: moment(req.body.sunStart, "HH:mm:ss").format("HH:mm:ss"),
+      sun_end: moment(req.body.sunEnd, "HH:mm:ss").format("HH:mm:ss")
+    };
+
+    console.log(mechanicCentreOrdinaryHoursData);
+
     db.MechanicCentreCredential.findOne({
       where: {
         user_username: req.body.username,
         user_password: req.body.password
       }
     }).then(function (result) {
+      console.log(result.mechanic_centre_id)
       var mechanicCentreId = result.mechanic_centre_id;
       db.MechanicCentre.update(
         mechanicCentreData,
+        {
+          where: {
+            id: mechanicCentreId
+          }
+        }
+      ).then(function (results) {
+        console.log(results);
+        // res.json(results);
+        res.json({ successful: true });
+      });
+
+      db.MechanicCentreOrdinaryHour.update(
+        mechanicCentreOrdinaryHoursData,
         {
           where: {
             id: mechanicCentreId

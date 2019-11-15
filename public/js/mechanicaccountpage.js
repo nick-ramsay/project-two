@@ -60,19 +60,60 @@ $(document).ready(function () {
             .trim(),
           state: $("#updateMechanicState")
             .val()
-            .trim()
+            .trim(),
+          monStart: $("#updateMonStartHour")
+            .val()
+            .trim(),
+          monEnd: $("#updateMonEndHour")
+            .val()
+            .trim(),
+          tueStart: $("#updateTueStartHour")
+            .val()
+            .trim(),
+          tueEnd: $("#updateTueEndHour")
+            .val()
+            .trim(),
+          wedStart: $("#updateWedStartHour")
+            .val()
+            .trim(),
+          wedEnd: $("#updateWedEndHour")
+            .val()
+            .trim(),
+          thuStart: $("#updateThuStartHour")
+            .val()
+            .trim(),
+          thuEnd: $("#updateThuEndHour")
+            .val()
+            .trim(),
+          friStart: $("#updateFriStartHour")
+            .val()
+            .trim(),
+          friEnd: $("#updateFriEndHour")
+            .val()
+            .trim(),
+          satStart: $("#updateSatStartHour")
+            .val()
+            .trim(),
+          satEnd: $("#updateSatEndHour")
+            .val()
+            .trim(),
+          sunStart: $("#updateSunStartHour")
+            .val()
+            .trim(),
+          sunEnd: $("#updateSunEndHour")
+            .val()
         };
-
+        console.log(detailsObj);
         if (
           !detailsObj.name ||
-        !detailsObj.mechanicCount ||
-        !detailsObj.email ||
-        !detailsObj.phone ||
-        !detailsObj.address1 ||
-        !detailsObj.city ||
-        !detailsObj.postcode ||
-        !detailsObj.state ||
-        detailsObj.state === "Choose..."
+          !detailsObj.mechanicCount ||
+          !detailsObj.email ||
+          !detailsObj.phone ||
+          !detailsObj.address1 ||
+          !detailsObj.city ||
+          !detailsObj.postcode ||
+          !detailsObj.state ||
+          detailsObj.state === "Choose..."
         ) {
           alert("You haven't completed all the fields");
           return;
