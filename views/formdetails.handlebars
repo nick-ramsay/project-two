@@ -15,7 +15,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link navbar-brand align-middle" href="#">
-                        <h1><u>AUTOMENDER</u></h1>
+                        <h1>AUTOMENDER</h1>
                     </a>
                 </li>
                 <li class="nav-item nav-link align-middle" href="#">
@@ -27,72 +27,90 @@
             </ul>
         </div>
     </nav class=".align-content-end">
+
     {{!form}}
-    <div class="background">
-        <div class="card col-8 offset-2">
-            <div class="card-body">
-                <div class="row"></div>
-                <h5 class="card-title">REPAIR REQUEST</h5>
+    <div class="card col-8 offset-2 formCard">
+        <div class="card-body">
+            <div class="col-10 offset-1">
+                <h3 class="card-title"><u>REPAIR REQUEST</u></h3>
                 <p class="card-text"></p>
             </div>
+
             <form id="customerForm">
+
                 <div class="row">
                     <div class="col-5 offset-1">
                         <div class="form-group">
                             <label for="customerEmail">EMAIL ADDRESS</label>
-                            <input type="email" class="form-control" id="customerEmail" name="customerEmail" placeholder="johndoe@emails.com">
+                            <input type="email" class="form-control flex-fill" id="customerEmail" name="customerEmail"
+                                placeholder="johndoe@emails.com">
                         </div>
-
+                    </div>
+                    <div class="col-5">
                         <div class="form-group">
                             <label for="customerPhone">PHONE NUMBER</label>
-                            <input type="input" class="form-control" id="customerPhone" name="customerPhone"
+                            <input type="input" class="form-control flex-fill" id="customerPhone" name="customerPhone"
                                 placeholder="Name as shown on your license">
                         </div>
+                    </div>
+                </div>
 
+                <div class="row">
+                    <div class="col-5 offset-1">
                         <div class="form-group">
                             <label for="carMake">CAR MAKE</label>
-                            <input type="input" class="form-control" id="carMake" name="carMake"
+                            <input type="input" class="form-control flex-fill" id="carMake" name="carMake"
                                 placeholder="Eg. Toyota, Honda, Volswagon"></textarea>
                         </div>
                     </div>
-
                     <div class="col-5">
                         <div class="form-group">
                             <label for="carModel">CAR MODEL</label>
-                            <input type="input" class="form-control" id="carModel" name="carModel"
+                            <input type="input" class="form-control flex-fill" id="carModel" name="carModel"
                                 placeholder="Eg. Sedan, Convertible, SUV">
                         </div>
+                    </div>
+                </div>
 
+                <div class="row">
+                    <div class="col-5 offset-1">
                         <div class="form-group">
                             <label for="carPlate">LICENSE PLATE NUMBER<label>
-                            <input type="input" class="form-control" id="carPlate" name="carPlate"
-                                placeholder="Name as shown on your license">
+                                    <input type="input" class="form-control flex-fill" id="carPlate" name="carPlate"
+                                        placeholder="Name as shown on your license">
                         </div>
-                        
+                    </div>
+                    <div class="col-5">
                         <div class="form-group">
                             <label for="serviceRequest">
                                 <label for="serviceRequest">SERVICES NEEDED</label>
-                                <select class="form-control" id="serviceRequest" name="serviceRequest">
+                                <select class="form-control flex-fill" id="serviceRequest" name="serviceRequest">
                                     <option name="chosenMechanic">Select a service</option>
                                     {{#each services}}
                                     <option value="{{id}}">{{service_name}}</option>
                                     {{/each}}
                                 </select>
                         </div>
-                
+                    </div>
+                </div>
 
+                <div class="row">
+                    <div class="col-10 offset-1">
                         <div class="form-group">
                             <label for="customerNotes">ADDITIONAL NOTES</label>
-                            <textarea class="form-control" id="customerNotes" name="customerNotes" rows="2"></textarea>
+                            <textarea class="form-control  flex-fill" id="customerNotes" name="customerNotes" rows="2"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <button type="submit" class="btn btn-primary customerFormButton">SUBMIT</button>
+                    <div class="col-10 offset-1">
+                        <button type="submit" class="btn btn-primary  flex-fill customerFormButton">SUBMIT</button>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
+</div>
 </div>
 
 </div>

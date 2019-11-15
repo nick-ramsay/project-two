@@ -1,39 +1,61 @@
-{{!navbar}}
 <div id="mechanic">
-  <nav class="navbar container-fluid text-center sticky-top">
-    <span class="navbar-brand mb-0 h1 col-md-4 offset-md-4">
-      <a href="/"><h1><u>AUTOMENDER</u></h1></a>
-    </span>
-  </nav>
-        {{!mech details}}
-        <div class="background">
-            <div class="card">
-                <div class="card-body">
-                    <h1>MAKE YOUR BOOKING</h1>
-                    <form>
-                        <input name="id" type="hidden" value="{{id}}">
-                        <select>
-                            <option name="chosenMechanic">Select a mechanic</option>
-                            {{#each mechanics}}
-                                <option value="{{id}}">{{centre_name}}</option>
-                            {{/each}}
-                        </select>
-                        <select>
-                            <option>Select a date</option>
-                            {{#each centers}}
-                                <option name="customerDate" value="{{id}}">{{centre_name}}</option>
-                            {{/each}}
-                        </select>
-                        <select>
-                            <option>Select a time</option>
-                            {{#each centers}}
-                                <option name="customerTime" value="{{id}}">{{centre_name}}</option>
-                            {{/each}}
-                        </select>
-                        <button class="btn btn-primary mechButton">SUBMIT</button>
-                    </form>
-                </div>
+    {{!navbar}}
+    <nav class="navbar navbar-expand-lg .align-content-start sticky-top">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item nav-link align-middle smaller" href="#">
+                    ABOUT US
+                </li>
+                <li class="nav-item nav-link align-middle smaller" href="#">
+                    SERVICES
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link navbar-brand align-middle" href="#">
+                        <h1><u>AUTOMENDER</u></h1>
+                    </a>
+                </li>
+                <li class="nav-item nav-link align-middle smaller" href="#">
+                    MECHANICS
+                </li>
+                <li class="nav-item nav-link align-middle smaller" href="#">
+                    BLOG
+                </li>
+            </ul>
+        </div>
+    </nav class=".align-content-end">
+    {{!mech details}}
+    <div class="background">
+        <div class="card">
+            <div class="card-body">
+                <h1>MAKE YOUR BOOKING</h1>
+                <form>
+                    <input name="id" type="hidden" value="{{id}}">
+                    <select>
+                        <option name="chosenMechanic">Select a mechanic</option>
+                        {{#each mechanics}}
+                        <option value="{{id}}">{{centre_name}}</option>
+                        {{/each}}
+                    </select>
+                    <select>
+                        <option>Select a date</option>
+                        {{#each centers}}
+                        <option name="customerDate" value="{{id}}">{{centre_name}}</option>
+                        {{/each}}
+                    </select>
+                    <select>
+                        <option>Select a time</option>
+                        {{#each centers}}
+                        <option name="customerTime" value="{{id}}">{{centre_name}}</option>
+                        {{/each}}
+                    </select>
+                    <button class="btn btn-primary mechButton">SUBMIT</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
 </div>

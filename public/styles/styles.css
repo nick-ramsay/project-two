@@ -15,9 +15,20 @@ body{
   vertical-align: middle;
 }
 
-h1 {
+input#carPlate.form-control.d-flex,
+select#serviceRequest.form-control.flex-fill {
+  flex: 1;
+}
+
+h1, h3 {
   font-family: 'Montserrat Subrayada', sans-serif;
-  margin: 0 auto;
+  color: #E6E6E6;
+  text-decoration: underline;
+}
+
+h1:hover {
+  color: #FFFFFF;
+  transition: 0.2s ease all; 
 }
 
 .navbar-brand {
@@ -49,15 +60,6 @@ li:hover {
   transition: 0.2s ease all; 
 }
 
-u {
-  color: #E6E6E6;
-}
-
-u:hover {
-  color: #FFFFFF;
-  transition: 0.2s ease all; 
-}
-
 .btn-lg {
   color: #707070;
   background-color: #141414;
@@ -73,6 +75,10 @@ u:hover {
 /*might need to change name*/
 .card {
   background: rgba(0, 0, 0, 0.4);
+}
+
+.formCard {
+  margin-top: 2%;
 }
 
 label {
