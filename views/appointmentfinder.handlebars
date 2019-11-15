@@ -6,18 +6,20 @@
 </style>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" id="mechanicModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+            <div class="modal-header border-bottom-0 pb-0">
+                <h5 class="modal-title" id="modalMechanicName"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                ...
+                <p id="modalPhone" class="mb-0">Phone: ${curr.phone}</p>
+                <p id="modalAddress1" class="mb-0">${curr.address_street}, ${curr.address_city}</p>
+                <p id="modalAddress2" class="mb-0">${curr.address_state}, ${curr.address_postcode}</p>
+                <p id="modalDistance" class="mb-0">${(curr.distance_metres / 1000).toFixed(1)} km away</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

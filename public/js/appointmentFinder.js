@@ -32,7 +32,7 @@ $('#locationForm').on('submit', function (e) {
         $('#mechanicCentresList').removeClass('d-none');
         data.mechanics.forEach(function (curr, i, arr) {
           var button = $(`
-          <button data-mechanicid="${curr.mechanic_centre_id}" data-index="${i}" class="card bg-white w-100 p-3" data-toggle="modal" data-target="#exampleModalLong">
+          <button data-mechanicid="${curr.mechanic_centre_id}" data-index="${i}" class="card bg-white w-100 p-3" data-toggle="modal" data-target="#mechanicModal">
           <p style="font-size: 1.2rem;"><b>${toTitleCase(curr.centre_name)}</b></p>
           <p class="mb-0 text-muted">Phone: ${curr.phone}</p>
           <p class="mb-0 text-muted">${curr.address_street}, ${curr.address_city}</p>
@@ -49,6 +49,11 @@ $('#locationForm').on('submit', function (e) {
             console.log($(this).attr('data-index'));
             mechanicSelected = data.mechanics[Number($(this).attr('data-index'))];
             console.log(mechanicSelected);
+            $('#modalMechanicName').text(toTitleCase(mechanicSelected.centre_name));
+            $('#modalPhone').text('Phone: ' + mechanicSelected.phone);
+            $('#modalAddress1').text(mechanicSelected.address_street + ' ' +mechanicSelected.address_city);
+            $('#modalAddress2').text(mechanicSelected.address_state + ', ' + mechanicSelected.address_postcode);
+            $('#modalDistance').text(mechanicSelected.distance_metres + ' metres away');
           });
         });
       }
