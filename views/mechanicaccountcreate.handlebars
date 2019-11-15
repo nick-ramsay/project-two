@@ -1,9 +1,53 @@
-<nav class="navbar navbar-light bg-light sticky-top">
-    <span class="navbar-brand mb-0 h1">automender</span>
+<nav class="navbar bg-dark navbar-dark sticky-top" style="border-bottom: 5px solid white;">
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+    <div class="position-absolute d-flex justify-content-center align-items-center"
+        style="left: 50%; top: 0px; height: 58px; transform: translateX(-50%);">
+        <a href="/" class="d-none d-md-block text-light m-4 text-nowrap link-light">Mechanics</a>
+        <a href="/" class="d-none d-md-block text-light text-nowrap link-light">Services</a>
+        <a class="navbar-brand mx-5" href="/">
+            <h1><u>AUTOMENDER</u></h1>
+        </a>
+        <a href="/" class="d-none d-md-block text-light text-nowrap link-light">Blog</a>
+        <a href="/" class="d-none d-md-block text-light m-4 text-nowrap link-light">About us</a>
+    </div>
+
+    <div class="collapse navbar-collapse d-md-none" id="navbarNavDropdown">
+        <ul class="navbar-nav visibility-none d-md-none">
+            <li class="nav-item">
+                <a class="nav-link text-light link-light" href="/">Mechanics</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light link-light" href="/">Services</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light link-light" href="/">Blog</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light link-light" href="/">About us</a>
+            </li>
+        </ul>
+    </div>
 </nav>
+
+
 <div class="container">
     <div class="row">
-        <form class="mt-5 mb-5 mx-auto p-5 clearfix bg-white rounded" action="POST">
+        <form class="mx-auto p-5 my-0 my-sm-5 bg-white page rounded" action="POST">
+            <h2 class="mb-3">Account Creation</h2>
+            <p class="mb-5" style="font-size: 0.9rem;">Enter the information into the fields below to set up an account
+                for your
+                business.</p>
+
+
+
+
+            <h5 class="text-muted mb-4">General Information</h5>
             <div class="form-group">
                 <label for="mechanicShopName">Shop Name</label>
                 <input type="text" class="form-control" id="mechanicShopName"
@@ -62,16 +106,119 @@
                     <input type="text" class="form-control" id="mechanicPostcode">
                 </div>
             </div>
-            <h5 align="center">Daily Hours</h5>
-            <div class="row">
-                <div class="col">
-                    <p class="hourLabel">Monday</p>
+
+
+
+
+
+            <h5 class="text-muted mt-5 mb-4">Opening Hours</h5>
+            <div class="row mb-3 align-items-center">
+                <div class="col-12 col-md-2">
+                    <p class="hourLabel mb-1">Monday</p>
                 </div>
                 <div class="col">
                     <input type="time" class="form-control" id="setMonStartHour" value="09:00:00">
                 </div>
+                <div class="flex-shrink-1">
+                    <p class="m-0 p-0">to</p>
+                </div>
                 <div class="col">
-                    <input type="time"  class="form-control" id="setMonEndHour" value="17:00:00">
+                    <input type="time" class="form-control" id="setMonEndHour" value="17:00:00">
+                </div>
+            </div>
+            <div class="row mb-3 align-items-center">
+                <div class="col-12 col-md-2">
+                    <p class="hourLabel mb-1">Tuesday</p>
+                </div>
+                <div class="col">
+                    <input type="time" class="form-control" id="setTueStartHour" value="09:00:00">
+                </div>
+                <div class="flex-shrink-1">
+                    <p class="m-0 p-0">to</p>
+                </div>
+                <div class="col">
+                    <input type="time" class="form-control" id="setTueEndHour" value="17:00:00">
+                </div>
+            </div>
+            <div class="row mb-3 align-items-center">
+                <div class="col-12 col-md-2">
+                    <p class="hourLabel mb-1">Wednesday</p>
+                </div>
+                <div class="col">
+                    <input type="time" class="form-control" id="setWedStartHour" value="09:00:00">
+                </div>
+                <div class="flex-shrink-1">
+                    <p class="m-0 p-0">to</p>
+                </div>
+                <div class="col">
+                    <input type="time" class="form-control" id="setWedEndHour" value="17:00:00">
+                </div>
+            </div>
+            <div class="row mb-3 align-items-center">
+                <div class="col-12 col-md-2">
+                    <p class="hourLabel mb-1">Thursday</p>
+                </div>
+                <div class="col">
+                    <input type="time" class="form-control" id="setThuStartHour" value="09:00:00">
+                </div>
+                <div class="flex-shrink-1">
+                    <p class="m-0 p-0">to</p>
+                </div>
+                <div class="col">
+                    <input type="time" class="form-control" id="setThuEndHour" value="17:00:00">
+                </div>
+            </div>
+            <div class="row mb-3 align-items-center">
+                <div class="col-12 col-md-2">
+                    <p class="hourLabel mb-1">Friday</p>
+                </div>
+                <div class="col">
+                    <input type="time" class="form-control" id="setFriStartHour" value="09:00:00">
+                </div>
+                <div class="flex-shrink-1">
+                    <p class="m-0 p-0">to</p>
+                </div>
+                <div class="col">
+                    <input type="time" class="form-control" id="setFriEndHour" value="17:00:00">
+                </div>
+            </div>
+            <div class="row mb-3 align-items-center">
+                <div class="col-12 col-md-2">
+                    <p class="hourLabel mb-1">Saturday</p>
+                </div>
+                <div class="col">
+                    <input type="time" class="form-control" id="setSatStartHour" value="00:00:00">
+                </div>
+                <div class="flex-shrink-1">
+                    <p class="m-0 p-0">to</p>
+                </div>
+                <div class="col">
+                    <input type="time" class="form-control" id="setSatEndHour" value="00:00:00">
+                </div>
+            </div>
+            <div class="row mb-5 align-items-center">
+                <div class="col-12 col-md-2">
+                    <p class="hourLabel mb-1">Friday</p>
+                </div>
+                <div class="col">
+                    <input type="time" class="form-control" id="setSunStartHour" value="00:00:00">
+                </div>
+                <div class="flex-shrink-1">
+                    <p class="m-0 p-0">to</p>
+                </div>
+                <div class="col">
+                    <input type="time" class="form-control" id="setSunEndHour" value="00:00:00">
+                </div>
+            </div>
+            {{!-- <div class="row">
+                <div class="col">
+                    <p class="hourLabel">Monday</p>
+                </div>
+                <div class="col">
+                    <input type="time" class="form-control" id="setMonStartHour" >
+                </div>
+                <div class="col">
+                    <input type="time" class="form-control" id="setMonEndHour" value="17:00:00">
                 </div>
             </div>
             <div class="row">
@@ -82,7 +229,7 @@
                     <input type="time" class="form-control" id="setTueStartHour" value="09:00:00">
                 </div>
                 <div class="col">
-                    <input type="time"  class="form-control" id="setTueEndHour" value="17:00:00">
+                    <input type="time" class="form-control" id="setTueEndHour" value="17:00:00">
                 </div>
             </div>
             <div class="row">
@@ -93,7 +240,7 @@
                     <input type="time" class="form-control" id="setWedStartHour" value="09:00:00">
                 </div>
                 <div class="col">
-                    <input type="time"  class="form-control" id="setWedEndHour" value="17:00:00">
+                    <input type="time" class="form-control" id="setWedEndHour" value="17:00:00">
                 </div>
             </div>
             <div class="row">
@@ -104,7 +251,7 @@
                     <input type="time" class="form-control" id="setThuStartHour" value="09:00:00">
                 </div>
                 <div class="col">
-                    <input type="time"  class="form-control" id="setThuEndHour" value="17:00:00">
+                    <input type="time" class="form-control" id="setThuEndHour" value="17:00:00">
                 </div>
             </div>
             <div class="row">
@@ -115,7 +262,7 @@
                     <input type="time" class="form-control" id="setFriStartHour" value="09:00:00">
                 </div>
                 <div class="col">
-                    <input type="time"  class="form-control" id="setFriEndHour" value="17:00:00">
+                    <input type="time" class="form-control" id="setFriEndHour" value="17:00:00">
                 </div>
             </div>
             <div class="row">
@@ -126,7 +273,7 @@
                     <input type="time" class="form-control" id="setSatStartHour" value="00:00:00">
                 </div>
                 <div class="col">
-                    <input type="time"  class="form-control" id="setSatEndHour" value="00:00:00">
+                    <input type="time" class="form-control" id="setSatEndHour" value="00:00:00">
                 </div>
             </div>
             <div class="row">
@@ -137,13 +284,13 @@
                     <input type="time" class="form-control" id="setSunStartHour" value="00:00:00">
                 </div>
                 <div class="col">
-                    <input type="time"  class="form-control" id="setSunEndHour" value="00:00:00">
+                    <input type="time" class="form-control" id="setSunEndHour" value="00:00:00">
                 </div>
-            </div>
-            <button class="btn btn-primary mt-5" id="createNewAccountBtn">Create Account</button>
+            </div> --}}
+            <p style="font-size: 0.9rem;">By clicking Create Account you agree to our <a href=""
+                    class="text-dark"><b>Terms</b></a> and <a href="" class="text-dark"><b>Privacy Policy</b></a>.</p>
+            <button class="btn btn-dark" id="createNewAccountBtn">Create Account</button>
         </form>
     </div>
 </div>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="/js/index.js"></script>

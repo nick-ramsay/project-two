@@ -25,10 +25,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING
     },
     latitude: {
-      type: DataTypes.DECIMAL
+      type: DataTypes.DECIMAL(15,10)
     },
     longitude: {
-      type: DataTypes.DECIMAL
+      type: DataTypes.DECIMAL(15,10)
     },
     employee_count: {
       type: DataTypes.INTEGER

@@ -1,0 +1,131 @@
+<div class="brokenDeets">
+    <nav class="navbar bg-dark navbar-dark sticky-top" style="border-bottom: 5px solid white;">
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <div class="position-absolute d-flex justify-content-center align-items-center"
+            style="left: 50%; top: 0px; height: 58px; transform: translateX(-50%);">
+            <a href="/" class="d-none d-md-block text-light m-4 text-nowrap link-light">Mechanics</a>
+            <a href="/" class="d-none d-md-block text-light text-nowrap link-light">Services</a>
+            <a class="navbar-brand mx-5" href="/">
+                <h1><u>AUTOMENDER</u></h1>
+            </a>
+            <a href="/" class="d-none d-md-block text-light text-nowrap link-light">Blog</a>
+            <a href="/" class="d-none d-md-block text-light m-4 text-nowrap link-light">About us</a>
+        </div>
+
+        <div class="collapse navbar-collapse d-md-none" id="navbarNavDropdown">
+            <ul class="navbar-nav visibility-none d-md-none">
+                <li class="nav-item">
+                    <a class="nav-link text-light link-light" href="/">Mechanics</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light link-light" href="/">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light link-light" href="/">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light link-light" href="/">About us</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+    {{!form}}
+    <div class="background">
+        <div class="card col-8 offset-2 bg-white p-5 mt-5 mb-5 rounded">
+            <div class="card-body p-0">
+                <div class="d-flex align-items-start mb-4 flex-wrap">
+                    <div>
+                        <h2>Book Appointment</h2>
+                        <p>Customer Details</p>
+                    </div>
+
+                    <button id="clearDetails" class="btn btn-danger customerFormButton ml-auto">CLEAR</button>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <label for="customerEmail">Email Address*</label>
+                            <input type="email" class="form-control" id="customerEmail" name="customerEmail"
+                                placeholder="johndoe@email.com">
+                        </div>
+                    </div>
+
+
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <label for="customerPhone">Phone Number*</label>
+                            <input type="input" class="form-control" id="customerPhone" name="customerPhone"
+                                placeholder="e.g. 0401 234 567">
+                        </div>
+                    </div>
+
+
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <label for="serviceRequest">Services Required*</label>
+                            <select class="form-control" id="serviceRequest" name="serviceRequest">
+                                <option value="0" name="chosenMechanic">Select a service</option>
+                                {{#each services}}
+                                <option value="{{id}}">{{service_name}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <label for="carPlate">License Plate Number*</label>
+                            <input type="input" class="form-control" id="carPlate" name="carPlate"
+                                placeholder="Name as shown on your license">
+                        </div>
+                    </div>
+
+
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <label for="carMake">Car Make*</label>
+                            <input type="input" class="form-control" id="carMake" name="carMake"
+                                placeholder="e.g. Toyota, Honda, Volkswagon">
+                        </div>
+                    </div>
+
+
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <label for="carModel">Car Model*</label>
+                            <input type="input" class="form-control" id="carModel" name="carModel"
+                                placeholder="e.g. Sedan, Convertible, SUV">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <p id="step1Warning" class="text-danger small d-none">All required fields (*) must be filled</p>
+                    </div>
+
+
+                    <div class="col-12 mb-5">
+                        <div class="form-group">
+                            <label for="customerNotes">Additional Notes</label>
+                            <textarea class="form-control" id="customerNotes" name="customerNotes" rows="2"
+                                placeholder="(optional)"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="buttonNext" class="btn btn-dark customerFormButton">NEXT</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/appointment.js"></script>
