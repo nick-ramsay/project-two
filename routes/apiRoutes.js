@@ -367,8 +367,8 @@ module.exports = function (app) {
     // });
     db.sequelize.query(
       "SELECT appointment_datetime, count(appointment_datetime) AS count FROM Appointments WHERE mechanic_centre_id = :mechaniccentreid GROUP BY appointment_datetime ORDER BY appointment_datetime",
-      { replacements: { mechaniccentreid: req.params.mechaniccentreid}, type: db.sequelize.QueryTypes.SELECT}
-    ).done(function(results) {
+      { replacements: { mechaniccentreid: req.params.mechaniccentreid }, type: db.sequelize.QueryTypes.SELECT }
+    ).done(function (results) {
       res.json(results);
     })
   });
@@ -376,19 +376,23 @@ module.exports = function (app) {
 
   // query to CREATE A NEW APPOINTMENTS
   app.post("/api/appointments", function (req, res) {
-    db.Appointment.create({
-      mechanic_centre_id: 5,
-      service_id: 5,
-      appointment_date: "2019-12-01",
-      appointment_time: "11:30:00",
-      appointment_datetime: "2019-12-01 11:30:00",
-      phone: "0410500100",
-      email: "adam@gmail.com",
-      car_plate: "ABC123",
-      car_brand: "mazda",
-      car_model: "model 11",
-      additional_notes: "make it fancy",
-    }).then(function (result) {
+    console.log("######", req.body);
+    db.Appointment.create(
+      // {
+      // mechanic_centre_id: 5,
+      // service_id: 5,
+      // appointment_date: "2019-12-01",
+      // appointment_time: "11:30:00",
+      // appointment_datetime: "2019-12-01 11:30:00",
+      // phone: "0410500100",
+      // email: "adam@gmail.com",
+      // car_plate: "ABC123",
+      // car_brand: "mazda",
+      // car_model: "model 11",
+      // additional_notes: "make it fancy",
+      // }
+      req.body
+    ).then(function (result) {
       res.json(result);
     });
   });
@@ -567,6 +571,7 @@ module.exports = function (app) {
     console.log(req.body);
     console.log(req.body.username);
     console.log(req.body.password);
+    // res.json({succes});
     db.MechanicCentreCredential.findAll({
       where: {
         // user_username: "rob@gmail.com",
@@ -712,10 +717,10 @@ module.exports = function (app) {
             }
             return false;
           });
-          var mechanicCentresArr = mechanicCentresArr.sort(function(a, b){return a.distance_metres - b.distance_metres});
+          var mechanicCentresArr = mechanicCentresArr.sort(function (a, b) { return a.distance_metres - b.distance_metres });
 
           res.json({
-            mechanics: mechanicCentresArr, 
+            mechanics: mechanicCentresArr,
             geography: response.data.results[0]
           });
         });
@@ -723,7 +728,7 @@ module.exports = function (app) {
       .catch(function (error) {
         // handle error
         console.log(error);
-        res.json({outcome: 'error occured'});
+        res.json({ outcome: 'error occured' });
       })
       .finally(function () {
         // always executed
@@ -761,19 +766,6 @@ module.exports = function (app) {
   ////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////
-  app.post("/api/appointment", function (req, res) {
-    db.Appointment.create({
-      service_id: parseInt(req.body.serviceRequest),
-      phone: req.body.customerPhone,
-      email: req.body.customerEmail,
-      car_plate: req.body.carPlate,
-      car_brand: req.body.carMake,
-      car_model: req.body.carModel,
-      additional_notes: req.body.customerNotes
-    }).then(function (results) {
-      res.json(results);
-    });
-  });
 
   // app.get("/api/services", function (req,res) {
   //   db.Services.findAll({

@@ -1,11 +1,12 @@
 var appointmentLocalStorage;
 var mechanicSelected;
+var selectedDay;
 $(document).ready(function () {
   appointmentLocalStorage = JSON.parse(localStorage.getItem("tempAppointmentForm"));
   if (!appointmentLocalStorage) {
     window.location.replace("/appointment");
   }
-  console.log(appointmentLocalStorage);
+  // console.log(appointmentLocalStorage);
 });
 
 
@@ -59,8 +60,8 @@ $('#locationForm').on('submit', function (e) {
               url: '/api/appointmentscount/' + mechanicSelected.mechanic_centre_id
             }).done(function(results) {
               //
-              console.log('####', results);
-
+              // console.log('####', results);
+              renderTable(results);
             });
           });
         });
@@ -83,37 +84,88 @@ $('#buttonBack').on('click', function () {
 });
 
 
-// $('#buttonNext').on('click', function () {
-//   var detailsObj = {};
-//   if (
-//     $('#customerEmail').val().trim().length === 0 || ('#customerPhone').val().trim().length === 0 || $('#serviceRequest').val() === "0" ||
-//     $('#carPlate').val().trim().length === 0 || $('#carMake').val().trim().length === 0 || $('#carModel').val().trim().length === 0
-//   ) {
-//     $('#step1Warning').removeClass('d-none');
-//   } else {
-//     detailsObj.customerEmail = $('#customerEmail').val().trim();
-//     detailsObj.customerPhone = $('#customerPhone').val().trim();
-//     detailsObj.serviceRequest = $('#serviceRequest').val().trim();
-//     detailsObj.carPlate = $('#carPlate').val().trim();
-//     detailsObj.carMake = $('#carMake').val().trim();
-//     detailsObj.carModel = $('#carModel').val().trim();
-//     detailsObj.customerNotes = $('#customerNotes').val().trim() || "";
-//     localStorage.setItem("tempAppointmentForm", JSON.stringify(detailsObj));
-//     console.log('to set 2');
-//   }
-// });
 
-// $('#customerEmail, #customerPhone, #serviceRequest, #carPlate, #carMake, #carModel').on("input", function () {
-//   $('#step1Warning').addClass('d-none');
-//   if ($(this).val().trim().length === 0 || ($(this).attr('id') === "serviceRequest" && $(this).val() === "0")) {
-//     $(this).addClass("border-danger");
-//   } else {
-//     $(this).removeClass("border-danger");
-//   }
-// });
+function renderTable(counts) {
+  // var mechanicSelected;
+  // find earliest start time
+
+  var startTimes = [mechanicSelected.mon_start, mechanicSelected.tue_start, mechanicSelected.wed_start, mechanicSelected.tue_start, mechanicSelected.fri_start, mechanicSelected.sat_start, mechanicSelected.sun_start];
+  var endTimes = [mechanicSelected.mon_end, mechanicSelected.tue_end, mechanicSelected.wed_end, mechanicSelected.tue_end, mechanicSelected.fri_end, mechanicSelected.sat_end, mechanicSelected.sun_end];
+
+  var currTime = new moment();
+  var tomorrowIndex = Number(currTime.format('d')) + 1;
+  if (tomorrowIndex === 7) {
+    tomorrowIndex = 0
+  }
+  var tomorrow = currTime.add(1, 'day');
+  // console.log(Number(currTime.format('d')) + 1);
+
+  var earliestTime = startTimes[tomorrowIndex];
+  var latestTime = endTimes[tomorrowIndex];
+  // console.log(tomorrowIndex);
+
+  earliestTime = new moment(earliestTime, "LTS");
+  latestTime = new moment(latestTime, "LTS");
+  var time = earliestTime;
+
+  $('#allTimes').empty();
+  $('#allTimes').append(`<span></span>`);
+  $('#day').empty();
+  $('#day').append(`<span class="border">${tomorrow.format('ddd D MMM YYYY')}</span>`);
+  // console.log(counts);
+  while (time < latestTime) {
+    $('#allTimes').append(`<span>${time.format("HH:mm")}</span>`);
+    // console.log(tomorrow.format('YYYY-MM-DD') + ' ' + time.format("HH:mm:ss"));
+
+    var button = $(`<button data-datetime="${tomorrow.format('YYYY-MM-DD') + ' ' + time.format("HH:mm:ss")}">Available</button>`);
+    $('#day').append(button);
+    time.add(30, "minutes");
+    button.on('click', function() {
+      selectedDay = $(this).attr('data-datetime');
+      // console.log(selectedDay);
+      $('#day').find('button').removeClass('selected');
+      $(this).addClass('selected');
+    });
+
+    var timeslot = tomorrow.format('YYYY-MM-DD') + ' ' + time.format("HH:mm:ss");
+    if (timeslot === counts[0].appointment_datetime && mechanicSelected.employee_count === counts[0].count) {
+      // console.log(timeslot);
+      button.attr('disabled', true);
+      button.addClass('disabled');
+      button.text('Full');
+    }
+  }
+}
 
 
-
+$('#bookAppointment').on('click', function() {
+  console.log(appointmentLocalStorage);
+  console.log(mechanicSelected);
+  console.log(selectedDay);
+  var time = new moment(selectedDay);
+  var appointmentObj = {
+    mechanic_centre_id: mechanicSelected.mechanic_centre_id,
+    service_id: appointmentLocalStorage.serviceRequest,
+    appointment_date: time.format("YYYY-MM-DD"),
+    appointment_time: time.format("HH:mm:ss"),
+    appointment_datetime: selectedDay,
+    phone: appointmentLocalStorage.customerPhone,
+    email: appointmentLocalStorage.customerEmail,
+    car_plate: appointmentLocalStorage.carPlate,
+    car_brand: appointmentLocalStorage.carMake,
+    car_model: appointmentLocalStorage.carModel,
+    additional_notes: appointmentLocalStorage.customerNotes,
+  }
+  console.log(appointmentObj);
+  $.ajax({
+    type: 'post',
+    url: '/api/appointments',
+    data: appointmentObj
+  }).done(function(data) {
+    localStorage.removeItem("tempAppointmentForm");
+    window.location.href = "/";
+  });
+});
 
 function toTitleCase(str) {
   str = str.split(' ')
