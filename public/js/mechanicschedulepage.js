@@ -25,6 +25,7 @@ function currentDate() {
 };
 
 function renderTable() {
+    $(".appointmentDetails").empty();
     $("#scheduleBody").empty();
     var mechanicID = credentials.mechanic_centre_id;
     var scheduleDate = $("#selectedMechanicDate").val();
