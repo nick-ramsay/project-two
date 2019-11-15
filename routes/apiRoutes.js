@@ -347,23 +347,33 @@ module.exports = function (app) {
   });
   app.get("/api/appointmentscount/:mechaniccentreid", function (req, res) {
     var curr = new moment();
-    var currDateTime = new moment(curr.format("YYYY-MM-DD")).add(2, "days");
-    db.Appointment.findAll({
-      attributes: ['appointment_date', 'appointment_time', 'appointment_datetime', [db.sequelize.fn('COUNT', db.sequelize.col('appointment_datetime')), 'same_datetime']],
-      where: {
-        mechanic_centre_id: req.params.mechaniccentreid,
-        appointment_datetime: {
-          [db.Sequelize.Op.gte]: currDateTime.format("YYYY-MM-DD 00:00:00")
-        }
-      },
-      order: [
-        ["appointment_datetime"]
-      ],
-      group: ['appointment_datetime', 'appointment_date', 'appointment_time']
-    }).then(function (results) {
+    // var currDateTime = new moment(curr.format("YYYY-MM-DD")).add(2, "days");
+    var currDateTime = curr;
+    // db.Appointment.findAll({
+    //   attributes: ['appointment_date', 'appointment_time', 'appointment_datetime', [db.sequelize.fn('COUNT', db.sequelize.col('appointment_datetime')), 'same_datetime']],
+    //   where: {
+    //     mechanic_centre_id: req.params.mechaniccentreid,
+    //     appointment_datetime: {
+    //       [db.Sequelize.Op.gte]: currDateTime.format("YYYY-MM-DD 00:00:00")
+    //     }
+    //   },
+    //   order: [
+    //     ["appointment_datetime"]
+    //   ],
+    //   group: ['appointment_datetime', 'appointment_date', 'appointment_time']
+    // }).then(function (results) {
+    //   console.log(results[0], results[1], results[2]);
+    //   res.json(results);
+    // });
+    db.sequelize.query(
+      "SELECT appointment_datetime, count(appointment_datetime) AS count FROM Appointments WHERE mechanic_centre_id = :mechaniccentreid GROUP BY appointment_datetime ORDER BY appointment_datetime",
+      { replacements: { mechaniccentreid: req.params.mechaniccentreid}, type: db.sequelize.QueryTypes.SELECT}
+    ).done(function(results) {
       res.json(results);
-    });
+    })
   });
+
+
   // query to CREATE A NEW APPOINTMENTS
   app.post("/api/appointments", function (req, res) {
     db.Appointment.create({

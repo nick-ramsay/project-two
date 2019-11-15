@@ -6,8 +6,8 @@
 </style>
 
 <!-- Modal -->
-<div class="modal fade" id="mechanicModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-xl">
+<div class="modal fade show d-block" id="mechanicModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl">
         <div class="modal-content">
             <div class="modal-header border-bottom-0 pb-0">
                 <h5 class="modal-title" id="modalMechanicName"></h5>
@@ -16,10 +16,127 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p id="modalPhone" class="mb-0">Phone: ${curr.phone}</p>
-                <p id="modalAddress1" class="mb-0">${curr.address_street}, ${curr.address_city}</p>
-                <p id="modalAddress2" class="mb-0">${curr.address_state}, ${curr.address_postcode}</p>
-                <p id="modalDistance" class="mb-0">${(curr.distance_metres / 1000).toFixed(1)} km away</p>
+                <p id="modalPhone" class="mb-0"></p>
+                <p id="modalAddress1" class="mb-0"></p>
+                <p id="modalAddress2" class="mb-0"></p>
+                <p id="modalDistance" class="mb-0"></p>
+                <div class="d-flex no-gutters" style="max-height: 300px; max-width: 100%; overflow-y: auto; overflow-x: hidden;">
+                    <div class="col">
+                        <button>9:30</button>
+                        <button>10:30</button>
+                        <button>11:30</button>
+                        <button>12:30</button>
+                        <button>13:30</button>
+                        <button>14:30</button>
+                        <button>15:30</button>
+                        <button>16:30</button>
+                        <button>17:30</button>
+                        <button>18:30</button>
+                        <button>19:30</button>
+                        <button>20:30</button>
+                    </div>
+                    <div class="border d-flex" style="overflow-x: scroll;">
+                        <div class="col">
+                            <button>9:30</button>
+                            <button>10:30</button>
+                            <button>11:30</button>
+                            <button>12:30</button>
+                            <button>13:30</button>
+                            <button>14:30</button>
+                            <button>15:30</button>
+                            <button>16:30</button>
+                            <button>17:30</button>
+                            <button>18:30</button>
+                            <button>19:30</button>
+                            <button>20:30</button>
+                        </div>
+                        <div class="col">
+                            <button>9:30</button>
+                            <button>10:30</button>
+                            <button>11:30</button>
+                            <button>12:30</button>
+                            <button>13:30</button>
+                            <button>14:30</button>
+                            <button>15:30</button>
+                            <button>16:30</button>
+                            <button>17:30</button>
+                            <button>18:30</button>
+                            <button>19:30</button>
+                            <button>20:30</button>
+                        </div>
+                        <div class="col">
+                            <button>9:30</button>
+                            <button>10:30</button>
+                            <button>11:30</button>
+                            <button>12:30</button>
+                            <button>13:30</button>
+                            <button>14:30</button>
+                            <button>15:30</button>
+                            <button>16:30</button>
+                            <button>17:30</button>
+                            <button>18:30</button>
+                            <button>19:30</button>
+                            <button>20:30</button>
+                        </div>
+                        <div class="col">
+                            <button>9:30</button>
+                            <button>10:30</button>
+                            <button>11:30</button>
+                            <button>12:30</button>
+                            <button>13:30</button>
+                            <button>14:30</button>
+                            <button>15:30</button>
+                            <button>16:30</button>
+                            <button>17:30</button>
+                            <button>18:30</button>
+                            <button>19:30</button>
+                            <button>20:30</button>
+                        </div>
+                        <div class="col">
+                            <button>9:30</button>
+                            <button>10:30</button>
+                            <button>11:30</button>
+                            <button>12:30</button>
+                            <button>13:30</button>
+                            <button>14:30</button>
+                            <button>15:30</button>
+                            <button>16:30</button>
+                            <button>17:30</button>
+                            <button>18:30</button>
+                            <button>19:30</button>
+                            <button>20:30</button>
+                        </div>
+                        <div class="col">
+                            <button>9:30</button>
+                            <button>10:30</button>
+                            <button>11:30</button>
+                            <button>12:30</button>
+                            <button>13:30</button>
+                            <button>14:30</button>
+                            <button>15:30</button>
+                            <button>16:30</button>
+                            <button>17:30</button>
+                            <button>18:30</button>
+                            <button>19:30</button>
+                            <button>20:30</button>
+                        </div>
+                        <div class="col">
+                            <button>9:30</button>
+                            <button>10:30</button>
+                            <button>11:30</button>
+                            <button>12:30</button>
+                            <button>13:30</button>
+                            <button>14:30</button>
+                            <button>15:30</button>
+                            <button>16:30</button>
+                            <button>17:30</button>
+                            <button>18:30</button>
+                            <button>19:30</button>
+                            <button>20:30</button>
+                        </div>
+                    </div>
+
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

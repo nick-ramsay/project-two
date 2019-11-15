@@ -46,14 +46,22 @@ $('#locationForm').on('submit', function (e) {
           col.append(button);          
           $('#mechanicCentresList').append(col);
           button.on('click', function(e) {
-            console.log($(this).attr('data-index'));
+            // console.log($(this).attr('data-index'));
             mechanicSelected = data.mechanics[Number($(this).attr('data-index'))];
-            console.log(mechanicSelected);
+            // console.log(mechanicSelected);
             $('#modalMechanicName').text(toTitleCase(mechanicSelected.centre_name));
             $('#modalPhone').text('Phone: ' + mechanicSelected.phone);
             $('#modalAddress1').text(mechanicSelected.address_street + ' ' +mechanicSelected.address_city);
             $('#modalAddress2').text(mechanicSelected.address_state + ', ' + mechanicSelected.address_postcode);
             $('#modalDistance').text(mechanicSelected.distance_metres + ' metres away');
+            $.ajax({
+              type: 'get',
+              url: '/api/appointmentscount/' + mechanicSelected.mechanic_centre_id
+            }).done(function(results) {
+              //
+              console.log('####', results);
+
+            });
           });
         });
       }
