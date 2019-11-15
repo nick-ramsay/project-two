@@ -101,8 +101,6 @@ module.exports = function (app) {
       mechanicCentreData.address_state = req.body.state;
       mechanicCentreData.address_country = "Australia";
       mechanicCentreData.employee_count = req.body.mechanicCount;
-      mechanicCentreData.latitude = -27.3818;
-      mechanicCentreData.longitude = 152.713;
     } else {
       console.log("something missing", typeof req.body.state === "undefined");
       res.send("fail").end();
@@ -142,32 +140,49 @@ module.exports = function (app) {
     // services offered by mechanic centre
     var mechanicCentreServicesArr = [];
 
+    axios.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + mechanicCentreData.address_street + ' ' + mechanicCentreData.address_city + ' ' + mechanicCentreData.address_state + ' ' + mechanicCentreData.address_country + '&key=AIzaSyDztmGphx7y_JZlodad0K8Bjxwmr4hLiZc')
+      .then(function (response) {
+        // console.log(response.data.results[0]);
+        // console.log(response.data.results[0].geometry.location.lat);
+        // console.log(response.data.results[0].geometry.location.lng);
 
-    // create queries
-    db.MechanicCentre.create(mechanicCentreData).then(function (result) {
-      console.log("######### mechanic id", result.dataValues.id);
-      mechanicCentreCredentialsData.mechanic_centre_id = result.dataValues.id;
-      db.MechanicCentreCredential.create(mechanicCentreCredentialsData).then(function (result) {
-        console.log("######### mechanic credentials", result.dataValues);
+        mechanicCentreData.latitude = response.data.results[0].geometry.location.lat;
+        mechanicCentreData.longitude = response.data.results[0].geometry.location.lng;
+
+        // create queries
+        db.MechanicCentre.create(mechanicCentreData).then(function (result) {
+          console.log("######### mechanic id", result.dataValues.id);
+          mechanicCentreCredentialsData.mechanic_centre_id = result.dataValues.id;
+          db.MechanicCentreCredential.create(mechanicCentreCredentialsData).then(function (result) {
+            console.log("######### mechanic credentials", result.dataValues);
+          });
+
+          mechanicCentreOrdinaryHoursData.mechanic_centre_id = result.dataValues.id;
+          db.MechanicCentreOrdinaryHour.create(mechanicCentreOrdinaryHoursData).then(function (result) {
+            console.log("######### mechanic hours", result.dataValues.id);
+          });
+
+          mechanicCentreServicesArr.push({ mechanic_centre_id: result.dataValues.id, service_id: 1 });
+          mechanicCentreServicesArr.push({ mechanic_centre_id: result.dataValues.id, service_id: 2 });
+          mechanicCentreServicesArr.push({ mechanic_centre_id: result.dataValues.id, service_id: 3 });
+          mechanicCentreServicesArr.push({ mechanic_centre_id: result.dataValues.id, service_id: 4 });
+          mechanicCentreServicesArr.push({ mechanic_centre_id: result.dataValues.id, service_id: 5 });
+
+          db.MechanicCentreService.bulkCreate(mechanicCentreServicesArr).then(function (result) {
+            console.log("######### mechanic services", result.dataValues);
+          });
+
+          res.json(result);
+        });
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+        res.json({ outcome: 'error occured' });
+      })
+      .finally(function () {
+        // always executed
       });
-
-      mechanicCentreOrdinaryHoursData.mechanic_centre_id = result.dataValues.id;
-      db.MechanicCentreOrdinaryHour.create(mechanicCentreOrdinaryHoursData).then(function (result) {
-        console.log("######### mechanic hours", result.dataValues.id);
-      });
-
-      mechanicCentreServicesArr.push({ mechanic_centre_id: result.dataValues.id, service_id: 1 });
-      mechanicCentreServicesArr.push({ mechanic_centre_id: result.dataValues.id, service_id: 2 });
-      mechanicCentreServicesArr.push({ mechanic_centre_id: result.dataValues.id, service_id: 3 });
-      mechanicCentreServicesArr.push({ mechanic_centre_id: result.dataValues.id, service_id: 4 });
-      mechanicCentreServicesArr.push({ mechanic_centre_id: result.dataValues.id, service_id: 5 });
-
-      db.MechanicCentreService.bulkCreate(mechanicCentreServicesArr).then(function (result) {
-        console.log("######### mechanic services", result.dataValues);
-      });
-
-      res.json(result);
-    });
   });
   // ########################################################################
   // CREDENTIALS of MECHANIC CENTRES

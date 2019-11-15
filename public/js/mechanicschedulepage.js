@@ -137,7 +137,7 @@ window.onload = runOnLoad;
 
 function runOnLoad() {
     credentials = JSON.parse(localStorage.getItem("credentials"));
-
+    // console.log(credentials);
     if (!credentials) {
         window.location.replace("/404");
     }

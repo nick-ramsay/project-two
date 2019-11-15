@@ -112,14 +112,14 @@ function renderTable(counts) {
   $('#allTimes').append(`<span></span>`);
   $('#day').empty();
   $('#day').append(`<span class="border">${tomorrow.format('ddd D MMM YYYY')}</span>`);
-  // console.log(counts);
+  console.log(counts);
   while (time < latestTime) {
     $('#allTimes').append(`<span>${time.format("HH:mm")}</span>`);
     // console.log(tomorrow.format('YYYY-MM-DD') + ' ' + time.format("HH:mm:ss"));
 
     var button = $(`<button data-datetime="${tomorrow.format('YYYY-MM-DD') + ' ' + time.format("HH:mm:ss")}">Available</button>`);
     $('#day').append(button);
-    time.add(30, "minutes");
+
     button.on('click', function() {
       selectedDay = $(this).attr('data-datetime');
       // console.log(selectedDay);
@@ -134,6 +134,7 @@ function renderTable(counts) {
       button.addClass('disabled');
       button.text('Full');
     }
+    time.add(30, "minutes");
   }
 }
 
