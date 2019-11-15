@@ -15,7 +15,7 @@ $('#locationForm').on('submit', function (e) {
   if (location.length !== 0) {
     $.ajax({
       type: 'get',
-      url: '/api/mechaniccentresfilter?serviceid=' + appointmentLocalStorage.serviceRequest + '&metres=10000&location=' + location
+      url: '/api/mechaniccentresfilter?serviceid=' + appointmentLocalStorage.serviceRequest + '&metres=5000&location=' + location
     }).done(function (data) {
       // console.log(data);
       $('#addressOutput').text(data.geography.formatted_address);
@@ -32,20 +32,24 @@ $('#locationForm').on('submit', function (e) {
         $('#mechanicCentresList').removeClass('d-none');
         data.mechanics.forEach(function (curr, i, arr) {
           var button = $(`
-            <button data-mechanicid="${curr.mechanic_centre_id}" data-index="${i}" class="card bg-white w-100 p-3" data-toggle="modal" data-target="#exampleModalLong">
-              <p style="font-size: 1.2rem;"><b>${toTitleCase(curr.centre_name)}</b></p>
-              <p class="mb-0 text-muted">Phone: ${curr.phone}</p>
-              <p class="mb-0 text-muted">${curr.address_street}, ${curr.address_city}</p>
-              <p class="mb-0 text-muted">${curr.address_state}, ${curr.address_postcode}</p>
-              <p class="mb-0"><b>${(curr.distance_metres / 1000).toFixed(1)}</b> km away</p>
-            </button>
-        `);
-          $('#mechanicCentresList').append(`
-            <div class="col-12 my-2">
-              
-            </div>
+          <button data-mechanicid="${curr.mechanic_centre_id}" data-index="${i}" class="card bg-white w-100 p-3" data-toggle="modal" data-target="#exampleModalLong">
+          <p style="font-size: 1.2rem;"><b>${toTitleCase(curr.centre_name)}</b></p>
+          <p class="mb-0 text-muted">Phone: ${curr.phone}</p>
+          <p class="mb-0 text-muted">${curr.address_street}, ${curr.address_city}</p>
+          <p class="mb-0 text-muted">${curr.address_state}, ${curr.address_postcode}</p>
+          <p class="mb-0"><b>${(curr.distance_metres / 1000).toFixed(1)}</b> km away</p>
+          </button>
           `);
-          //mechanicSelected
+          var col = $(`
+            <div class="col-12 my-2"></div>
+          `);
+          col.append(button);          
+          $('#mechanicCentresList').append(col);
+          button.on('click', function(e) {
+            console.log($(this).attr('data-index'));
+            mechanicSelected = data.mechanics[Number($(this).attr('data-index'))];
+            console.log(mechanicSelected);
+          });
         });
       }
     });
@@ -100,10 +104,10 @@ $('#buttonBack').on('click', function () {
 
 function toTitleCase(str) {
   str = str.split(' ')
-      .map(function (s) {
-          return s.charAt(0).toUpperCase() + s.substring(1)
-      })
-      .join(' ');
+    .map(function (s) {
+      return s.charAt(0).toUpperCase() + s.substring(1)
+    })
+    .join(' ');
   return str;
 };
 //NOTE: toTitleCase function is credited to Stack Overflow (https://stackoverflow.com/questions/5086390/jquery-title-case)
