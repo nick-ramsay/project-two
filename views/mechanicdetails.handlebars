@@ -1,6 +1,6 @@
+{{!navbar}}
 <div id="mechanic">
-    {{!navbar}}
-    <nav class="navbar navbar-expand-lg .align-content-start sticky-top">
+    <nav class="navbar navbar-expand-lg sticky-top">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -26,36 +26,49 @@
                 </li>
             </ul>
         </div>
-    </nav class=".align-content-end">
+    </nav>
     {{!mech details}}
-    <div class="background">
-        <div class="card">
-            <div class="card-body">
-                <h1>MAKE YOUR BOOKING</h1>
-                <form>
-                    <input name="id" type="hidden" value="{{id}}">
-                    <select>
-                        <option name="chosenMechanic">Select a mechanic</option>
-                        {{#each mechanics}}
-                        <option value="{{id}}">{{centre_name}}</option>
-                        {{/each}}
-                    </select>
-                    <select>
-                        <option>Select a date</option>
-                        {{#each centers}}
-                        <option name="customerDate" value="{{id}}">{{centre_name}}</option>
-                        {{/each}}
-                    </select>
-                    <select>
-                        <option>Select a time</option>
-                        {{#each centers}}
-                        <option name="customerTime" value="{{id}}">{{centre_name}}</option>
-                        {{/each}}
-                    </select>
-                    <button class="btn btn-primary mechButton">SUBMIT</button>
-                </form>
+
+    <div class="card col-8 offset-2 mechCard">
+        <div class="card-body">
+            <div class="row" align="center">
+                <div class="col-10 offset-1">
+                    <h3>MAKE YOUR BOOKING</h3>
+                </div>
             </div>
+
+            <form>
+                <div class="row marginsPls" align="center">
+                    <div class="col-10 offset-1">
+
+                        <input name="id" type="hidden" value="{{id}}">
+                        <select>
+                            <option name="chosenMechanic">Select a mechanic</option>
+                            {{#each mechanics}}
+                            <option value="{{id}}">{{centre_name}}</option>
+                            {{/each}}
+                        </select>
+                        <select>
+                            <option>Select a date</option>
+                            {{#each centers}}
+                            <option name="customerDate" value="{{id}}">{{centre_name}}</option>
+                            {{/each}}
+                        </select>
+                        <select>
+                            <option>Select a time</option>
+                            {{#each centers}}
+                            <option name="customerTime" value="{{id}}">{{centre_name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-10 offset-1">
+                        <button class="btn btn-primary btn-block mechButton">SUBMIT</button>
+                    </div>
+                </div>
+            </form>
+
         </div>
     </div>
-</div>
 </div>

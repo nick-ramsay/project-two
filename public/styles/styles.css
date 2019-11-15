@@ -43,10 +43,6 @@ h1:hover {
     padding: 1rem 1rem;
 }
 
-.smaller {
-  font-size: 
-}
-
 li.nav-item.nav-link.align-middle {
     padding: 40px 25px 20px 25px;
 }
@@ -79,12 +75,15 @@ li:hover {
 
 .formCard {
   margin-top: 2%;
+  margin-bottom: 3%;
 }
 
+/*changed*/
 label {
-  color:#007bff;
+  color:#000000;
 }
 
+.mechCard,
 .frontCard { 
   height: 40%;
   margin-top: 12%;
@@ -98,17 +97,6 @@ label {
   cursor: pointer;
 }
 
-/* can re-add if needed, needed to change text colour
-.btn {
-  background: #171616;
-  color: #FFFFFF;
-}
-
-.btn:hover {
-  background: #000000;
-  color: #FFFFFF;
-}*/
-
 #scheduleSection, #scheduleDetails {
   background-color: #FFFFFF;
 }
@@ -117,3 +105,56 @@ label {
   font-weight: bold;
 }
 
+.mechAppointCard {
+  background: #FFFFFF;
+}
+
+.black {
+  color: #000000;
+}
+
+.appointmentDetails {
+  height: 40px;
+}
+
+.btn,
+#inputGroup-sizing-default {
+  background: #000000;
+  color: #FFFFFF;
+  border: 1px solid #FFFFFF;
+}
+
+.b {
+  color: #e3e3e3;
+}
+
+.marginsPls {
+  margin: 10px; 
+}
+
+.smaller {
+  font-size: small;
+}
+
+.whiteButton {
+  background: #FFFFFF;
+  color: #000000;
+}
+.whiteButton:hover {
+  background: #FFFFFF;
+  color: #707070;
+}
+
+.mechButton,
+.btn-block {
+  background: #000000;
+  color: #707070;
+  border: none;
+}
+
+.btn-block:hover {
+  background: #000000;
+  color: #FFFFFF;
+  border: none;
+  transition: 0.2s ease all;
+}

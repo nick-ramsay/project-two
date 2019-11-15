@@ -1,23 +1,42 @@
+{{! NAVBAR }}
 <nav class="navbar sticky-top">
-    <span class="navbar-brand mb-0 h1 mr-auto"><h1><u>AUTOMENDER</u></h1></span>
-    <button id="logout" class="mr-1 btn btn-primary" style="transform: scale(0.8);">Sign Out</button>
+    <span class="navbar-brand mb-0 h1 mr-auto">
+        <h1>AUTOMENDER</h1>
+    </span>
+    <button id="logout" class="mr-1 btn btn-primary whiteButton" style="transform: scale(0.8);">Sign Out</button>
     <a href="/account" class="mr-0"><img src="/images/setting.png"></a>
 </nav>
+
+{{! CONTENT }}
 <div class="container pt-4">
-    <div class="row">
-        <div class="col-md-6" id="scheduleSection">
-            <div class="row">
-                <div class="input-group mb-3 col-md-8">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Date</span>
+    <div class="card col-10 offset-1 mechAppointCard">
+        <div class="card-body">
+            <div class="row align-middle">
+                    <div class="col-12" id="scheduleDetails" align="center">
+                        <h3 class="black">Appointments</h3>
+                        <div class="appointmentDetails">
+                        </div>
                     </div>
-                    <input type="date" class="form-control" aria-label="Selected date for time slots"
-                        aria-describedby="inputGroup-sizing-default" id="selectedMechanicDate" value="2019-11-10">
-                </div>
-                <div class="col-md-4">
-                    <button class="btn btn-primary" id="newDateBtn">Go</button>
+            </div>
+
+            <div class="row align-middle">
+                <div class="col-md-6" id="scheduleSection">
+                    <div class="row">
+                        <div class="input-group mb-3 col-md-8">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroup-sizing-default">Date</span>
+                            </div>
+                            <input type="date" class="form-control" aria-label="Selected date for time slots"
+                                aria-describedby="inputGroup-sizing-default" id="selectedMechanicDate"
+                                value="2019-11-10">
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-primary" id="newDateBtn">Go</button>
+                        </div>
+                    </div>
                 </div>
             </div>
+
             <div class="row">
                 <table class="table table-sm">
                     <thead>
@@ -30,13 +49,11 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-        <div class="col-md-6" id="scheduleDetails" align="center">
-            <h3>Appointments</h3>
-            <div class="appointmentDetails">
-            </div>
+
         </div>
     </div>
+</div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="/js/index.js"></script>

@@ -1,38 +1,38 @@
 {{!navbar}}
 <div class="brokenDeets">
-    <nav class="navbar navbar-expand-lg .align-content-start sticky-top">
+    <nav class="navbar navbar-expand-lg sticky-top">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mx-auto">
-                <li class="nav-item nav-link align-middle" href="#">
+                <li class="nav-item nav-link align-middle smaller" href="#">
                     ABOUT US
                 </li>
-                <li class="nav-item nav-link align-middle" href="#">
+                <li class="nav-item nav-link align-middle smaller" href="#">
                     SERVICES
                 </li>
                 <li class="nav-item">
                     <a class="nav-link navbar-brand align-middle" href="#">
-                        <h1>AUTOMENDER</h1>
+                        <h1><u>AUTOMENDER</u></h1>
                     </a>
                 </li>
-                <li class="nav-item nav-link align-middle" href="#">
+                <li class="nav-item nav-link align-middle smaller" href="#">
                     MECHANICS
                 </li>
-                <li class="nav-item nav-link align-middle" href="#">
+                <li class="nav-item nav-link align-middle smaller" href="#">
                     BLOG
                 </li>
             </ul>
         </div>
-    </nav class=".align-content-end">
+    </nav>
 
     {{!form}}
     <div class="card col-8 offset-2 formCard">
         <div class="card-body">
             <div class="col-10 offset-1">
-                <h3 class="card-title"><u>REPAIR REQUEST</u></h3>
+                <h3 class="card-title"align="center"><u>REPAIR REQUEST</u></h3>
                 <p class="card-text"></p>
             </div>
 
@@ -41,14 +41,14 @@
                 <div class="row">
                     <div class="col-5 offset-1">
                         <div class="form-group">
-                            <label for="customerEmail">EMAIL ADDRESS</label>
+                            <label for="customerEmail" class="b">EMAIL ADDRESS</label>
                             <input type="email" class="form-control flex-fill" id="customerEmail" name="customerEmail"
                                 placeholder="johndoe@emails.com">
                         </div>
                     </div>
                     <div class="col-5">
                         <div class="form-group">
-                            <label for="customerPhone">PHONE NUMBER</label>
+                            <label for="customerPhone" class="b">PHONE NUMBER</label>
                             <input type="input" class="form-control flex-fill" id="customerPhone" name="customerPhone"
                                 placeholder="Name as shown on your license">
                         </div>
@@ -58,14 +58,14 @@
                 <div class="row">
                     <div class="col-5 offset-1">
                         <div class="form-group">
-                            <label for="carMake">CAR MAKE</label>
+                            <label for="carMake" class="b">CAR MAKE</label>
                             <input type="input" class="form-control flex-fill" id="carMake" name="carMake"
                                 placeholder="Eg. Toyota, Honda, Volswagon"></textarea>
                         </div>
                     </div>
                     <div class="col-5">
                         <div class="form-group">
-                            <label for="carModel">CAR MODEL</label>
+                            <label for="carModel" class="b">CAR MODEL</label>
                             <input type="input" class="form-control flex-fill" id="carModel" name="carModel"
                                 placeholder="Eg. Sedan, Convertible, SUV">
                         </div>
@@ -75,7 +75,7 @@
                 <div class="row">
                     <div class="col-5 offset-1">
                         <div class="form-group">
-                            <label for="carPlate">LICENSE PLATE NUMBER<label>
+                            <label for="carPlate" class="b">LICENSE PLATE NUMBER<label>
                                     <input type="input" class="form-control flex-fill" id="carPlate" name="carPlate"
                                         placeholder="Name as shown on your license">
                         </div>
@@ -83,7 +83,7 @@
                     <div class="col-5">
                         <div class="form-group">
                             <label for="serviceRequest">
-                                <label for="serviceRequest">SERVICES NEEDED</label>
+                                <label for="serviceRequest" class="b">SERVICES NEEDED</label>
                                 <select class="form-control flex-fill" id="serviceRequest" name="serviceRequest">
                                     <option name="chosenMechanic">Select a service</option>
                                     {{#each services}}
@@ -97,14 +97,14 @@
                 <div class="row">
                     <div class="col-10 offset-1">
                         <div class="form-group">
-                            <label for="customerNotes">ADDITIONAL NOTES</label>
+                            <label for="customerNotes" class="b">ADDITIONAL NOTES</label>
                             <textarea class="form-control  flex-fill" id="customerNotes" name="customerNotes" rows="2"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-10 offset-1">
-                        <button type="submit" class="btn btn-primary  flex-fill customerFormButton">SUBMIT</button>
+                        <button type="submit" class="btn btn-primary btn-block customerFormButton">SUBMIT</button>
                     </div>
                 </div>
             </form>
