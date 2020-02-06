@@ -1,12 +1,43 @@
 
-# Project Two Dummy Readme
+# Project Two
 
-A deployed version of the application can be accessed on Heroku [here](https://afternoon-refuge-07267.herokuapp.com/).
+Automender is a SaaS application where customers can make appointments with mechanic centres registered with the service.
 
-## Introduction
+[Click here](https://afternoon-refuge-07267.herokuapp.com/) for an interactive demo.
 
-Project 2
+![screenshot 1]()
 
-## Instructions
+## Features
 
-## About
+- Mechanic account creation, update & appointment viewing
+- Customer appointment booking
+- Location based results filtering
+
+## Getting Started
+
+Begin by cloning the [project-two](https://github.com/nick-ramsay/project-two) repository and install dependencies:
+
+```terminal
+git clone https://github.com/nick-ramsay/project-two.git
+npm install
+```
+
+Run the application to see it in action:
+
+```terminal
+npm run start
+go to http://localhost:8080 in your browser
+```
+
+## Built With
+
+- Plain HTML, CSS, JS, JQuery
+- Handlebars
+- Google Geocoding API
+- SQL
+- Sequelize
+- JawsDB
+
+## License
+
+This project is licensed under the terms of the [MIT](https://github.com/nick-ramsay/project-two/blob/master/LICENSE) license.
